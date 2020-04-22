@@ -33,7 +33,7 @@
 
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h3>Tworzenie nowej ankiety - krok 5</h3>
+            <h3>Ankieta pomyślnie została utworzona</h3>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
         <div class="col-lg-3"></div>
 
         <div class="col-lg-6">
-            <c:import url="/WEB-INF/views/panel/form/init/form/form5.jsp"/>
+            a
         </div>
 
         <div class="col-lg-3"></div>
