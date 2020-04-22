@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,27 +64,28 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             <h2>Rejestracja</h2>
-            <form:form action="/rejestrowanie" method="post" modelAttribute="user">
+            <c:if test="${registerError != null}">
+                <p>${registerError}</p>
+            </c:if>
+            <form action="/zarejestrowano" method="post">
                 <div class="form-group">
                     <label>imię</label>
-                    <form:input path="name" type="text" class="form-control" id="name" name="name" placeholder="np. Jan" required="true"/>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="np. Jan" required>
                 </div>
-
                 <div class="form-group">
                     <label>adres e-mail</label>
-                    <form:input path="email" type="email" class="form-control" id="email" name="email"
-                                placeholder="np. jan.kowalski@gmail.com" required="true"/>
+                    <input type="email" class="form-control" id="email" name="email"
+                           placeholder="np. jan.kowalski@gmail.com" required>
                     <small id="emailHelp" class="form-text text-muted">nie wysyłamy spamu :)</small>
                 </div>
-
                 <div class="form-group">
                     <label>hasło</label>
-                    <form:input type="password" class="form-control" id="password" name="password" placeholder="********"
-                                minlength="8" maxlength="30" required="true" path="password"/>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="********"
+                                minlength="8" maxlength="30" required>
                     <small id="passwordHelp" class="form-text text-muted">od 8 do 30 znaków</small>
                 </div>
                 <button type="submit" class="btn btn-dark">dalej</button>
-            </form:form>
+            </form>
         </div>
         <div class="col-lg-3"></div>
     </div>

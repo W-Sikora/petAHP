@@ -52,7 +52,7 @@
     <hr>
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h2>Witaj</h2>
+            <h2>Witaj ${user}</h2>
             <a class="btn btn-dark" href="/" role="button">wyloguj</a>
         </div>
     </div>
@@ -60,7 +60,7 @@
     <div class="row">
         <div class="col-lg-4 text-center">
             <h5>Utwórz nową ankietę</h5>
-            <a class="btn btn-success" href="/panel/ankieta-tworzenie" role="button">przejdź</a>
+            <a class="btn btn-success" href="/panel/tworzenie-nowej-ankiety/krok-0" role="button">przejdź</a>
             <p></p>
         </div>
         <div class="col-lg-4 text-center">
@@ -74,18 +74,18 @@
     </div>
     <hr>
     <div class="row">
+<%--        <div class="col-lg-12 text-center">--%>
+<%--            <h3>Wyniki przeprowadzonych ankiet</h3>--%>
+<%--        </div>--%>
+
         <div class="col-lg-12 text-center">
-            <h3>Wyniki przeprowadzonych ankiet</h3>
+            <h3>Nie masz żadnych zakończonych ankiet</h3>
         </div>
     </div>
-    <div class="col-lg-12 text-center">
-        <h3>Nie masz żadnych utworzonych ankiet</h3>
-    </div>
 </div>
-
-<footer>
-    <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
-</footer>
+    <footer>
+        <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
+    </footer>
 
 </body>
 </html>

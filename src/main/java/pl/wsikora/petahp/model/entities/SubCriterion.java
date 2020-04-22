@@ -3,22 +3,26 @@ package pl.wsikora.petahp.model.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "criteria")
-public class Criterion {
+@Table(name = "sub_criteria")
+public class SubCriterion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     @JoinColumn(name = "poll_id")
     private Poll poll;
+    @ManyToOne
+    @JoinColumn(name = "parent_criterion")
+    private Criterion criterion;
     private String name;
     private Double weight;
 
-    public Criterion() {
+    public SubCriterion() {
     }
 
-    public Criterion(Poll poll, String name, Double weight) {
+    public SubCriterion(Poll poll, Criterion criterion, String name, Double weight) {
         this.poll = poll;
+        this.criterion = criterion;
         this.name = name;
         this.weight = weight;
     }
@@ -31,20 +35,28 @@ public class Criterion {
         return poll;
     }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public Criterion getCriterion() {
+        return criterion;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Double getWeight() {
         return weight;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+
+    public void setCriterion(Criterion criterion) {
+        this.criterion = criterion;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setWeight(Double weight) {
@@ -53,9 +65,10 @@ public class Criterion {
 
     @Override
     public String toString() {
-        return "Criterion{" +
+        return "SubCriterion{" +
                 "id=" + id +
                 ", poll=" + poll +
+                ", criterion=" + criterion +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 '}';

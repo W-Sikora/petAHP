@@ -28,12 +28,12 @@
     <hr>
 
     <div class="row">
-        <c:if test="${forms == null}">
+        <c:if test="${polls == null}">
             <div class="col-lg-12 text-center">
                 <h3>Nie masz żadnych utworzonych ankiet</h3>
             </div>
         </c:if>
-        <c:if test="${forms != null}">
+        <c:if test="${polls != null}">
             <div class="col-lg-12 text-center">
                 <h2>Edycja ankiety</h2>
                 <table class="table">
@@ -48,17 +48,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${forms}" var="f" varStatus="i">
+                    <c:forEach items="${polls}" var="p" varStatus="i">
                         <tr>
                             <th scope="row">${i.count}</th>
-                            <td>${f.name}</td>
-                            <td>${f.creationDate}</td>
-                            <td>${f.dateToVote}</td>
+                            <td>${p.name}</td>
+                            <td>${p.creationDate.dayOfMonth}-${p.creationDate.monthValue}-${p.creationDate.year} ${p.creationDate.hour}:${p.creationDate.minute}</td>
+                            <td>${p.endDate.dayOfMonth}-${p.endDate.monthValue}-${p.endDate.year}</td>
                             <td>
-                                <button type="button" class="btn btn-warning">edycja</button>
+                                <a class="btn btn-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger">usuń</button>
+                                <a class="btn btn-danger" href="/panel/edycja-ankiet/delete/${p.id}" role="button">usuń</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -73,5 +73,8 @@
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 
+<script>
+
+</script>
 </body>
 </html>

@@ -63,10 +63,10 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             <h2>Logowanie</h2>
-<%--            <c:if test="${!logMessage != null}">--%>
-<%--                <p>${logMessage}</p>--%>
-<%--            </c:if>--%>
-            <form action="/zalogowanie" method="post">
+            <c:if test="${loginError != null}">
+                <p>${loginError}</p>
+            </c:if>
+            <form action="/zalogowano" method="post">
                 <div class="form-group">
                     <label>adres e-mail</label>
                     <input type="email" class="form-control" id="email" name="email"

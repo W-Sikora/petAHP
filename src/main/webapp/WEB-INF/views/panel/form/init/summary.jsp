@@ -20,7 +20,7 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="<c:url value="/panel/"/>">panel użytkownika</a>
+            <a class="nav-item nav-link active" href="<c:url value="/panel"/>">panel użytkownika</a>
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active">nowa ankieta</a>
             <a class="nav-item nav-link active">/</a>
@@ -34,17 +34,36 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <h3>Ankieta pomyślnie została utworzona</h3>
+            <a class="btn btn-dark" href="/panel" role="button">ok</a>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-3"></div>
+        <div class="col-lg-2"></div>
 
-        <div class="col-lg-6">
-            a
+        <div class="col-lg-8">
+            <h5>Ogólne:</h5>
+            <p>Nazwa ankiety: <strong>${poll.name}</strong></p>
+            <p>Liczba oceniających: <strong>${poll.noOfVoters}</strong></p>
+            <p>Data zakończenia: <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong></p>
+            <hr>
+            <h5>Zwierzęta:</h5>
+            <c:forEach items="${animals}" var="a">
+                <p>- <strong>${a.name}</strong></p>
+            </c:forEach>
+            <hr>
+            <h5>Przyjęte kryteria:</h5>
+            <c:forEach items="${criteria}" var="c">
+                <p><strong>${c.name}</strong></p>
+                <c:forEach items="${subCriteria}" var="s">
+                    <c:if test="${s.criterion.id == c.id}">
+                        <p>- ${s.name}</p>
+                    </c:if>
+                </c:forEach>
+            </c:forEach>
         </div>
 
-        <div class="col-lg-3"></div>
+        <div class="col-lg-2"></div>
     </div>
 </div>
 

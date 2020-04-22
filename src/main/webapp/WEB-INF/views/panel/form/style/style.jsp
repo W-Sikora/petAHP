@@ -12,8 +12,8 @@
 
     p {
         text-align: justify;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     h2 {
@@ -24,7 +24,6 @@
     h3 {
         margin-top: 20px;
         margin-bottom: 20px;
-
     }
 
     h5 {
@@ -32,18 +31,21 @@
         margin-bottom: 20px;
     }
 
-    footer {
-        margin-top: 40px;
-    }
 
     label {
-        margin-top: 15px;
-    }
-
-
-    button {
         margin-top: 10px;
     }
+
+    input {
+        margin-top: 5px;
+    }
+
+    .form-part{
+        margin-top: 20px;
+        text-align: center;
+    }
+
+
 </style>
 </body>
 </html>
