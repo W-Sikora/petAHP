@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,8 +54,9 @@
                         <input name="name${i.index}" class="form-control" placeholder="np. koszty"
                                type="text" minlength="1" required>
                         <label>Liczba podkryteriów</label>
-                        <input onchange="addSubCriteria(${i.index})" name="noOfSubCriteria${i.index}" id="noOfSubCriteria${i.index}"
-                               class="form-control" placeholder="od 0 do 6" type="number" min="0" max="6" required>
+                        <input onchange="add(${i.index}, 'subCriterionName', 'divSubCriteria', 'noOfSubCriteria', 0, 6, 'form-control a', 'podkryterium')"
+                               name="noOfSubCriteria${i.index}" id="noOfSubCriteria${i.index}" class="form-control"
+                               placeholder="od 0 do 6" type="number" min="0" max="6" required>
                         <div id="divSubCriteria${i.index}">
 
                         </div>
@@ -77,26 +77,7 @@
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 
-<script>
-    function addSubCriteria(index) {
-        const div = document.getElementById("divSubCriteria" + index);
-        let input = document.getElementById("noOfSubCriteria" + index);
-        if(input.value > -1 && input.value <7) {
-            let subCriteria = Array.from(document.getElementsByClassName("" + index));
-            for (let i = 0; i < subCriteria.length ; i++) {
-                div.removeChild(subCriteria[i])
-            }
-            for (let i = 0; i < input.value; i++) {
-                let newInput = document.createElement("input");
-                newInput.type = "text";
-                newInput.className = "form-control " + index ;
-                newInput.name = index + "subCriterionName" + i;
-                newInput.placeholder = "nazwa " + (i + 1) + "-ego podkryterium";
-                div.appendChild(newInput);
-            }
-        }
-    }
-</script>
+<script src="<c:url value="/static/js/index.js"/>"></script>
 
 </body>
 </html>

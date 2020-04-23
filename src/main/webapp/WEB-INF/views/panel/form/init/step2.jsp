@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,11 +45,13 @@
                         <strong>Ustawienia zwierząt</strong>
                         <hr>
                     </div>
-                    <c:forEach begin="0" end="${noOfAnimals - 1}" varStatus="i">
-                        <label>Nazwa/gatunek ${i.count}-ego zwierzęcia</label>
-                        <input name="name${i.index}" class="form-control" placeholder="np. Owczarek niemiecki"
-                               type="text" minlength="1" required>
-                    </c:forEach>
+                    <label>Liczba rozpatrywanych zwierząt</label>
+                    <input onchange="add('', 'animal', 'divAnimals', 'noOfAnimals', 2, 6, 'form-control a0', 'zwierzęcia')"
+                           name="noOfAnimals" id="noOfAnimals" class="form-control"
+                           placeholder="np. od 2 do 6" type="number" min="2" max="6" required>
+                    <div id="divAnimals">
+
+                    </div>
                     <div class="form-part">
                         <button type="submit" class="btn btn-dark">dalej</button>
                     </div>
@@ -64,6 +66,6 @@
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
-
+<script src="<c:url value="/static/js/index.js"/>"></script>
 </body>
 </html>

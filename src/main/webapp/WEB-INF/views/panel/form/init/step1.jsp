@@ -1,9 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,6 +39,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <form action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-1"/>" method="post">
+
                     <div class="form-part">
                         <strong>Ustawienia ankiety</strong>
                         <hr>
@@ -55,18 +52,12 @@
                            type="number" min="2" max="10" required>
                     <label>Data do której można oddać odpowiedź</label>
                     <input name="endDate" class="form-control" type="date" min="${minDate}" required>
-                    <div class="form-part">
-                        <strong>Ustawienia zwierząt</strong>
-                        <hr>
-                    </div>
-                    <label>Liczba rozpatrywanych zwierząt</label>
-                    <input name="noOfAnimals" type="number" class="form-control" placeholder="od 2 do 10"
-                           min="2" max="10" required>
+
                     <div class="form-part"><strong>Ustawienia kryteriów</strong>
                         <hr>
                     </div>
                     <label>Liczba rozpatrywanych kryteriów głównych</label>
-                    <input name="noOfCriteria" type="number" class="form-control" placeholder="od 2 do 7"
+                    <input name="noOfCriteria" type="number" class="form-control" placeholder="od 2 do 6"
                            min="2" max="7" required>
                     <div class="form-part">
                         <button type="submit" class="btn btn-dark">dalej</button>

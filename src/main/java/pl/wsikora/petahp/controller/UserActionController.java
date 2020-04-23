@@ -30,22 +30,18 @@ public class UserActionController {
 
     private User currentUser;
     private Poll currentPoll;
-    private int currentNoOfAnimals;
     private int currentNoOfCriteria;
 
-    final String MAIN_PAGE = "";
-    final String REGISTER = "/rejestracja";
-    final String REGISTER_CHECK = "/zarejestrowano";
-    final String LOG_IN = "/logowanie";
-    final String LOG_IN_CHECK = "/zalogowano";
-    final String LOGOUT = "/wyloguj";
-    final String PANEL = "/panel";
-    final String NEW_POLL = PANEL + "/tworzenie-nowej-ankiety/krok-";
-    final String SUMMARY = PANEL + "/tworzenie-nowej-ankiety/podsumowanie";
-    final String EDIT_POLL = PANEL + "/edycja-ankiet";
-
-    final String LOG_IN_ERROR = "Podano złe dane logowania";
-    final String REGISTER_ERROR = "Podany adres email jest już zajęty";
+    private final String MAIN_PAGE = "";
+    private final String REGISTER = "/rejestracja";
+    private final String REGISTER_CHECK = "/zarejestrowano";
+    private final String LOG_IN = "/logowanie";
+    private final String LOG_IN_CHECK = "/zalogowano";
+    private final String LOGOUT = "/wyloguj";
+    private final String PANEL = "/panel";
+    private final String NEW_POLL = PANEL + "/tworzenie-nowej-ankiety/krok-";
+    private final String SUMMARY = PANEL + "/tworzenie-nowej-ankiety/podsumowanie";
+    private final String EDIT_POLL = PANEL + "/edycja-ankiet";
 
     @RequestMapping(value = MAIN_PAGE)
     public String homeAction() {
@@ -67,7 +63,7 @@ public class UserActionController {
             userRepo.save(user);
             return "redirect:" + LOG_IN;
         } else {
-            model.addAttribute("registerError", REGISTER_ERROR);
+            model.addAttribute("registerError", "Podany adres email jest już zajęty");
             return "login&registration/registration";
         }
     }
@@ -83,7 +79,7 @@ public class UserActionController {
             currentUser = userRepo.findUserByEmail(loginData.get("email"));
             return "redirect:" + PANEL;
         } else {
-            model.addAttribute("loginError", LOG_IN_ERROR);
+            model.addAttribute("loginError", "Podano złe dane logowania");
             return "login&registration/login";
         }
     }
@@ -110,7 +106,6 @@ public class UserActionController {
     public String newPollAction1(@RequestParam(name = "name") String name,
                                  @RequestParam(name = "noOfVoters") int noOfVoters,
                                  @RequestParam(name = "endDate") String endDate,
-                                 @RequestParam(name = "noOfAnimals") int noOfAnimals,
                                  @RequestParam(name = "noOfCriteria") int noOfCriteria) {
         Poll poll = new Poll();
         poll.setUser(currentUser);
@@ -120,22 +115,21 @@ public class UserActionController {
         pollRepo.save(poll);
         currentPoll = poll;
         currentNoOfCriteria = noOfCriteria;
-        currentNoOfAnimals = noOfAnimals;
         return "redirect:" + NEW_POLL + "2";
     }
 
     @RequestMapping(value = NEW_POLL + "2")
-    public String newPollAction2(Model model) {
-        model.addAttribute("noOfAnimals", currentNoOfCriteria);
+    public String newPollAction2() {
         return "panel/form/init/step2";
     }
 
     @RequestMapping(value = NEW_POLL + "3")
     public String newPollAction3(@RequestParam Map<String, String> animalData) {
+        animalData.remove("noOfAnimals");
         for (int i = 0; i < animalData.size(); i++) {
             Animal animal = new Animal();
             animal.setPoll(currentPoll);
-            animal.setName(animalData.get("name" + i));
+            animal.setName(animalData.get("animal" + i));
             animalRepo.save(animal);
         }
         return "redirect:" + NEW_POLL + "4";
@@ -154,7 +148,6 @@ public class UserActionController {
         Map<String, String> subCriteria = new HashMap<>();
         for (Map.Entry<String, String> element : criteriaData.entrySet()) {
             String key = element.getKey();
-            String value = element.getValue();
             if (key.contains("noOfSubCriteria")) {
                 noOfSubCriteria.put(element.getKey(), element.getValue());
             } else if (key.contains("subCriterionName")) {
