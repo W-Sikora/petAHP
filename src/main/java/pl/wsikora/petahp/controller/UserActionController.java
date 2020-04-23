@@ -2,6 +2,7 @@ package pl.wsikora.petahp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.wsikora.petahp.model.entities.*;
@@ -29,6 +30,7 @@ public class UserActionController {
 
     private User currentUser;
     private Poll currentPoll;
+    private int currentNoOfAnimals;
     private int currentNoOfCriteria;
 
     final String MAIN_PAGE = "";
@@ -105,7 +107,7 @@ public class UserActionController {
     }
 
     @RequestMapping(value = NEW_POLL + "1")
-    public String newPollAction1(Model model, @RequestParam(name = "name") String name,
+    public String newPollAction1(@RequestParam(name = "name") String name,
                                  @RequestParam(name = "noOfVoters") int noOfVoters,
                                  @RequestParam(name = "endDate") String endDate,
                                  @RequestParam(name = "noOfAnimals") int noOfAnimals,
@@ -118,24 +120,35 @@ public class UserActionController {
         pollRepo.save(poll);
         currentPoll = poll;
         currentNoOfCriteria = noOfCriteria;
-        model.addAttribute("noOfAnimals", noOfAnimals);
-        return "panel/form/init/step2";
+        currentNoOfAnimals = noOfAnimals;
+        return "redirect:" + NEW_POLL + "2";
     }
 
     @RequestMapping(value = NEW_POLL + "2")
-    public String newPollAction2(Model model, @RequestParam Map<String, String> animalData) {
+    public String newPollAction2(Model model) {
+        model.addAttribute("noOfAnimals", currentNoOfCriteria);
+        return "panel/form/init/step2";
+    }
+
+    @RequestMapping(value = NEW_POLL + "3")
+    public String newPollAction3(@RequestParam Map<String, String> animalData) {
         for (int i = 0; i < animalData.size(); i++) {
             Animal animal = new Animal();
             animal.setPoll(currentPoll);
             animal.setName(animalData.get("name" + i));
             animalRepo.save(animal);
         }
+        return "redirect:" + NEW_POLL + "4";
+    }
+
+    @RequestMapping(value = NEW_POLL + "4")
+    public String newPollAction4(Model model) {
         model.addAttribute("noOfCriteria", currentNoOfCriteria);
         return "panel/form/init/step3";
     }
 
-    @RequestMapping(value = NEW_POLL + "3")
-    public String newPollAction3(Model model, @RequestParam Map<String, String> criteriaData) {
+    @RequestMapping(value = NEW_POLL + "5")
+    public String newPollAction5(@RequestParam Map<String, String> criteriaData) {
         Map<String, String> criteria = new HashMap<>();
         Map<String, String> noOfSubCriteria = new HashMap<>();
         Map<String, String> subCriteria = new HashMap<>();
@@ -185,5 +198,11 @@ public class UserActionController {
         return "panel/form/edit/edit_form";
     }
 
+    @RequestMapping(value = EDIT_POLL + "/usun/{pollId}")
+    public String deletePollAction(@PathVariable long pollId) {
+        long id = currentUser.getId();
+        pollRepo.updateVisibility(false, pollId);
+        return "redirect:" + EDIT_POLL;
+    }
 
 }

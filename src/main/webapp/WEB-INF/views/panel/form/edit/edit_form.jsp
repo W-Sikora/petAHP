@@ -58,7 +58,7 @@
                                 <a class="btn btn-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>
                             </td>
                             <td>
-                                <a class="btn btn-danger" href="/panel/edycja-ankiet/delete/${p.id}" role="button">usuń</a>
+                                <a class="btn btn-danger" href="/panel/edycja-ankiet/usun/${p.id}" role="button">usuń</a>
                             </td>
                         </tr>
                     </c:forEach>

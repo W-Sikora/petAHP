@@ -40,14 +40,14 @@
 
         <div class="col-lg-6">
             <div class="form-group">
-                <form action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-2"/>" method="post">
+                <form action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-3"/>" method="post">
                     <div class="form-part">
                         <strong>Ustawienia zwierząt</strong>
                         <hr>
                     </div>
                     <c:forEach begin="0" end="${noOfAnimals - 1}" varStatus="i">
                         <label>Nazwa/gatunek ${i.count}-ego zwierzęcia</label>
-                        <input name="name${i.index}" class="form-control" placeholder="np. wybór zwierzaka"
+                        <input name="name${i.index}" class="form-control" placeholder="np. Owczarek niemiecki"
                                type="text" minlength="1" required>
                     </c:forEach>
                     <div class="form-part">

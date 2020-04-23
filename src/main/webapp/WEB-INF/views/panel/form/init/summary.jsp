@@ -26,7 +26,9 @@
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active">ustawienia zwierząt</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>ustawienia kryteriów</strong></a>
+            <a class="nav-item nav-link active">ustawienia kryteriów</a>
+            <a class="nav-item nav-link active">/</a>
+            <a class="nav-item nav-link active"><strong>podsumowanie</strong></a>
         </div>
     </nav>
     <hr>
@@ -34,7 +36,7 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <h3>Ankieta pomyślnie została utworzona</h3>
-            <a class="btn btn-dark" href="/panel" role="button">ok</a>
+            <a class="btn btn-dark" href="<c:url value="/panel"/>" role="button">ok</a>
         </div>
     </div>
 
