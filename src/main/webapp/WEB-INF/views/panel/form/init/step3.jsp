@@ -44,10 +44,12 @@
             <div class="form-group">
                 <form action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-5"/>" method="post">
 
-                    <div class="form-part">
-                        <strong>Ustawienia kryteriów głównych</strong>
+                    <div class="form-part"><strong>Ustawienia kryteriów</strong>
                         <hr>
                     </div>
+                    <label>Liczba rozpatrywanych kryteriów głównych</label>
+                    <input name="noOfCriteria" type="number" class="form-control" placeholder="od 2 do 6"
+                           min="2" max="6" required>
 
                     <c:forEach begin="0" end="${noOfCriteria - 1}" varStatus="i">
                         <label>Nazwa ${i.count}-ego kryterium</label>

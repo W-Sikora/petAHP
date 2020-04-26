@@ -12,7 +12,6 @@
 
     p {
         text-align: justify;
-        margin-top: 15px;
         margin-bottom: 15px;
     }
 
@@ -33,19 +32,41 @@
 
 
     label {
-        margin-top: 10px;
-    }
-
-    input {
-        margin-top: 5px;
-    }
-
-    .form-part{
+        width: 100%;
         margin-top: 20px;
-        text-align: center;
+    }
+    input {
+        margin-top: 15px;
     }
 
+    input.invalid {
+        background-color: #ffdddd;
+    }
 
+    .part {
+        display: none;
+    }
+
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    /* Mark the active step: */
+    .step.active {
+        opacity: 1;
+    }
+
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+        background-color: #4CAF50;
+    }
 </style>
 </body>
 </html>

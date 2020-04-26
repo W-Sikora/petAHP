@@ -105,8 +105,7 @@ public class UserActionController {
     @RequestMapping(value = NEW_POLL + "1")
     public String newPollAction1(@RequestParam(name = "name") String name,
                                  @RequestParam(name = "noOfVoters") int noOfVoters,
-                                 @RequestParam(name = "endDate") String endDate,
-                                 @RequestParam(name = "noOfCriteria") int noOfCriteria) {
+                                 @RequestParam(name = "endDate") String endDate) {
         Poll poll = new Poll();
         poll.setUser(currentUser);
         poll.setName(name);
@@ -114,7 +113,6 @@ public class UserActionController {
         poll.setEndDate(LocalDate.parse(endDate));
         pollRepo.save(poll);
         currentPoll = poll;
-        currentNoOfCriteria = noOfCriteria;
         return "redirect:" + NEW_POLL + "2";
     }
 

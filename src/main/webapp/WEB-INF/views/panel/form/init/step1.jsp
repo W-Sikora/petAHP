@@ -29,7 +29,7 @@
 
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h3>Tworzenie nowej ankiety - krok 1 z 3</h3>
+            <h3>Tworzenie nowej ankiety</h3>
         </div>
     </div>
 
@@ -38,30 +38,54 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <form action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-1"/>" method="post">
+                <form id="form" action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-1"/>" method="post">
 
-                    <div class="form-part">
-                        <strong>Ustawienia ankiety</strong>
-                        <hr>
+                    <div class="form-part part">
+                        <div class="text-center"><strong>Ustawienia ogólne - krok 1 z 3</strong>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <label>Nazwa ankiety
+                                <input name="name" class="form-control" placeholder="np. wybór zwierzaka"
+                                       type="text" minlength="1" required></label>
+                            <label>Liczba dopuszczonych do ankiety użytkowników
+                                <input name="noOfVoters" class="form-control" placeholder="od 2 do 10"
+                                       type="number" min="2" max="10" required></label>
+                            <label>Data do której można oddać odpowiedź
+                                <input name="endDate" class="form-control" type="date" min="${minDate}"
+                                       required></label>
+                        </div>
                     </div>
-                    <label>Nazwa ankiety</label>
-                    <input name="name" class="form-control" placeholder="np. wybór zwierzaka"
-                           type="text" minlength="1" required>
-                    <label>Liczba dopuszczonych do ankiety użytkowników</label>
-                    <input name="noOfVoters" class="form-control" placeholder="od 2 do 10"
-                           type="number" min="2" max="10" required>
-                    <label>Data do której można oddać odpowiedź</label>
-                    <input name="endDate" class="form-control" type="date" min="${minDate}" required>
 
-                    <div class="form-part"><strong>Ustawienia kryteriów</strong>
-                        <hr>
+                    <div class="form-part part">
+                        <div class="text-center"><strong>Ustawienia zwierząt - krok 2 z 3</strong>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <label>Liczba rozpatrywanych zwierząt
+                                <input name="noOfAnimals" id="noOfAnimals" class="form-control new-input"
+                                       placeholder="np. od 2 do 6" type="number" min="2" max="6" required></label>
+                            <div id="animalsDiv"></div>
+                        </div>
                     </div>
-                    <label>Liczba rozpatrywanych kryteriów głównych</label>
-                    <input name="noOfCriteria" type="number" class="form-control" placeholder="od 2 do 6"
-                           min="2" max="7" required>
-                    <div class="form-part">
-                        <button type="submit" class="btn btn-dark">dalej</button>
+
+                    <div class="form-part part">
+                        <div class="text-center"><strong>Ustawienia kryteriów - krok 3 z 3</strong>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <label>Liczba rozpatrywanych kryteriów głównych
+                                <input name="noOfCriteria" id="noOfCriteria" type="number" class="form-control" placeholder="od 2 do 6"
+                                       min="2" max="6" required></label>
+                            <div id="criteriaDiv"></div>
+                        </div>
                     </div>
+
+                    <div>
+                        <button type="button" id="prevBtn" class="btn btn-dark">Wróć</button>
+                        <button type="button" id="nextBtn" class="btn btn-dark">Dalej</button>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -73,6 +97,6 @@
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
-
+<script src="<c:url value="/static/js/index.js"/>"></script>
 </body>
 </html>

@@ -1,57 +1,149 @@
-// function addSubCriteria(index) {
-//     const div = document.getElementById("divSubCriteria" + index);
-//     let input = document.getElementById("noOfSubCriteria" + index);
-//     if(input.value > -1 && input.value <7) {
-//         let subCriteria = Array.from(document.getElementsByClassName("" + index));
-//         for (let i = 0; i < subCriteria.length ; i++) {
-//             div.removeChild(subCriteria[i])
-//         }
-//         for (let i = 0; i < input.value; i++) {
-//             let newInput = document.createElement("input");
-//             newInput.type = "text";
-//             newInput.className = "form-control " + index ;
-//             newInput.name = index + "subCriterionName" + i;
-//             newInput.placeholder = "nazwa " + (i + 1) + "-ego podkryterium";
-//             div.appendChild(newInput);
-//         }
-//     }
-// }
+document.addEventListener("DOMContentLoaded", function () {
 
-// function addAnimal() {
-//     const div = document.getElementById("divAnimals");
-//     let input = document.getElementById("noOfAnimals");
-//     if (input.value > -1 && input.value < 7) {
-//         let subCriteria = Array.from(document.getElementsByClassName("" + index));
-//         for (let i = 0; i < subCriteria.length; i++) {
-//             div.removeChild(subCriteria[i])
-//         }
-//         for (let i = 0; i < input.value; i++) {
-//             let newInput = document.createElement("input");
-//             newInput.type = "text";
-//             newInput.className = "form-control " + index;
-//             newInput.name = index + "subCriterionName" + i;
-//             newInput.placeholder = "nazwa " + (i + 1) + "-ego podkryterium";
-//             div.appendChild(newInput);
-//         }
-//     }
-// }
+    const form = document.getElementById("form");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const parts = Array.from(document.getElementsByClassName("part"));
+    const animalsDiv = document.getElementById("animalsDiv");
+    const criteriaDiv = document.getElementById("criteriaDiv");
 
-function add(index, name, divId, inputId, min, max, className, placeholder) {
-    const div = document.getElementById("" + divId + index);
-    const input = document.getElementById("" + inputId + index);
-    if (input.value > (min - 1) && input.value < (max + 1)) {
-        let newInputs = Array.from(document.getElementsByClassName("" + className + index));
-        console.log(newInputs.length);
-        for (let i = 0; i <newInputs.length; i++) {
-            div.removeChild(newInputs[i]);
+    let noOfAnimals = document.getElementById("noOfAnimals");
+    let noOfCriteria = document.getElementById("noOfCriteria");
+    // let noOfSubCriteria = [];
+    // let subCriteriaDivs = [];
+
+    let current = 0;
+
+    display(current, form, prevBtn, parts);
+
+    nextBtn.onclick = () => {
+        current >= 0 && validate(current, parts) ? current++ : current;
+        display(current, form, prevBtn, parts);
+    };
+
+    prevBtn.onclick = () => {
+        current >= 1 ? current-- : current;
+        display(current, form, prevBtn, parts);
+    };
+
+
+    if (noOfAnimals) {
+        noOfAnimals.onchange = () => {
+            addAnimals(animalsDiv, noOfAnimals, "animal", "zwierzęcia");
+        };
+    }
+
+
+    if (noOfCriteria) {
+        noOfCriteria.onchange = () => {
+            addCriteria(criteriaDiv, noOfCriteria, "criterion", "kryterium");
+        };
+    }
+
+
+
+    // console.log(noOfSubCriteria);
+    // if (noOfSubCriteria.length !== 0) {
+    //     for (let i = 0; i < noOfSubCriteria.length; i++) {
+    //         subCriteriaDivs.push(document.getElementById("subCriteriaDiv" + i));
+    //         noOfSubCriteria[i].onchange = () => {
+    //             addSubCriteria(subCriteriaDivs[i], noOfSubCriteria[i], "subCriterion" + i, "podkryterium")
+    //         };
+    //     }
+    // }
+
+});
+
+function display(index, form, prevBtn, parts) {
+    if (index === 0) {
+        parts[0].style.display = "block";
+        parts[1].style.display = "none";
+        parts[2].style.display = "none";
+        prevBtn.style.display = "none";
+    } else if (index === 1) {
+        parts[0].style.display = "none";
+        parts[1].style.display = "block";
+        parts[2].style.display = "none";
+        prevBtn.style.display = "inline";
+    } else if (index === 2) {
+        parts[0].style.display = "none";
+        parts[1].style.display = "none";
+        parts[2].style.display = "block";
+        prevBtn.style.display = "inline";
+    } else {
+        form.submit();
+    }
+}
+
+function validate(index, parts) {
+    let inputs = parts[index].getElementsByTagName("input");
+    let valid = true;
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value === "") {
+            inputs[i].className += " invalid";
+            valid = false;
+        } else {
+            inputs[i].className = "form-control";
+        }
+    }
+    return valid;
+}
+
+function addAnimals(parent, input, name, placeholder) {
+    if (input.value >= input.min && input.value <= input.max) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.lastChild)
         }
         for (let i = 0; i < input.value; i++) {
             let newInput = document.createElement("input");
             newInput.type = "text";
-            newInput.className = "" + className + index;
-            newInput.name = "" + index + name + i;
+            newInput.className = "form-control";
+            newInput.name = "" + name + i;
             newInput.placeholder = "nazwa " + (i + 1) + "-ego " + placeholder;
-            div.appendChild(newInput);
+            parent.appendChild(newInput);
         }
     }
 }
+
+function addCriteria(parent, input, name, placeholder) {
+    if (input.value >= input.min && input.value <= input.max) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.lastChild)
+        }
+        for (let i = 0; i < input.value; i++) {
+            let criterionName = document.createElement("input");
+            criterionName.type = "text";
+            criterionName.className = "form-control";
+            criterionName.name = "" + name + i;
+            criterionName.placeholder = "nazwa " + (i + 1) + "-ego " + placeholder;
+            parent.appendChild(criterionName);
+            let noOfSubCriteria = document.createElement("input");
+            noOfSubCriteria.type = "number";
+            noOfSubCriteria.className = "form-control noOfSubCriteria";
+            noOfSubCriteria.name = "noOfSubCriteria" + i;
+            noOfSubCriteria.id = "noOfSubCriteria" + i;
+            noOfSubCriteria.placeholder = "liczba podkryteriów (od 0 do 6)";
+            parent.appendChild(noOfSubCriteria);
+            let subCriteriaDiv = document.createElement("div");
+            subCriteriaDiv.id = "subCriteriaDiv" + i;
+            parent.appendChild(subCriteriaDiv);
+        }
+    }
+}
+
+// function addSubCriteria(parent, input, name, placeholder) {
+//     if (input.value >= input.min && input.value <= input.max) {
+//         while (parent.firstChild) {
+//             parent.removeChild(parent.lastChild)
+//         }
+//         for (let i = 0; i < input.value; i++) {
+//             let newInput = document.createElement("input");
+//             newInput.type = "text";
+//             newInput.className = "form-control";
+//             newInput.name = "" + name + i;
+//             newInput.placeholder = "nazwa " + (i + 1) + "-ego " + placeholder;
+//             parent.appendChild(newInput);
+//         }
+//     }
+// }
+
