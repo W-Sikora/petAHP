@@ -24,10 +24,6 @@
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active">nowa ankieta</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active">ustawienia zwierząt</a>
-            <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active">ustawienia kryteriów</a>
-            <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active"><strong>podsumowanie</strong></a>
         </div>
     </nav>
@@ -45,16 +41,19 @@
 
         <div class="col-lg-8">
             <h5>Ogólne:</h5>
+            <hr>
             <p>Nazwa ankiety: <strong>${poll.name}</strong></p>
             <p>Liczba oceniających: <strong>${poll.noOfVoters}</strong></p>
             <p>Data zakończenia: <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong></p>
-            <hr>
+
             <h5>Zwierzęta:</h5>
+            <hr>
             <c:forEach items="${animals}" var="a">
                 <p>- <strong>${a.name}</strong></p>
             </c:forEach>
-            <hr>
+
             <h5>Przyjęte kryteria:</h5>
+            <hr>
             <c:forEach items="${criteria}" var="c">
                 <p><strong>${c.name}</strong></p>
                 <c:forEach items="${subCriteria}" var="s">

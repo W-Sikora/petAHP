@@ -43,6 +43,10 @@
         background-color: #ffdddd;
     }
 
+    .hide{
+        display: none;
+    }
+
     .part {
         display: none;
     }

@@ -60,7 +60,7 @@
     <div class="row">
         <div class="col-lg-4 text-center">
             <h5>Utwórz nową ankietę</h5>
-            <a class="btn btn-success" href="/panel/tworzenie-nowej-ankiety/krok-0" role="button">przejdź</a>
+            <a class="btn btn-success" href="/panel/tworzenie-nowej-ankiety" role="button">przejdź</a>
             <p></p>
         </div>
         <div class="col-lg-4 text-center">

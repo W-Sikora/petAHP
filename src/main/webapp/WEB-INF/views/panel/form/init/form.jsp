@@ -38,7 +38,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <form id="form" action="<c:url value="/panel/tworzenie-nowej-ankiety/krok-1"/>" method="post">
+                <form id="newForm" action="<c:url value="/panel/tworzenie-nowej-ankiety/podsumowanie"/>" method="post">
 
                     <div class="form-part part">
                         <div class="text-center"><strong>Ustawienia ogólne - krok 1 z 3</strong>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nazwa ankiety
-                                <input name="name" class="form-control" placeholder="np. wybór zwierzaka"
+                                <input name="pollName" class="form-control" placeholder="np. wybór zwierzaka"
                                        type="text" minlength="1" required></label>
                             <label>Liczba dopuszczonych do ankiety użytkowników
                                 <input name="noOfVoters" class="form-control" placeholder="od 2 do 10"
@@ -63,7 +63,7 @@
                         </div>
                         <div class="form-group">
                             <label>Liczba rozpatrywanych zwierząt
-                                <input name="noOfAnimals" id="noOfAnimals" class="form-control new-input"
+                                <input name="noOfAnimals" id="noOfAnimals" class="form-control"
                                        placeholder="np. od 2 do 6" type="number" min="2" max="6" required></label>
                             <div id="animalsDiv"></div>
                         </div>
@@ -75,14 +75,21 @@
                         </div>
                         <div class="form-group">
                             <label>Liczba rozpatrywanych kryteriów głównych
-                                <input name="noOfCriteria" id="noOfCriteria" type="number" class="form-control" placeholder="od 2 do 6"
+                                <input name="noOfCriteria" id="noOfCriteria" type="number" class="form-control"
+                                       placeholder="od 2 do 6"
                                        min="2" max="6" required></label>
-                            <div id="criteriaDiv"></div>
+                            <c:forEach begin="0" end="5" varStatus="i">
+                                <label class="hide">${i.count}. kryterium
+                                    <input id="criterion${i.index}" name="criterion${i.index}" type="text" class="form-control" placeholder="nazwa kryterium">
+                                    <input id="noOfSubCriteria${i.index}" name="noOfSubCriteria${i.index}" type="number" class="form-control" min="0" max="6" placeholder="liczba podkryteriów (od 0 do 6)">
+                                    <div id="subCriteriaDiv${i.index}"></div>
+                                </label>
+                            </c:forEach>
                         </div>
                     </div>
 
                     <div>
-                        <button type="button" id="prevBtn" class="btn btn-dark">Wróć</button>
+                        <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
                         <button type="button" id="nextBtn" class="btn btn-dark">Dalej</button>
                     </div>
 

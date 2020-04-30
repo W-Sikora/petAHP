@@ -1,57 +1,40 @@
-document.addEventListener("DOMContentLoaded", function () {
+const form = document.getElementById("newForm");
+const partsOfForm = Array.from(document.getElementsByClassName("part"));
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const noOfAnimals = document.getElementById("noOfAnimals");
+const newAnimalParent = document.getElementById("animalsDiv");
+const noOfCriteria = document.getElementById("noOfCriteria");
+const subCriteriaDivs = find("div", "subCriteriaDiv");
+const noOfSubCriteria = find("input", "noOfSubCriteria");
 
-    const form = document.getElementById("form");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const parts = Array.from(document.getElementsByClassName("part"));
-    const animalsDiv = document.getElementById("animalsDiv");
-    const criteriaDiv = document.getElementById("criteriaDiv");
+let current = 0;
 
-    let noOfAnimals = document.getElementById("noOfAnimals");
-    let noOfCriteria = document.getElementById("noOfCriteria");
-    // let noOfSubCriteria = [];
-    // let subCriteriaDivs = [];
+display(current, form, prevBtn, partsOfForm);
+//&& validate(current, partsOfForm)
+nextBtn.onclick = () => {
+    current >= 0  ? current++ : current;
+    display(current, form, prevBtn, partsOfForm);
+};
 
-    let current = 0;
+prevBtn.onclick = () => {
+    current >= 1 ? current-- : current;
+    display(current, form, prevBtn, partsOfForm);
+};
 
-    display(current, form, prevBtn, parts);
+noOfAnimals.addEventListener("change", () => {
+    createNew(noOfAnimals, newAnimalParent, "text", "animal", "form-control", true, "nazwa/gatunek zwierzęcia")
+});
 
-    nextBtn.onclick = () => {
-        current >= 0 && validate(current, parts) ? current++ : current;
-        display(current, form, prevBtn, parts);
-    };
+noOfCriteria.addEventListener("change", () => {
+    const criteria = document.getElementsByClassName("hide");
+    show(noOfCriteria, criteria);
+});
 
-    prevBtn.onclick = () => {
-        current >= 1 ? current-- : current;
-        display(current, form, prevBtn, parts);
-    };
-
-
-    if (noOfAnimals) {
-        noOfAnimals.onchange = () => {
-            addAnimals(animalsDiv, noOfAnimals, "animal", "zwierzęcia");
-        };
-    }
-
-
-    if (noOfCriteria) {
-        noOfCriteria.onchange = () => {
-            addCriteria(criteriaDiv, noOfCriteria, "criterion", "kryterium");
-        };
-    }
-
-
-
-    // console.log(noOfSubCriteria);
-    // if (noOfSubCriteria.length !== 0) {
-    //     for (let i = 0; i < noOfSubCriteria.length; i++) {
-    //         subCriteriaDivs.push(document.getElementById("subCriteriaDiv" + i));
-    //         noOfSubCriteria[i].onchange = () => {
-    //             addSubCriteria(subCriteriaDivs[i], noOfSubCriteria[i], "subCriterion" + i, "podkryterium")
-    //         };
-    //     }
-    // }
-
+noOfSubCriteria.forEach((el, i) => {
+    el.addEventListener("change", () => {
+        createNew(el, subCriteriaDivs[i], "text", i +"subCriterion", "form-control", true, "nazwa podkryterium")
+    })
 });
 
 function display(index, form, prevBtn, parts) {
@@ -89,61 +72,61 @@ function validate(index, parts) {
     return valid;
 }
 
-function addAnimals(parent, input, name, placeholder) {
-    if (input.value >= input.min && input.value <= input.max) {
-        while (parent.firstChild) {
-            parent.removeChild(parent.lastChild)
-        }
-        for (let i = 0; i < input.value; i++) {
+function createNew(base, parent, type, name, className, required, placeholder) {
+    if (base.value >= base.min && base.value <= base.max) {
+        removeAllRelated(parent);
+        for (let i = 0; i < base.value; i++) {
             let newInput = document.createElement("input");
-            newInput.type = "text";
-            newInput.className = "form-control";
-            newInput.name = "" + name + i;
-            newInput.placeholder = "nazwa " + (i + 1) + "-ego " + placeholder;
-            parent.appendChild(newInput);
+            setInput(parent, newInput, type, name + i, className, required, (i + 1) + ". " + placeholder);
         }
     }
 }
 
-function addCriteria(parent, input, name, placeholder) {
-    if (input.value >= input.min && input.value <= input.max) {
-        while (parent.firstChild) {
-            parent.removeChild(parent.lastChild)
-        }
-        for (let i = 0; i < input.value; i++) {
-            let criterionName = document.createElement("input");
-            criterionName.type = "text";
-            criterionName.className = "form-control";
-            criterionName.name = "" + name + i;
-            criterionName.placeholder = "nazwa " + (i + 1) + "-ego " + placeholder;
-            parent.appendChild(criterionName);
-            let noOfSubCriteria = document.createElement("input");
-            noOfSubCriteria.type = "number";
-            noOfSubCriteria.className = "form-control noOfSubCriteria";
-            noOfSubCriteria.name = "noOfSubCriteria" + i;
-            noOfSubCriteria.id = "noOfSubCriteria" + i;
-            noOfSubCriteria.placeholder = "liczba podkryteriów (od 0 do 6)";
-            parent.appendChild(noOfSubCriteria);
-            let subCriteriaDiv = document.createElement("div");
-            subCriteriaDiv.id = "subCriteriaDiv" + i;
-            parent.appendChild(subCriteriaDiv);
+function show(base, elements) {
+    if (base.value >= base.min && base.value <= base.max) {
+        hideAll(elements);
+        for (let i = 0; i < base.value; i++) {
+            elements[i].style.display = "block";
         }
     }
 }
 
-// function addSubCriteria(parent, input, name, placeholder) {
-//     if (input.value >= input.min && input.value <= input.max) {
-//         while (parent.firstChild) {
-//             parent.removeChild(parent.lastChild)
-//         }
-//         for (let i = 0; i < input.value; i++) {
-//             let newInput = document.createElement("input");
-//             newInput.type = "text";
-//             newInput.className = "form-control";
-//             newInput.name = "" + name + i;
-//             newInput.placeholder = "nazwa " + (i + 1) + "-ego " + placeholder;
-//             parent.appendChild(newInput);
-//         }
-//     }
-// }
+function hideAll(elements) {
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].style.display = "none";
+    }
+}
 
+function removeAllRelated(core) {
+    while (core.firstChild) {
+        core.lastChild.remove();
+    }
+}
+
+function setInput(parent, base, type, name, className, required, placeholder) {
+    base.type = type;
+    base.name = name;
+    base.className = className;
+    base.required = required;
+    base.placeholder = placeholder;
+    parent.appendChild(base);
+}
+
+function find(tag, nameLike) {
+    const allTag = Array.from(document.getElementsByTagName(tag));
+    let matching = [];
+    if (allTag.length > 0) {
+        for (let i = 0; i < allTag.length; i++) {
+            if (allTag[i].hasAttribute("name")) {
+                if (allTag[i].name.includes(nameLike)) {
+                    matching.push(allTag[i]);
+                }
+            } else {
+                if (allTag[i].id.includes(nameLike)) {
+                    matching.push(allTag[i]);
+                }
+            }
+        }
+    }
+    return matching;
+}
