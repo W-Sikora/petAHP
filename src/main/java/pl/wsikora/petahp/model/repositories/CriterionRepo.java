@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CriterionRepo extends JpaRepository<Criterion, Long> {
 
-    @Query(nativeQuery = true, value = "select * from criteria where criteria.poll_id = ?1")
+    @Query(nativeQuery = true, value = "select * from criteria c where c.poll_id = ?1")
     List<Criterion> findAllByPollId(long pollId);
 
 }

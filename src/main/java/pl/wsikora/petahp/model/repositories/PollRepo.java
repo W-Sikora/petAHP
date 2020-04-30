@@ -13,15 +13,19 @@ import java.util.List;
 @Repository
 public interface PollRepo extends JpaRepository<Poll, Long> {
 
-    @Query(nativeQuery = true, value = "select count(*) from polls where polls.visibility = ?1 and polls.creator = ?2")
+    @Query(nativeQuery = true, value = "select count(*) from polls p where p.visibility = ?1 and p.creator = ?2")
     int countByVisibilityAndUserId(boolean visibility, long usersId);
 
-    @Query(nativeQuery = true, value = "select * from polls where polls.visibility = ?1 and polls.creator = ?2")
+    @Query(nativeQuery = true, value = "select * from polls p where p.visibility = ?1 and p.creator = ?2")
     List<Poll> findAllByVisibilityAndUsersId(boolean visibility, long usersId);
 
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update Poll p SET p.visibility = :visibility WHERE p.id = :pollId")
     void updateVisibility(@Param("visibility") boolean visibility, @Param("pollId") long pollId);
+
+    @Query(nativeQuery = true, value = "select count(p.link) from polls p where p.link like ?1")
+    int checkLink(String link);
+
 
 }

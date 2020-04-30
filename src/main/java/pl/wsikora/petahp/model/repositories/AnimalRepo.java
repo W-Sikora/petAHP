@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface AnimalRepo extends JpaRepository<Animal, Long> {
 
-    @Query(nativeQuery = true, value = "select * from animals where animals.poll_id = ?1")
+    @Query(nativeQuery = true, value = "select * from animals a where a.poll_id = ?1")
     List<Animal> findAllByPollId(long pollId);
-
 
 }

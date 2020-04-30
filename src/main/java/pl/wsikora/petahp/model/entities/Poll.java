@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Entity
 @Table(name = "polls")
@@ -25,23 +26,45 @@ public class Poll {
     @Column(name = "no_of_voters")
     private int noOfVoters;
     private boolean visibility;
+    private String link;
+    @Column(name = "access_code")
+    private int accessCode;
 
     public Poll() {
     }
 
-    public Poll(User user, String name, LocalDateTime creationDate, LocalDate endDate, int noOfVoters, boolean visibility) {
+    public Poll(User user, String name, LocalDateTime creationDate, LocalDate endDate, int noOfVoters, boolean visibility, String link, int accessCode) {
         this.user = user;
         this.name = name;
         this.creationDate = creationDate;
         this.endDate = endDate;
         this.noOfVoters = noOfVoters;
         this.visibility = visibility;
+        this.link = link;
+        this.accessCode = accessCode;
     }
 
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
         visibility = true;
+        link = linkGenerator();
+        accessCode = accessCodeGenerator();
+    }
+
+    private String linkGenerator() {
+        Random random = new Random();
+        String generatedString = random.ints(48, 122)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(6)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return "" + generatedString;
+    }
+
+    private int accessCodeGenerator() {
+        Random random = new Random();
+        return random.nextInt((999 - 100) + 1) + 100;
     }
 
     public long getId() {
@@ -70,6 +93,14 @@ public class Poll {
 
     public boolean isVisibility() {
         return visibility;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public int getAccessCode() {
+        return accessCode;
     }
 
     public void setUser(User user) {
@@ -102,6 +133,8 @@ public class Poll {
                 ", endDate=" + endDate +
                 ", noOfVoters=" + noOfVoters +
                 ", visibility=" + visibility +
+                ", link='" + link + '\'' +
+                ", accessCode=" + accessCode +
                 '}';
     }
 }

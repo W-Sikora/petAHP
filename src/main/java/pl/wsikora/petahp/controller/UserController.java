@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.wsikora.petahp.model.entities.*;
 import pl.wsikora.petahp.model.repositories.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.Random;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-public class UserActionController {
+public class UserController {
     private UserRepo userRepo;
     private PollRepo pollRepo;
     private EvaluatorRepo evaluatorRepo;
@@ -24,7 +26,7 @@ public class UserActionController {
     private CriterionRepo criterionRepo;
     private SubCriterionRepo subCriterionRepo;
 
-    public UserActionController(UserRepo userRepo, PollRepo pollRepo, EvaluatorRepo evaluatorRepo, AnimalRepo animalRepo, CriterionRepo criterionRepo, SubCriterionRepo subCriterionRepo) {
+    public UserController(UserRepo userRepo, PollRepo pollRepo, EvaluatorRepo evaluatorRepo, AnimalRepo animalRepo, CriterionRepo criterionRepo, SubCriterionRepo subCriterionRepo) {
         this.userRepo = userRepo;
         this.pollRepo = pollRepo;
         this.evaluatorRepo = evaluatorRepo;
@@ -35,74 +37,39 @@ public class UserActionController {
 
     private User currentUser;
 
-    private final String MAIN_PAGE = "";
-    private final String REGISTER = "/rejestracja";
-    private final String REGISTER_CHECK = "/zarejestrowano";
-    private final String LOG_IN = "/logowanie";
-    private final String LOG_IN_CHECK = "/zalogowano";
     private final String LOGOUT = "/wyloguj";
     private final String PANEL = "/panel";
     private final String NEW_POLL = PANEL + "/tworzenie-nowej-ankiety";
     private final String SUMMARY = NEW_POLL + "/podsumowanie";
     private final String EDIT_POLL = PANEL + "/edycja-ankiet";
 
-    @RequestMapping(value = MAIN_PAGE)
-    public String homeAction() {
-        return "index";
-    }
-
-    @RequestMapping(value = REGISTER)
-    public String register() {
-        return "login&registration/registration";
-    }
-
-    @RequestMapping(value = REGISTER_CHECK)
-    public String registerCheck(@RequestParam Map<String, String> registrationData, Model model) {
-        if (userRepo.findUserByEmail(registrationData.get("email")) == null) {
-            User user = new User();
-            user.setName(registrationData.get("name"));
-            user.setEmail(registrationData.get("email"));
-            user.setPassword(registrationData.get("password"));
-            userRepo.save(user);
-            return "redirect:" + LOG_IN;
-        } else {
-            model.addAttribute("registerError", "Podany adres email jest już zajęty");
-            return "login&registration/registration";
-        }
-    }
-
-    @RequestMapping(value = LOG_IN)
-    public String login() {
-        return "login&registration/login";
-    }
-
-    @RequestMapping(value = LOG_IN_CHECK)
-    public String loginCheck(@RequestParam Map<String, String> loginData, Model model) {
+    @RequestMapping(value = "zalogowano")
+    public String loginCheck(@RequestParam Map<String, String> loginData, Model model, HttpSession session) {
         if (loginData.get("password").equals(userRepo.findPasswordByEmail(loginData.get("email")))) {
             currentUser = userRepo.findUserByEmail(loginData.get("email"));
-            return "redirect:" + PANEL;
+            return "redirect:/panel";
         } else {
             model.addAttribute("loginError", "Podano złe dane logowania");
-            return "login&registration/login";
+            return "user/login&registration/login";
         }
     }
 
     @RequestMapping(value = LOGOUT)
     public String logoutAction() {
         currentUser = null;
-        return "index";
+        return "home/index";
     }
 
     @RequestMapping(value = PANEL)
     public String panelAction(Model model) {
         model.addAttribute("user", currentUser.getName());
-        return "panel/panel";
+        return "user/panel/panel";
     }
 
     @RequestMapping(value = NEW_POLL)
     public String newPollAction0(Model model) {
         model.addAttribute("minDate", LocalDate.now().plusDays(1));
-        return "panel/form/init/form";
+        return "user/panel/form/init/form";
     }
 
     private List<String> keyContains(Map<String, String> map, String string) {
@@ -162,7 +129,7 @@ public class UserActionController {
                 .addAttribute("animals", animalRepo.findAllByPollId(id))
                 .addAttribute("criteria", criterionRepo.findAllByPollId(id))
                 .addAttribute("subCriteria", subCriterionRepo.findAllByPollId(id));
-         return "panel/form/init/summary";
+        return "user/panel/form/init/summary";
     }
 
     @RequestMapping(value = EDIT_POLL)
@@ -171,7 +138,7 @@ public class UserActionController {
         if (pollRepo.countByVisibilityAndUserId(true, id) > 0) {
             model.addAttribute("polls", pollRepo.findAllByVisibilityAndUsersId(true, id));
         }
-        return "panel/form/edit/edit_form";
+        return "user/panel/form/edit/edit_form";
     }
 
     @RequestMapping(value = EDIT_POLL + "/usun/{pollId}")
