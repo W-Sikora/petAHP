@@ -19,6 +19,9 @@ public interface PollRepo extends JpaRepository<Poll, Long> {
     @Query(nativeQuery = true, value = "select * from polls p where p.visibility = ?1 and p.creator = ?2")
     List<Poll> findAllByVisibilityAndUsersId(boolean visibility, long usersId);
 
+    @Query(nativeQuery = true, value = "select * from polls p where p.id = ?1")
+    Poll findById(long pollId);
+
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update Poll p SET p.visibility = :visibility WHERE p.id = :pollId")

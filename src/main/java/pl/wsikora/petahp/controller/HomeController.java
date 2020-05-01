@@ -27,7 +27,7 @@ public class HomeController {
 
     @RequestMapping(value = "/rejestracja")
     public String register() {
-        return "home/login&registration/registration";
+        return "home/registration";
     }
 
     @RequestMapping(value = "/rejestrowanie")
@@ -41,19 +41,17 @@ public class HomeController {
             return "redirect:logowanie";
         } else {
             model.addAttribute("error", "Podany adres email jest już zajęty");
-            return "home/login&registration/registration";
+            return "home/registration";
         }
     }
 
     @RequestMapping(value = "/logowanie")
     public String login() {
-        return "home/login&registration/login";
+        return "home/login";
     }
 
     @RequestMapping(value = "/przejdz-do-ankiety")
     public String goToForm() {
-        return "home/form/goToForm";
+        return "home/go_to_form";
     }
-
-
 }

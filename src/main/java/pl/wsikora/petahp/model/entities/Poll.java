@@ -27,8 +27,6 @@ public class Poll {
     private int noOfVoters;
     private boolean visibility;
     private String link;
-    @Column(name = "access_code")
-    private int accessCode;
 
     public Poll() {
     }
@@ -41,7 +39,6 @@ public class Poll {
         this.noOfVoters = noOfVoters;
         this.visibility = visibility;
         this.link = link;
-        this.accessCode = accessCode;
     }
 
     @PrePersist
@@ -49,7 +46,6 @@ public class Poll {
         creationDate = LocalDateTime.now();
         visibility = true;
         link = linkGenerator();
-        accessCode = accessCodeGenerator();
     }
 
     private String linkGenerator() {
@@ -60,11 +56,6 @@ public class Poll {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
         return "" + generatedString;
-    }
-
-    private int accessCodeGenerator() {
-        Random random = new Random();
-        return random.nextInt((999 - 100) + 1) + 100;
     }
 
     public long getId() {
@@ -99,10 +90,6 @@ public class Poll {
         return link;
     }
 
-    public int getAccessCode() {
-        return accessCode;
-    }
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -133,8 +120,7 @@ public class Poll {
                 ", endDate=" + endDate +
                 ", noOfVoters=" + noOfVoters +
                 ", visibility=" + visibility +
-                ", link='" + link + '\'' +
-                ", accessCode=" + accessCode +
+                ", link='" + link +
                 '}';
     }
 }

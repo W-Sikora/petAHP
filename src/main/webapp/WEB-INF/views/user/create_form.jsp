@@ -36,7 +36,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <form id="newForm" action="<c:url value="/panel/tworzenie-nowej-ankiety/podsumowanie"/>" method="post">
+                <form id="newForm" action="<c:url value="/panel/ankieta-podsumowanie"/>" method="post">
 
                     <div class="form-part part">
                         <div class="text-center"><strong>Ustawienia ogólne - krok 1 z 3</strong>

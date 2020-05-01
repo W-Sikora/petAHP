@@ -9,13 +9,10 @@ import pl.wsikora.petahp.model.entities.*;
 import pl.wsikora.petahp.model.repositories.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Random;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -36,11 +33,11 @@ public class UserController {
     }
 
     private User currentUser;
-
+    private long currentPollId;
     private final String LOGOUT = "/wyloguj";
     private final String PANEL = "/panel";
     private final String NEW_POLL = PANEL + "/tworzenie-nowej-ankiety";
-    private final String SUMMARY = NEW_POLL + "/podsumowanie";
+    private final String SUMMARY = PANEL + "/ankieta-podsumowanie";
     private final String EDIT_POLL = PANEL + "/edycja-ankiet";
 
     @RequestMapping(value = "/zalogowanie")
@@ -50,26 +47,26 @@ public class UserController {
             return "redirect:/panel";
         } else {
             model.addAttribute("error", "Podano złe dane logowania");
-            return "home/login&registration/login";
+            return "home/login";
         }
     }
 
     @RequestMapping(value = LOGOUT)
     public String logoutAction() {
         currentUser = null;
-        return "home/index";
+        return "redirect:/";
     }
 
     @RequestMapping(value = PANEL)
     public String panelAction(Model model) {
         model.addAttribute("user", currentUser.getName());
-        return "user/panel/panel";
+        return "user/panel";
     }
 
     @RequestMapping(value = NEW_POLL)
     public String newPollAction0(Model model) {
         model.addAttribute("minDate", LocalDate.now().plusDays(1));
-        return "user/panel/form/init/form";
+        return "user/create_form";
     }
 
     private List<String> keyContains(Map<String, String> map, String string) {
@@ -124,12 +121,17 @@ public class UserController {
                 subCriterionRepo.save(subCriterion);
             }
         }
-        long id = poll.getId();
-        model.addAttribute("poll", poll)
-                .addAttribute("animals", animalRepo.findAllByPollId(id))
-                .addAttribute("criteria", criterionRepo.findAllByPollId(id))
-                .addAttribute("subCriteria", subCriterionRepo.findAllByPollId(id));
-        return "user/panel/form/init/summary";
+        currentPollId = poll.getId();
+        return "redirect:" + SUMMARY + "1";
+    }
+
+    @RequestMapping(value = SUMMARY + "1")
+    public String summaryAction(Model model) {
+        model.addAttribute("poll", pollRepo.findById(currentPollId))
+                .addAttribute("animals", animalRepo.findAllByPollId(currentPollId))
+                .addAttribute("criteria", criterionRepo.findAllByPollId(currentPollId))
+                .addAttribute("subCriteria", subCriterionRepo.findAllByPollId(currentPollId));
+        return "user/summarize_form";
     }
 
     @RequestMapping(value = EDIT_POLL)
@@ -138,7 +140,7 @@ public class UserController {
         if (pollRepo.countByVisibilityAndUserId(true, id) > 0) {
             model.addAttribute("polls", pollRepo.findAllByVisibilityAndUsersId(true, id));
         }
-        return "user/panel/form/edit/edit_form";
+        return "user/edit_form";
     }
 
     @RequestMapping(value = EDIT_POLL + "/usun/{pollId}")

@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <h2 class="mtb7-17">Witaj ${user}</h2>
-            <a class="btn btn-dark mtb7-17" href="/" role="button">wyloguj</a>
+            <a class="btn btn-dark mtb7-17" href="<c:url value="/wyloguj"/>" role="button">wyloguj</a>
         </div>
     </div>
     <hr>

@@ -1,41 +1,54 @@
-const form = document.getElementById("newForm");
-const partsOfForm = Array.from(document.getElementsByClassName("part"));
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const noOfAnimals = document.getElementById("noOfAnimals");
-const newAnimalParent = document.getElementById("animalsDiv");
-const noOfCriteria = document.getElementById("noOfCriteria");
-const subCriteriaDivs = find("div", "subCriteriaDiv");
-const noOfSubCriteria = find("input", "noOfSubCriteria");
+if(window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
 
-let current = 0;
+    const form = document.getElementById("newForm");
+    const partsOfForm = Array.from(document.getElementsByClassName("part"));
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const noOfAnimals = document.getElementById("noOfAnimals");
+    const newAnimalParent = document.getElementById("animalsDiv");
+    const noOfCriteria = document.getElementById("noOfCriteria");
+    const subCriteriaDivs = find("div", "subCriteriaDiv");
+    const noOfSubCriteria = find("input", "noOfSubCriteria");
 
-display(current, form, prevBtn, partsOfForm);
+    let current = 0;
+
+    display(current, form, prevBtn, partsOfForm);
 //&& validate(current, partsOfForm)
-nextBtn.onclick = () => {
-    current >= 0  ? current++ : current;
-    display(current, form, prevBtn, partsOfForm);
-};
+    nextBtn.onclick = () => {
+        current >= 0 ? current++ : current;
+        display(current, form, prevBtn, partsOfForm);
+    };
 
-prevBtn.onclick = () => {
-    current >= 1 ? current-- : current;
-    display(current, form, prevBtn, partsOfForm);
-};
+    prevBtn.onclick = () => {
+        current >= 1 ? current-- : current;
+        display(current, form, prevBtn, partsOfForm);
+    };
 
-noOfAnimals.addEventListener("change", () => {
-    createNew(noOfAnimals, newAnimalParent, "text", "animal", "form-control", true, "nazwa/gatunek zwierzęcia")
-});
+    noOfAnimals.addEventListener("change", () => {
+        createNew(noOfAnimals, newAnimalParent, "text", "animal", "form-control", true, "nazwa/gatunek zwierzęcia")
+    });
 
-noOfCriteria.addEventListener("change", () => {
-    const criteria = document.getElementsByClassName("hide");
-    show(noOfCriteria, criteria);
-});
+    noOfCriteria.addEventListener("change", () => {
+        const criteria = document.getElementsByClassName("hide");
+        show(noOfCriteria, criteria);
+    });
 
-noOfSubCriteria.forEach((el, i) => {
-    el.addEventListener("change", () => {
-        createNew(el, subCriteriaDivs[i], "text", i +"subCriterion", "form-control", true, "nazwa podkryterium")
-    })
-});
+    noOfSubCriteria.forEach((el, i) => {
+        el.addEventListener("change", () => {
+            createNew(el, subCriteriaDivs[i], "text", i + "subCriterion", "form-control", true, "nazwa podkryterium")
+        })
+    });
+}
+
+if (window.location.pathname.includes("ankieta-podsumowanie")) {
+    const copyButton = document.getElementById("copyButton");
+    const input = document.getElementById("link");
+    copyButton.addEventListener("click", () => {
+        input.focus();
+        input.select();
+        document.execCommand("copy")
+    });
+}
 
 function display(index, form, prevBtn, parts) {
     if (index === 0) {

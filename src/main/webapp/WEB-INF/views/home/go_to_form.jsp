@@ -18,9 +18,9 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">strona główna</a>
+            <a class="nav-item nav-link active" href="<c:url value="/"/>">strona główna</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>logowanie</strong></a>
+            <a class="nav-item nav-link active"><strong>przejdź do ankiety</strong></a>
         </div>
     </nav>
     <hr>
@@ -31,18 +31,14 @@
                     <h3><mark>${error}</mark></h3>
                 </div>
             </c:if>
-            <h2>Logowanie</h2>
-            <form action="<c:url value="/zalogowanie"/>" method="post">
+            <h2>Przejdź do ankiety</h2>
+            <form action="<c:url value="/ankieta"/>" method="post">
                 <div class="form-group">
-                    <label>adres e-mail
-                        <input type="email" class="form-control" id="email" name="email"
-                               placeholder="np. jan.kowalski@gmail.com" required></label>
-                    <label>hasło
-                        <input type="password" class="form-control" id="password" name="password" placeholder="********"
-                               required minlength="8" maxlength="30"></label>
+                    <label>wpisz/wklej poniżej link do ankiety
+                        <input type="text" class="form-control" name="link" required></label>
                 </div>
                 <div class="centerize mtb17-7">
-                    <button type="submit" class="btn btn-outline-dark">zaloguj</button>
+                    <button type="submit" class="btn btn-outline-dark">przejdź</button>
                 </div>
             </form>
         </div>

@@ -43,6 +43,7 @@
                         <th scope="col">data zakończenia</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,10 +54,13 @@
                             <td>${p.creationDate.dayOfMonth}-${p.creationDate.monthValue}-${p.creationDate.year} ${p.creationDate.hour}:${p.creationDate.minute}</td>
                             <td>${p.endDate.dayOfMonth}-${p.endDate.monthValue}-${p.endDate.year}</td>
                             <td>
-                                <a class="btn btn-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>
+                                <a class="btn btn-outline-primary" href="/panel/" role="button">skopiuj link</a>
                             </td>
                             <td>
-                                <a class="btn btn-danger" href="/panel/edycja-ankiet/usun/${p.id}" role="button">usuń</a>
+                                <a class="btn btn-outline-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-danger" href="/panel/edycja-ankiet/usun/${p.id}" role="button">usuń</a>
                             </td>
                         </tr>
                     </c:forEach>

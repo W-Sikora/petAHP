@@ -18,7 +18,7 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">strona główna</a>
+            <a class="nav-item nav-link active" href="<c:url value="/"/>">strona główna</a>
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active"><strong>rejestracja</strong></a>
         </div>

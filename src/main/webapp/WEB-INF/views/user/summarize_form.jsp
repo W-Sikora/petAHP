@@ -30,9 +30,12 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <h3>Ankieta została pomyślnie utworzona</h3>
-            <a class="btn btn-dark" href="<c:url value="/panel"/>" role="button">ok</a>
-            <p>${poll.link}</p>
-            <p>${poll.accessCode}</p>
+            <a class="btn btn-outline-dark" href="<c:url value="/panel"/>" role="button">ok</a>
+            <div class="col-lg-6 margin-auto">
+                <label>link do wypełnienia ankiety</label>
+                <input class="form-control" type="text" value="${poll.link}" id="link">
+                <button type="button" class="btn btn-outline-success" id="copyButton">kopiuj</button>
+            </div>
         </div>
     </div>
 
@@ -44,7 +47,8 @@
             <hr>
             <p>Nazwa ankiety: <strong>${poll.name}</strong></p>
             <p>Liczba oceniających: <strong>${poll.noOfVoters}</strong></p>
-            <p>Data zakończenia: <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong></p>
+            <p>Data zakończenia:
+                <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong></p>
 
             <h5>Zwierzęta:</h5>
             <hr>
@@ -71,6 +75,6 @@
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
-
+<script src="<c:url value="/static/js/index.js"/>"></script>
 </body>
 </html>
