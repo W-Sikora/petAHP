@@ -43,14 +43,14 @@ public class UserController {
     private final String SUMMARY = NEW_POLL + "/podsumowanie";
     private final String EDIT_POLL = PANEL + "/edycja-ankiet";
 
-    @RequestMapping(value = "zalogowano")
+    @RequestMapping(value = "/zalogowanie")
     public String loginCheck(@RequestParam Map<String, String> loginData, Model model, HttpSession session) {
         if (loginData.get("password").equals(userRepo.findPasswordByEmail(loginData.get("email")))) {
             currentUser = userRepo.findUserByEmail(loginData.get("email"));
             return "redirect:/panel";
         } else {
-            model.addAttribute("loginError", "Podano złe dane logowania");
-            return "user/login&registration/login";
+            model.addAttribute("error", "Podano złe dane logowania");
+            return "home/login&registration/login";
         }
     }
 

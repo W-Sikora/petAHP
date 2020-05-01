@@ -1,17 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
-<head></head>
-<body>
-<style>
     hr {
         margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    p {
-        text-align: justify;
         margin-bottom: 15px;
     }
 
@@ -71,6 +59,39 @@
     .step.finish {
         background-color: #4CAF50;
     }
-</style>
-</body>
-</html>
+
+    .jumbotron-edit {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .mtb7-17{
+        margin-top: 7px;
+        margin-bottom: 17px;
+    }
+
+    .mtb17-7{
+        margin-top: 17px;
+        margin-bottom: 7px;
+    }
+
+    .margin-auto {
+        margin: auto;
+    }
+
+    .centerize{
+        text-align: center;
+    }
+
+    .footer-sm {
+        bottom: 0;
+    }
+
+    .lm {
+        margin-left: 10px;
+    }
+
+    footer {
+        position: absolute;
+        width: 100%;
+    }

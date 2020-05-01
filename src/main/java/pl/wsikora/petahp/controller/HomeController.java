@@ -20,7 +20,7 @@ public class HomeController {
         this.userRepo = userRepo;
     }
 
-    @RequestMapping(value = "")
+    @RequestMapping(value = "/")
     public String homeAction() {
         return "home/index";
     }
@@ -30,7 +30,7 @@ public class HomeController {
         return "home/login&registration/registration";
     }
 
-    @RequestMapping(value = "rejestrowanie")
+    @RequestMapping(value = "/rejestrowanie")
     public String registerCheck(@RequestParam Map<String, String> registrationData, Model model) {
         if (userRepo.findUserByEmail(registrationData.get("email")) == null) {
             User user = new User();
@@ -40,14 +40,19 @@ public class HomeController {
             userRepo.save(user);
             return "redirect:logowanie";
         } else {
-            model.addAttribute("registerError", "Podany adres email jest już zajęty");
+            model.addAttribute("error", "Podany adres email jest już zajęty");
             return "home/login&registration/registration";
         }
     }
 
-    @RequestMapping(value = "logowanie")
+    @RequestMapping(value = "/logowanie")
     public String login() {
         return "home/login&registration/login";
+    }
+
+    @RequestMapping(value = "/przejdz-do-ankiety")
+    public String goToForm() {
+        return "home/form/goToForm";
     }
 
 

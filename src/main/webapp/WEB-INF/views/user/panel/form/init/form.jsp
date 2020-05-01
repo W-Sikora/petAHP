@@ -1,15 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl-PL">
 <head>
     <meta charset="UTF-8">
     <title>PetAHP</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-        <c:import url="/WEB-INF/views/user/panel/form/style/style.jsp"/>
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/style/style.css"/>
 </head>
 <body>
 
@@ -80,17 +78,20 @@
                                        min="2" max="6" required></label>
                             <c:forEach begin="0" end="5" varStatus="i">
                                 <label class="hide">${i.count}. kryterium
-                                    <input id="criterion${i.index}" name="criterion${i.index}" type="text" class="form-control" placeholder="nazwa kryterium">
-                                    <input id="noOfSubCriteria${i.index}" name="noOfSubCriteria${i.index}" type="number" class="form-control" min="0" max="6" placeholder="liczba podkryteriów (od 0 do 6)">
+                                    <input id="criterion${i.index}" name="criterion${i.index}" type="text"
+                                           class="form-control" placeholder="nazwa kryterium">
+                                    <input id="noOfSubCriteria${i.index}" name="noOfSubCriteria${i.index}" type="number"
+                                           class="form-control" min="0" max="6"
+                                           placeholder="liczba podkryteriów (od 0 do 6)">
                                     <div id="subCriteriaDiv${i.index}"></div>
                                 </label>
                             </c:forEach>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="centerize mtb17-7">
                         <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
-                        <button type="button" id="nextBtn" class="btn btn-dark">Dalej</button>
+                        <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
                     </div>
 
                 </form>

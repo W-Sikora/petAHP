@@ -25,13 +25,19 @@ public class EvaluatorController {
         this.evaluatorRepo = evaluatorRepo;
     }
 
+    @RequestMapping(value = "")
+    public String form(@RequestParam String link) {
+        return "redirect:/ankieta/" + link;
+    }
+
     @RequestMapping(value = "/{link}")
-    public String action(@PathVariable String link) {
+    public String action(@PathVariable String link, Model model) {
         System.out.println(pollRepo.checkLink(link));
         if (pollRepo.checkLink(link) == 1) {
             return "evaluator/login";
         } else {
-            return "evaluator/badLink";
+            model.addAttribute("error", "Nie ma ankiety o zadanym linku :( spróbuj ponownie");
+            return "home/form/goToForm";
         }
     }
 

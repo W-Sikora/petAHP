@@ -2,40 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl-PL">
 <head>
     <meta charset="UTF-8">
     <title>PetAHP</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-        hr {
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-
-        p {
-            text-align: justify;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            margin-top: 35px;
-            margin-bottom: 25px;
-        }
-
-        h3 {
-            margin-top: 20px;
-            margin-bottom: 20px;
-
-        }
-
-        h5 {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/style/style.css"/>
 </head>
 <body>
 
@@ -52,24 +25,24 @@
     <hr>
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h2>Witaj ${user}</h2>
-            <a class="btn btn-dark" href="/" role="button">wyloguj</a>
+            <h2 class="mtb7-17">Witaj ${user}</h2>
+            <a class="btn btn-dark mtb7-17" href="/" role="button">wyloguj</a>
         </div>
     </div>
     <hr>
     <div class="row">
         <div class="col-lg-4 text-center">
-            <h5>Utwórz nową ankietę</h5>
-            <a class="btn btn-success" href="/panel/tworzenie-nowej-ankiety" role="button">przejdź</a>
+            <h4 class="mtb7-17">Utwórz nową ankietę</h4>
+            <a class="btn btn-outline-success" href="<c:url value="/panel/tworzenie-nowej-ankiety"/>" role="button">przejdź</a>
             <p></p>
         </div>
         <div class="col-lg-4 text-center">
-            <h5>Edytuj istniejącą ankietę</h5>
-            <a class="btn btn-warning" href="/panel/edycja-ankiet" role="button">przejdź</a>
+            <h4 class="mtb7-17">Edytuj istniejącą ankietę</h4>
+            <a class="btn btn-outline-warning" href="<c:url value="/panel/edycja-ankiet"/>" role="button">przejdź</a>
         </div>
         <div class="col-lg-4 text-center">
-            <h5>Pomoc</h5>
-            <a class="btn btn-info" href="/panel/pomoc" role="button">przejdź</a>
+            <h4 class="mtb7-17">Pomoc</h4>
+            <a class="btn btn-outline-info" href="<c:url value="/panel/pomoc"/>" role="button">przejdź</a>
         </div>
     </div>
     <hr>
@@ -78,9 +51,9 @@
 <%--            <h3>Wyniki przeprowadzonych ankiet</h3>--%>
 <%--        </div>--%>
 
-        <div class="col-lg-12 text-center">
-            <h3>Nie masz żadnych zakończonych ankiet</h3>
-        </div>
+<%--        <div class="col-lg-12 text-center">--%>
+<%--            <h3>Nie masz żadnych zakończonych ankiet</h3>--%>
+<%--        </div>--%>
     </div>
 </div>
     <footer>
