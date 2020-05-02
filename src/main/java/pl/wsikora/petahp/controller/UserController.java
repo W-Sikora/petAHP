@@ -16,20 +16,24 @@ import java.util.Map;
 
 @Controller
 public class UserController {
-    private UserRepo userRepo;
-    private PollRepo pollRepo;
-    private EvaluatorRepo evaluatorRepo;
     private AnimalRepo animalRepo;
     private CriterionRepo criterionRepo;
+    private CriterionResultRepo criterionResultRepo;
+    private EvaluatorRepo evaluatorRepo;
+    private PollRepo pollRepo;
     private SubCriterionRepo subCriterionRepo;
+    private SubCriterionResultRepo subCriterionResultRepo;
+    private UserRepo userRepo;
 
-    public UserController(UserRepo userRepo, PollRepo pollRepo, EvaluatorRepo evaluatorRepo, AnimalRepo animalRepo, CriterionRepo criterionRepo, SubCriterionRepo subCriterionRepo) {
-        this.userRepo = userRepo;
-        this.pollRepo = pollRepo;
-        this.evaluatorRepo = evaluatorRepo;
+    public UserController(AnimalRepo animalRepo, CriterionRepo criterionRepo, CriterionResultRepo criterionResultRepo, EvaluatorRepo evaluatorRepo, PollRepo pollRepo, SubCriterionRepo subCriterionRepo, SubCriterionResultRepo subCriterionResultRepo, UserRepo userRepo) {
         this.animalRepo = animalRepo;
         this.criterionRepo = criterionRepo;
+        this.criterionResultRepo = criterionResultRepo;
+        this.evaluatorRepo = evaluatorRepo;
+        this.pollRepo = pollRepo;
         this.subCriterionRepo = subCriterionRepo;
+        this.subCriterionResultRepo = subCriterionResultRepo;
+        this.userRepo = userRepo;
     }
 
     private User currentUser;

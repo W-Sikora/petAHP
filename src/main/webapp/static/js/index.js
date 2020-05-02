@@ -1,4 +1,5 @@
-if(window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
+
+if (window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
 
     const form = document.getElementById("newForm");
     const partsOfForm = Array.from(document.getElementsByClassName("part"));
@@ -41,13 +42,11 @@ if(window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
 }
 
 if (window.location.pathname.includes("ankieta-podsumowanie")) {
-    const copyButton = document.getElementById("copyButton");
-    const input = document.getElementById("link");
-    copyButton.addEventListener("click", () => {
-        input.focus();
-        input.select();
-        document.execCommand("copy")
-    });
+    new ClipboardJS('.copy');
+}
+
+if (window.location.pathname.includes("edycja-ankiet")) {
+    new ClipboardJS('.copy');
 }
 
 function display(index, form, prevBtn, parts) {

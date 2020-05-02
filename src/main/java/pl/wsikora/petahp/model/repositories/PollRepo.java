@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.wsikora.petahp.model.entities.Poll;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -30,5 +31,10 @@ public interface PollRepo extends JpaRepository<Poll, Long> {
     @Query(nativeQuery = true, value = "select count(p.link) from polls p where p.link like ?1")
     int checkLink(String link);
 
+    @Query(nativeQuery = true, value = "select p.end_date from polls p where p.id = ?1")
+    LocalDate getEndDate(long id);
+
+    @Query(nativeQuery = true, value = "select p.id from polls p where p.link like ?1")
+    long getId(String link);
 
 }

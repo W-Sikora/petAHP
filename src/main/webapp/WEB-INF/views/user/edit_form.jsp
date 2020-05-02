@@ -18,7 +18,7 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="<c:url value="/panel/"/>">panel użytkownika</a>
+            <a class="nav-item nav-link active" href="<c:url value="/panel"/>">panel użytkownika</a>
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active"><strong>edycja</strong></a>
         </div>
@@ -54,13 +54,14 @@
                             <td>${p.creationDate.dayOfMonth}-${p.creationDate.monthValue}-${p.creationDate.year} ${p.creationDate.hour}:${p.creationDate.minute}</td>
                             <td>${p.endDate.dayOfMonth}-${p.endDate.monthValue}-${p.endDate.year}</td>
                             <td>
-                                <a class="btn btn-outline-primary" href="/panel/" role="button">skopiuj link</a>
+                                <button class="btn btn-outline-primary copy" id="link${p.id}" data-clipboard-text="http://localhost:8080/ankieta/${p.link}">skopiuj link</button>
                             </td>
                             <td>
                                 <a class="btn btn-outline-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>
                             </td>
                             <td>
-                                <a class="btn btn-outline-danger" href="/panel/edycja-ankiet/usun/${p.id}" role="button">usuń</a>
+                                <a class="btn btn-outline-danger" href="/panel/edycja-ankiet/usun/${p.id}"
+                                   role="button">usuń</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -74,9 +75,8 @@
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script src="<c:url value="/static/js/index.js"/>"></script>
 
-<script>
-
-</script>
 </body>
 </html>

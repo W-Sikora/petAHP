@@ -33,16 +33,14 @@
             <a class="btn btn-outline-dark" href="<c:url value="/panel"/>" role="button">ok</a>
             <div class="col-lg-6 margin-auto">
                 <label>link do wypełnienia ankiety</label>
-                <input class="form-control" type="text" value="${poll.link}" id="link">
-                <button type="button" class="btn btn-outline-success" id="copyButton">kopiuj</button>
+                <button class="btn btn-outline-primary copy" id="link${poll.id}" data-clipboard-text="http://localhost:8080/ankieta/${poll.link}">skopiuj link</button>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-2"></div>
 
-        <div class="col-lg-8">
+        <div class="col-lg-8 margin-auto">
             <h5>Ogólne:</h5>
             <hr>
             <p>Nazwa ankiety: <strong>${poll.name}</strong></p>
@@ -68,13 +66,13 @@
             </c:forEach>
         </div>
 
-        <div class="col-lg-2"></div>
     </div>
 </div>
 
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script src="<c:url value="/static/js/index.js"/>"></script>
 </body>
 </html>

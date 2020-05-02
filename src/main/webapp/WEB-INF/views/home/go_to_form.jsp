@@ -25,10 +25,12 @@
     </nav>
     <hr>
     <div class="row">
-        <div class="col-lg-6 margin-auto">
+        <div class="col-lg-7 margin-auto">
             <c:if test="${error != null}">
                 <div class="text-center">
-                    <h3><mark>${error}</mark></h3>
+                    <h3>
+                        <mark>${error}</mark>
+                    </h3>
                 </div>
             </c:if>
             <h2>Przejdź do ankiety</h2>

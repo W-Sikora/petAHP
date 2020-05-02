@@ -32,9 +32,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3 text-center"></div>
-
-        <div class="col-md-6">
+        <div class="col-lg-7 margin-auto">
             <div class="form-group">
                 <form id="newForm" action="<c:url value="/panel/ankieta-podsumowanie"/>" method="post">
 
@@ -97,8 +95,6 @@
                 </form>
             </div>
         </div>
-
-        <div class="col-md-3 text-center"></div>
     </div>
 </div>
 
