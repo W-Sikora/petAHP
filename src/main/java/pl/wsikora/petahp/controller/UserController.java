@@ -76,10 +76,9 @@ public class UserController {
     @RequestMapping(value = "/panel")
     public String panelAction(Model model) {
         long userId = currentUser.getId();
-        if (pollRepo.countVisible(true, userId) > 0) {
-//            long pollId = pollRepo.findByCreator(userId);
+        int noOfVisible = pollRepo.countVisible(true, userId);
+        if (noOfVisible > 0) {
             model.addAttribute("polls", pollRepo.getAllVisible(true, userId));
-//            .addAttribute("votes", evaluatorRepo.countEvaluators(pollId));
         }
         model.addAttribute("user", currentUser.getName());
         return "user/panel";
@@ -158,7 +157,23 @@ public class UserController {
     @RequestMapping(value = "/panel/edycja-ankiet/usun/{pollId}")
     public String hidePoll(@PathVariable long pollId) {
         pollRepo.updateVisibility(false, pollId);
-        return "redirect:/panel/edycja-ankiet";
+        return "redirect:/panel";
     }
+
+    @RequestMapping(value = "/panel/pomoc")
+    public String helpAction() {
+        return "user/help";
+    }
+
+    @RequestMapping(value = "/panel/ustawienia")
+    public String settingsAction() {
+        return "user/settings";
+    }
+
+    @RequestMapping(value = "/panel/wynik/{id}")
+    public String resultsAction(@PathVariable long id) {
+        return "user/results";
+    }
+
 
 }

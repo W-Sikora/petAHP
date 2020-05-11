@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
@@ -18,9 +19,9 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="<c:url value="/panel"/>">panel użytkownika</a>
+            <a class="nav-item nav-link active" href="/panel">panel użytkownika</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>edycja</strong></a>
+            <a class="nav-item nav-link active"><strong>ustawienia</strong></a>
         </div>
     </nav>
     <hr>
@@ -31,11 +32,10 @@
 
 </div>
 
-<footer class="footer">>
+
+<footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
-
-<script src="<c:url value="/static/js/index.js"/>"></script>
 
 </body>
 </html>

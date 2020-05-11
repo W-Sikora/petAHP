@@ -13,30 +13,41 @@ public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @ManyToOne
     @JoinColumn(name = "creator")
     private User user;
+
     private String name;
+
     @Column(name = "creation_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
+
     @Column(name = "end_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+
     @Column(name = "no_of_voters")
     private int noOfVoters;
+
+    @Column(name = "actual_no_of_votes")
+    private int actualNoOfVotes;
+
     private boolean visibility;
+
     private String link;
 
     public Poll() {
     }
 
-    public Poll(User user, String name, LocalDateTime creationDate, LocalDate endDate, int noOfVoters, boolean visibility, String link, int accessCode) {
+    public Poll(User user, String name, LocalDateTime creationDate, LocalDate endDate, int noOfVoters, int actualNoOfVotes, boolean visibility, String link) {
         this.user = user;
         this.name = name;
         this.creationDate = creationDate;
         this.endDate = endDate;
         this.noOfVoters = noOfVoters;
+        this.actualNoOfVotes = actualNoOfVotes;
         this.visibility = visibility;
         this.link = link;
     }
@@ -44,6 +55,7 @@ public class Poll {
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
+        actualNoOfVotes = 0;
         visibility = true;
         link = linkGenerator();
     }
@@ -82,6 +94,10 @@ public class Poll {
         return noOfVoters;
     }
 
+    public int getActualNoOfVotes() {
+        return actualNoOfVotes;
+    }
+
     public boolean isVisibility() {
         return visibility;
     }
@@ -115,12 +131,12 @@ public class Poll {
         return "Poll{" +
                 "id=" + id +
                 ", user=" + user +
-                ", name='" + name + '\'' +
+                ", name='" + name +
                 ", creationDate=" + creationDate +
                 ", endDate=" + endDate +
                 ", noOfVoters=" + noOfVoters +
+                ", actualNoOfVotes=" + actualNoOfVotes +
                 ", visibility=" + visibility +
-                ", link='" + link +
-                '}';
+                ", link='" + link + '}';
     }
 }

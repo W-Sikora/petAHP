@@ -1,4 +1,4 @@
-if (window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
+if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
 
     const form = document.getElementById("newForm");
     const partsOfForm = Array.from(document.getElementsByClassName("part"));
@@ -40,14 +40,14 @@ if (window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
     });
 }
 
-if (window.location.pathname.includes("ankieta-podsumowanie")) {
+if (window.location.pathname === "/panel/ankieta-podsumowanie") {
     new ClipboardJS('.copy');
 }
 
-if (window.location.pathname.includes("/panel")) {
+if (window.location.pathname === "/panel") {
 
     document.getElementById("logOut").addEventListener("mouseover", () => {
-        document.getElementById("logOut").className = "btn btn-danger";
+        document.getElementById("logOut").className = "btn btn-outline-danger";
     });
 
     document.getElementById("logOut").addEventListener("mouseout", () => {
@@ -55,7 +55,7 @@ if (window.location.pathname.includes("/panel")) {
     });
 
     document.getElementById("newForm").addEventListener("mouseover", () => {
-        document.getElementById("newForm").className = "btn btn-success";
+        document.getElementById("newForm").className = "btn btn-outline-success";
     });
 
     document.getElementById("newForm").addEventListener("mouseout", () => {
@@ -130,7 +130,7 @@ if (window.location.pathname.includes("/ankieta=")) {
 }
 
 
-if (window.location.pathname.includes("ankieta/podsumowanie")) {
+if (window.location.pathname === "ankieta/podsumowanie") {
     setTimeout(() => {
         window.location.href = "/";
     }, 3000);

@@ -25,80 +25,81 @@
         </div>
     </nav>
     <hr>
+
     <div class="row">
         <div class="col-lg-12 margin-auto">
             <h2 class="text-center">${poll.name}</h2>
             <form id="completeForm" action="/ankieta/zapisano-odpowiedz" method="post">
-                <div class="col-lg-7 margin-auto">
-                    <div class="form-group part">
-                        <input name="pollId" value="${poll.id}" hidden>
-                        <label>imię wypełniającego
-                            <input type="text" class="form-control" name="evaluatorName" placeholder="np. Jan"
-                                   minlength="3"
-                                   maxlength="30" required></label>
-                    </div>
-                </div>
-                <div class="col-lg-10 margin-auto">
-                    <c:forEach items="${criteria}" var="c">
-                        <table class="table table-hover part">
-                            <thead class="thead-light">
-                            <tr>
-                                <th>Kryterium / Zwierze</th>
-                                <c:forEach items="${animals}" var="a">
-                                    <th class="text-center">${a.name}</th>
-                                </c:forEach>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td><strong>${c.name}</strong></td>
 
+                <div class="form-group part">
+                    <input name="pollId" value="${poll.id}" hidden>
+                    <label>imię wypełniającego
+                        <input type="text" class="form-control" name="evaluatorName" placeholder="np. Jan"
+                               minlength="3"
+                               maxlength="30" required></label>
+                </div>
+
+
+                <c:forEach items="${criteria}" var="c">
+                <table class="table table-hover part">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>Kryterium / Zwierze</th>
+                        <c:forEach items="${animals}" var="a">
+                            <th class="text-center">${a.name}</th>
+                        </c:forEach>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><strong>${c.name}</strong></td>
+
+                        <c:forEach items="${animals}" var="a">
+                            <td>
+                                <div class="ratings" id="${a.id}-${c.id}">
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </div>
+                                <input type="text" class="rating-value" name="criterionRate${a.id}-${c.id}"
+                                       id="rating-value${a.id}-${c.id}" hidden>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                    <c:forEach items="${subCriteria}" var="s">
+                        <c:if test="${s.criterion.id == c.id}">
+                            <tr>
+                                <td>${s.name}</td>
                                 <c:forEach items="${animals}" var="a">
                                     <td>
-                                        <div class="ratings" id="${a.id}-${c.id}">
+                                        <div class="ratings" id="${a.id}-${s.id}">
                                             <span class="fa fa-star-o"></span>
                                             <span class="fa fa-star-o"></span>
                                             <span class="fa fa-star-o"></span>
                                             <span class="fa fa-star-o"></span>
                                             <span class="fa fa-star-o"></span>
                                         </div>
-                                        <input type="text" class="rating-value" name="criterionRate${a.id}-${c.id}" id="rating-value${a.id}-${c.id}" hidden>
+                                        <input type="text" class="rating-value" name="subCriterionRate${a.id}-${s.id}"
+                                               id="rating-value${a.id}-${s.id}" hidden>
                                     </td>
                                 </c:forEach>
                             </tr>
-                            <c:forEach items="${subCriteria}" var="s">
-                                <c:if test="${s.criterion.id == c.id}">
-                                    <tr>
-                                        <td>${s.name}</td>
-                                        <c:forEach items="${animals}" var="a">
-                                            <td>
-                                                <div class="ratings" id="${a.id}-${s.id}">
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                </div>
-                                                <input type="text" class="rating-value" name="subCriterionRate${a.id}-${s.id}" id="rating-value${a.id}-${s.id}" hidden>
-                                            </td>
-                                        </c:forEach>
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                        </c:if>
                     </c:forEach>
-                </div>
-                <div class="text-center mtb17-7">
-                    <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
-                    <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
-                </div>
-            </form>
+                    </tbody>
+                </table>
+                </c:forEach>
         </div>
+            <div class="text-center mtb17-7">
+                <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
+                <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
+            </div>
+        </form>
     </div>
+</div>
 
-</div>
-</div>
 
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>

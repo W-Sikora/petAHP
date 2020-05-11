@@ -35,12 +35,12 @@
 
                 <div class="col-lg-3 text-center margin-auto">
                     <h4 class="mtb7-17">ustawienia</h4>
-                    <a role="button" class="btn btn-outline-dark" href="">przejdź</a>
+                    <a role="button" class="btn btn-outline-dark" href="/panel/ustawienia">przejdź</a>
                 </div>
 
                 <div class="col-lg-3 text-center margin-auto">
                     <h4 class="mtb7-17">pomoc</h4>
-                    <a role="button" class="btn btn-outline-dark" href="/">przejdź</a>
+                    <a role="button" class="btn btn-outline-dark" href="/panel/pomoc">przejdź</a>
                 </div>
                 <div class="col-lg-3 text-center margin-auto">
                     <h4 class="mtb7-17">nowa ankieta</h4>
@@ -67,6 +67,7 @@
                         <th scope="col">data utworzenia</th>
                         <th scope="col">data zakończenia</th>
                         <th scope="col">głosy oddane</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -99,12 +100,15 @@
                                 </td>
                             </c:if>
                             <td>
-                                ${votes}/${p.noOfVoters}
+                                ${p.actualNoOfVotes}/${p.noOfVoters}
                             </td>
                             <td>
                                 <button class="btn btn-outline-primary copy" id="link${p.id}"
                                         data-clipboard-text="http://localhost:8080/ankieta=${p.link}">link
                                 </button>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-success" href="/panel/wynik/${p.id}" role="button">wynik</a>
                             </td>
                             <td>
                                 <a class="btn btn-outline-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>

@@ -27,35 +27,9 @@
     <hr>
 
     <div class="col-lg-12 text-center">
-        <h2>O co chodzi?</h2>
+        <h2>Strona w budowie</h2>
     </div>
-    <div class="col-lg-12">
-        <p>
-            Wybierz możliwie najlepszego zwierzęcia domowego uwzględniając
-            preferencję poszczególnych domowników/współlokatorów itd.
-        </p>
-    </div>
-    <div class="col-lg-12 text-center">
-        <h2>Jak zacząć</h2>
-    </div>
-    <div class="col-lg-12">
-        <h4>1</h4>
-        <p>Zarejestruj się w naszej aplikacji</p>
-        <h4>2</h4>
-        <p>Zaloguj się</p>
-        <h4>3</h4>
-        <p>Utwórz formularz ankiety</p>
-        <h4>4</h4>
-        <p>Wybierz akceptowalne dla Ciebie zwierzęta</p>
-        <h4>5</h4>
-        <p>Wybierz kryteria według których będą ocenia zwierzęta</p>
-        <h4>6</h4>
-        <p>Udostępnij ankietę wybranym przez siebie osobą (pamiętaj, że sam też możesz ją wypełnić)</p>
-        <h4>7</h4>
-        <p>Udostępnij ranking końcowy</p>
-        <h4>8</h4>
-        <p>Wybierz nowego pupila bez kłótni</p>
-    </div>
+
 </div>
 
 

@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
@@ -18,16 +19,23 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="<c:url value="/panel"/>">panel użytkownika</a>
+            <a class="nav-item nav-link active" href="/panel">panel użytkownika</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>nowa ankieta</strong></a>
+            <a class="nav-item nav-link active"><strong>ustawienia preferencji</strong></a>
         </div>
     </nav>
     <hr>
+
+    <div class="col-lg-12 text-center">
+        <h2>Strona w budowie</h2>
+    </div>
+
 </div>
+
+
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
-<script src="<c:url value="/static/js/index.js"/>"></script>
+
 </body>
 </html>

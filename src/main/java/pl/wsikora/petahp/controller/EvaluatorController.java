@@ -49,7 +49,8 @@ public class EvaluatorController {
     public String action(@PathVariable String link, Model model) {
         if (pollRepo.checkLink(link) == 1) {
             long id = pollRepo.getId(link);
-            if (LocalDate.now().isBefore(pollRepo.getEndDate(id)) && evaluatorRepo.countEmptyEvaluators(id) > 0) {
+            Poll poll = pollRepo.findById(id);
+            if (LocalDate.now().isBefore(pollRepo.getEndDate(id)) && poll.getActualNoOfVotes() <= poll.getNoOfVoters()) {
                 model.addAttribute("animals", animalRepo.findAllByPollId(id))
                         .addAttribute("criteria", criterionRepo.findAllByPollId(id))
                         .addAttribute("subCriteria", subCriterionRepo.findAllByPollId(id))
@@ -84,6 +85,9 @@ public class EvaluatorController {
         long evaluatorId = evaluatorRepo.findEmptyEvaluators(pollId).get(0);
         evaluatorRepo.updateName(data.get("evaluatorName"), evaluatorId);
         Poll poll = pollRepo.findById(pollId);
+        int nb = poll.getActualNoOfVotes() + 1;
+        System.out.println(nb);
+        pollRepo.updateVisibility(nb, pollId);
 
         for (Map.Entry<String, Integer> element : keyContains(data, "criterionRate").entrySet()) {
 

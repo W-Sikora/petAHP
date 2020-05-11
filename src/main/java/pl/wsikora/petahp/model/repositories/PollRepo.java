@@ -28,8 +28,13 @@ public interface PollRepo extends JpaRepository<Poll, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("update Poll p SET p.visibility = :visibility WHERE p.id = :pollId")
+    @Query("update Poll p set p.visibility = :visibility where p.id = :pollId")
     void updateVisibility(@Param("visibility") boolean visibility, @Param("pollId") long pollId);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(nativeQuery = true, value = "update polls set actual_no_of_votes = ?1 where id = ?2")
+    void updateVisibility(int nb, long id);
 
     @Query(nativeQuery = true, value = "select count(p.link) from polls p where p.link like ?1")
     int checkLink(String link);

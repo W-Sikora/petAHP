@@ -38,17 +38,17 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-4 text-center">
-            <h4 class="mtb7-17">Wypełnij ankietę</h4>
+            <h4 class="mtb7-17">wypełnij ankietę</h4>
             <a class="btn btn-outline-dark mtb7-17" href="<c:url value="/przejdz-do-ankiety"/>" role="button">przejdź</a>
         </div>
 
         <div class="col-lg-4 text-center">
-            <h4 class="mtb7-17">Zarejestruj się</h4>
+            <h4 class="mtb7-17">zarejestruj się</h4>
             <a class="btn btn-outline-primary mtb7-17" href="<c:url value="/rejestracja"/>" role="button">przejdź</a>
         </div>
 
         <div class="col-lg-4 text-center">
-            <h4 class="mtb7-17">Zaloguj się</h4>
+            <h4 class="mtb7-17">zaloguj się</h4>
             <a class="btn btn-outline-success mtb7-17" href="<c:url value="/logowanie"/>" role="button">przejdź</a>
         </div>
     </div>
