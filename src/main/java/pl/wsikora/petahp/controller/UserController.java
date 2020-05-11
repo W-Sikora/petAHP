@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.wsikora.petahp.model.entities.*;
 import pl.wsikora.petahp.model.repositories.*;
 
-import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,40 +37,6 @@ public class UserController {
 
     private User currentUser;
     private long currentPollId;
-    private final String LOGOUT = "/wyloguj";
-    private final String PANEL = "/panel";
-    private final String NEW_POLL = PANEL + "/tworzenie-nowej-ankiety";
-    private final String SUMMARY = PANEL + "/ankieta-podsumowanie";
-    private final String EDIT_POLL = PANEL + "/edycja-ankiet";
-
-    @RequestMapping(value = "/zalogowanie")
-    public String loginCheck(@RequestParam Map<String, String> loginData, Model model, HttpSession session) {
-        if (loginData.get("password").equals(userRepo.findPasswordByEmail(loginData.get("email")))) {
-            currentUser = userRepo.findUserByEmail(loginData.get("email"));
-            return "redirect:/panel";
-        } else {
-            model.addAttribute("error", "Podano złe dane logowania");
-            return "home/login";
-        }
-    }
-
-    @RequestMapping(value = LOGOUT)
-    public String logoutAction() {
-        currentUser = null;
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = PANEL)
-    public String panelAction(Model model) {
-        model.addAttribute("user", currentUser.getName());
-        return "user/panel";
-    }
-
-    @RequestMapping(value = NEW_POLL)
-    public String newPollAction0(Model model) {
-        model.addAttribute("minDate", LocalDate.now().plusDays(1));
-        return "user/create_form";
-    }
 
     private List<String> keyContains(Map<String, String> map, String string) {
         List<String> list = new ArrayList<>();
@@ -85,19 +50,59 @@ public class UserController {
         }
         return list;
     }
+    private Integer getInt(Map<String, String> map, String key) throws NumberFormatException {
+        return Integer.parseInt(map.get(key));
+    }
 
-    @RequestMapping(value = SUMMARY)
-    public String newPollAction1(@RequestParam Map<String, String> data, Model model) {
-        List<String> animalsNames = keyContains(data, "animal");
+    @RequestMapping(value = "/zalogowanie")
+    public String checkLogin(@RequestParam String email,
+                             @RequestParam String password,
+                             Model model) {
+        if (password.equals(userRepo.findPasswordByEmail(email))) {
+            currentUser = userRepo.findUserByEmail(email);
+            return "redirect:/panel";
+        } else {
+            model.addAttribute("errorMsg", "Podano złe dane logowania");
+            return "home/login";
+        }
+    }
+
+    @RequestMapping(value = "/wyloguj")
+    public String logOut() {
+        currentUser = null;
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/panel")
+    public String panelAction(Model model) {
+        long userId = currentUser.getId();
+        if (pollRepo.countVisible(true, userId) > 0) {
+//            long pollId = pollRepo.findByCreator(userId);
+            model.addAttribute("polls", pollRepo.getAllVisible(true, userId));
+//            .addAttribute("votes", evaluatorRepo.countEvaluators(pollId));
+        }
+        model.addAttribute("user", currentUser.getName());
+        return "user/panel";
+    }
+
+    @RequestMapping(value = "/panel/tworzenie-nowej-ankiety")
+    public String createPoll(Model model) {
+        model.addAttribute("minDate", LocalDate.now().plusDays(1));
+        return "user/create_form";
+    }
+
+    @RequestMapping(value = "/panel/tworzenie-ankiety")
+    public String savePoll(@RequestParam Map<String, String> data) {
         List<String> criteriaNames = keyContains(data, "criterion");
         List<String> subCriteriaNames = keyContains(data, "subCriterion");
 
         Poll poll = new Poll();
         poll.setUser(currentUser);
         poll.setName(data.get("pollName"));
-        poll.setNoOfVoters(Integer.parseInt(data.get("noOfVoters")));
+        poll.setNoOfVoters(getInt(data,"noOfVoters"));
         poll.setEndDate(LocalDate.parse(data.get("endDate")));
         pollRepo.save(poll);
+        currentPollId = poll.getId();
 
         for (int i = 0; i < poll.getNoOfVoters(); i++) {
             Evaluator evaluator = new Evaluator();
@@ -105,7 +110,7 @@ public class UserController {
             evaluatorRepo.save(evaluator);
         }
 
-        for (String animalName : animalsNames) {
+        for (String animalName : keyContains(data, "animal")) {
             Animal animal = new Animal();
             animal.setPoll(poll);
             animal.setName(animalName);
@@ -117,20 +122,24 @@ public class UserController {
             criterion.setPoll(poll);
             criterion.setName(criteriaNames.get(i));
             criterionRepo.save(criterion);
-            for (int j = 0; j < Integer.parseInt(data.get("noOfSubCriteria" + i)); j++) {
-                SubCriterion subCriterion = new SubCriterion();
-                subCriterion.setPoll(poll);
-                subCriterion.setCriterion(criterion);
-                subCriterion.setName(subCriteriaNames.get(j));
-                subCriterionRepo.save(subCriterion);
+
+            int until = getInt(data, "noOfSubCriteria" + i);
+            if (until > 0) {
+                for (int j = 0; j < until; j++) {
+                    SubCriterion subCriterion = new SubCriterion();
+                    subCriterion.setPoll(poll);
+                    subCriterion.setCriterion(criterion);
+                    subCriterion.setName(subCriteriaNames.get(0));
+                    subCriterionRepo.save(subCriterion);
+                    subCriteriaNames.remove(0);
+                }
             }
         }
-        currentPollId = poll.getId();
-        return "redirect:" + SUMMARY + "1";
+        return "redirect:/panel/ankieta-podsumowanie";
     }
 
-    @RequestMapping(value = SUMMARY + "1")
-    public String summaryAction(Model model) {
+    @RequestMapping(value = "/panel/ankieta-podsumowanie")
+    public String summarizePoll(Model model) {
         model.addAttribute("poll", pollRepo.findById(currentPollId))
                 .addAttribute("animals", animalRepo.findAllByPollId(currentPollId))
                 .addAttribute("criteria", criterionRepo.findAllByPollId(currentPollId))
@@ -138,20 +147,18 @@ public class UserController {
         return "user/summarize_form";
     }
 
-    @RequestMapping(value = EDIT_POLL)
-    public String editPollAction(Model model) {
-        long id = currentUser.getId();
-        if (pollRepo.countByVisibilityAndUserId(true, id) > 0) {
-            model.addAttribute("polls", pollRepo.findAllByVisibilityAndUsersId(true, id));
+    @RequestMapping(value = "/panel/edycja-ankiet")
+    public String editPoll(Model model) {
+        if (pollRepo.countVisible(true, currentUser.getId()) > 0) {
+            model.addAttribute("polls", pollRepo.getAllVisible(true, currentUser.getId()));
         }
         return "user/edit_form";
     }
 
-    @RequestMapping(value = EDIT_POLL + "/usun/{pollId}")
-    public String deletePollAction(@PathVariable long pollId) {
-        long id = currentUser.getId();
+    @RequestMapping(value = "/panel/edycja-ankiet/usun/{pollId}")
+    public String hidePoll(@PathVariable long pollId) {
         pollRepo.updateVisibility(false, pollId);
-        return "redirect:" + EDIT_POLL;
+        return "redirect:/panel/edycja-ankiet";
     }
 
 }

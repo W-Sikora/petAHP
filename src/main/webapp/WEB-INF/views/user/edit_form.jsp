@@ -34,7 +34,7 @@
         <c:if test="${polls != null}">
             <div class="col-lg-12 text-center">
                 <h2>Edycja ankiety</h2>
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">lp.</th>
@@ -72,7 +72,7 @@
     </div>
 </div>
 
-<footer>
+<footer class="footer">>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>

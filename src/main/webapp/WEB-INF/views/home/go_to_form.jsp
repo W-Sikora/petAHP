@@ -39,7 +39,7 @@
                     <label>wpisz/wklej poniżej link do ankiety
                         <input type="text" class="form-control" name="link" required></label>
                 </div>
-                <div class="centerize mtb17-7">
+                <div class="text-center mtb17-7">
                     <button type="submit" class="btn btn-outline-dark">przejdź</button>
                 </div>
             </form>
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<footer class="footer-sm">
+<footer class="footer-sm-page">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 

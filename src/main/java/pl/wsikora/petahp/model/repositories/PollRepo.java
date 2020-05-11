@@ -15,13 +15,16 @@ import java.util.List;
 public interface PollRepo extends JpaRepository<Poll, Long> {
 
     @Query(nativeQuery = true, value = "select count(*) from polls p where p.visibility = ?1 and p.creator = ?2")
-    int countByVisibilityAndUserId(boolean visibility, long usersId);
+    int countVisible(boolean visibility, long usersId);
 
     @Query(nativeQuery = true, value = "select * from polls p where p.visibility = ?1 and p.creator = ?2")
-    List<Poll> findAllByVisibilityAndUsersId(boolean visibility, long usersId);
+    List<Poll> getAllVisible(boolean visibility, long usersId);
 
     @Query(nativeQuery = true, value = "select * from polls p where p.id = ?1")
-    Poll findById(long pollId);
+    Poll findById(long id);
+
+    @Query(nativeQuery = true, value = "select p.id from polls p where p.creator = ?1")
+    long findByCreator(long userId);
 
     @Transactional
     @Modifying(clearAutomatically = true)

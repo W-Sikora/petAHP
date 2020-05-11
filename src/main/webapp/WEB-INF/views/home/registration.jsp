@@ -45,7 +45,7 @@
                                 minlength="8" maxlength="30" required></label>
                     <small id="passwordHelp" class="form-text text-muted">od 8 do 30 znaków</small>
                 </div>
-                <div class="centerize mtb17-7">
+                <div class="text-center mtb17-7">
                     <button type="submit" class="btn btn-outline-dark">zarejestruj</button>
                 </div>
             </form>
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<footer class="footer-sm">
+<footer class="footer-sm-page">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 

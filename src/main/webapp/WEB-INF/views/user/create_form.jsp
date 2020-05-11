@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-lg-7 margin-auto">
             <div class="form-group">
-                <form id="newForm" action="<c:url value="/panel/ankieta-podsumowanie"/>" method="post">
+                <form id="newForm" action="<c:url value="/panel/tworzenie-ankiety"/>" method="post">
 
                     <div class="form-part part">
                         <div class="text-center"><strong>Ustawienia ogólne - krok 1 z 3</strong>
@@ -72,8 +72,7 @@
                         <div class="form-group">
                             <label>Liczba rozpatrywanych kryteriów głównych
                                 <input name="noOfCriteria" id="noOfCriteria" type="number" class="form-control"
-                                       placeholder="od 2 do 6"
-                                       min="2" max="6" required></label>
+                                       placeholder="od 2 do 6" min="2" max="6" required></label>
                             <c:forEach begin="0" end="5" varStatus="i">
                                 <label class="hide">${i.count}. kryterium
                                     <input id="criterion${i.index}" name="criterion${i.index}" type="text"
@@ -87,7 +86,7 @@
                         </div>
                     </div>
 
-                    <div class="centerize mtb17-7">
+                    <div class="text-center mtb17-7">
                         <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
                         <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
                     </div>

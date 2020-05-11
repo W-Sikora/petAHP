@@ -12,4 +12,7 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
     @Query(nativeQuery = true, value = "select * from animals a where a.poll_id = ?1")
     List<Animal> findAllByPollId(long pollId);
 
+    @Query(nativeQuery = true, value = "select * from animals a where a.id = ?1")
+    Animal findById(long id);
+
 }

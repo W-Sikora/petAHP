@@ -26,9 +26,9 @@
     <hr>
     <div class="row">
         <div class="col-lg-7 margin-auto">
-            <c:if test="${error != null}">
+            <c:if test="${errorMsg != null}">
                 <div class="text-center">
-                    <h3><mark>${error}</mark></h3>
+                    <h3><mark>${errorMsg}</mark></h3>
                 </div>
             </c:if>
             <h2>Logowanie</h2>
@@ -41,7 +41,7 @@
                         <input type="password" class="form-control" id="password" name="password" placeholder="********"
                                required minlength="8" maxlength="30"></label>
                 </div>
-                <div class="centerize mtb17-7">
+                <div class="text-center mtb17-7">
                     <button type="submit" class="btn btn-outline-dark">zaloguj</button>
                 </div>
             </form>
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<footer class="footer-sm">
+<footer class="footer-sm-page">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 

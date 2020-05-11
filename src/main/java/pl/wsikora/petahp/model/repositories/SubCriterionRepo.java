@@ -13,4 +13,7 @@ public interface SubCriterionRepo extends JpaRepository<SubCriterion, Long> {
     @Query(nativeQuery = true, value = "select * from sub_criteria where sub_criteria.poll_id = ?1")
     List<SubCriterion> findAllByPollId(long pollId);
 
+    @Query(nativeQuery = true, value = "select * from sub_criteria s where s.id = ?1")
+    SubCriterion findById(long id);
+
 }

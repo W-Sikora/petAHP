@@ -15,7 +15,18 @@ import java.util.List;
 @Repository
 public interface EvaluatorRepo extends JpaRepository<Evaluator, Long> {
 
-    @Query(nativeQuery = true, value = "select * from evaluators e where e.poll_id = ?1")
-    List<Evaluator> findAllByPollId(long pollId);
+    @Query(nativeQuery = true, value = "select e.id from evaluators e where e.poll_id = ?1 and e.name is null")
+    List<Long> findEmptyEvaluators(long pollId);
+
+    @Query(nativeQuery = true, value = "select count(*) from evaluators e where e.poll_id = ?1 and e.name is null")
+    int countEmptyEvaluators(long pollId);
+
+    @Query(nativeQuery = true, value = "select count(*) from evaluators e where e.poll_id = ?1 and e.name is not null")
+    int countEvaluators(long pollId);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(nativeQuery = true, value ="update evaluators set name = ?1 where id = ?2")
+    void updateName(String name, long id);
 
 }

@@ -1,97 +1,125 @@
-    hr {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
+hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 
-    h2 {
-        margin-top: 35px;
-        margin-bottom: 25px;
-    }
+h2 {
+    margin-top: 35px;
+    margin-bottom: 25px;
+}
 
-    h3 {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
+h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
-    h5 {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
+h5 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
 
-    label {
-        width: 100%;
-        margin-top: 20px;
-    }
-    input {
-        margin-top: 15px;
-    }
+label {
+    width: 100%;
+    margin-top: 20px;
+}
 
-    input.invalid {
-        background-color: #ffdddd;
-    }
+input {
+    margin-top: 15px;
+}
 
-    .hide{
-        display: none;
-    }
+input.invalid {
+    background-color: #ffdddd;
+}
 
-    .part {
-        display: none;
-    }
+.hide {
+    display: none;
+}
 
-    .step {
-        height: 15px;
-        width: 15px;
-        margin: 0 2px;
-        background-color: #bbbbbb;
-        border: none;
-        border-radius: 50%;
-        display: inline-block;
-        opacity: 0.5;
-    }
+.part {
+    display: none;
+}
 
-    /* Mark the active step: */
-    .step.active {
-        opacity: 1;
-    }
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
 
-    /* Mark the steps that are finished and valid: */
-    .step.finish {
-        background-color: #4CAF50;
-    }
+/* Mark the active step: */
+.step.active {
+    opacity: 1;
+}
 
-    .jumbotron-edit {
-        padding-top: 30px;
-        padding-bottom: 30px;
-    }
+/* Mark the steps that are finished and valid: */
+.step.finish {
+    background-color: #4CAF50;
+}
 
-    .mtb7-17{
-        margin-top: 7px;
-        margin-bottom: 17px;
-    }
+.jumbotron-edit {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
 
-    .mtb17-7{
-        margin-top: 17px;
-        margin-bottom: 7px;
-    }
+.mtb7-17 {
+    margin-top: 7px;
+    margin-bottom: 17px;
+}
 
-    .margin-auto {
-        margin: auto;
-    }
+.mtb7-27 {
+    margin-top: 7px;
+    margin-bottom: 27px;
+}
 
-    .centerize{
-        text-align: center;
-    }
+.mtb17-7 {
+    margin-top: 17px;
+    margin-bottom: 7px;
+}
 
-    .footer-sm {
-        bottom: 0;
-    }
+.margin-auto {
+    margin: auto;
+}
 
-    .lm {
-        margin-left: 10px;
-    }
+.lm {
+    margin-left: 10px;
+}
 
-    footer {
-        position: absolute;
-        width: 100%;
-    }
+.footer-sm-page {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.col-table {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.small-input {
+    margin: 0 auto;
+    width: 70px;
+    height: 35px;
+}
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.m-top {
+    margin-top: 71px;
+}
+
+
+
+

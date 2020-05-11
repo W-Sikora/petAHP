@@ -33,7 +33,9 @@
             <a class="btn btn-outline-dark" href="<c:url value="/panel"/>" role="button">ok</a>
             <div class="col-lg-6 margin-auto">
                 <label>link do wypełnienia ankiety</label>
-                <button class="btn btn-outline-primary copy" id="link${poll.id}" data-clipboard-text="http://localhost:8080/ankieta/${poll.link}">skopiuj link</button>
+                <button class="btn btn-outline-primary copy" id="link${poll.id}"
+                        data-clipboard-text="http://localhost:8080/ankieta=${poll.link}">skopiuj link
+                </button>
             </div>
         </div>
     </div>
@@ -46,7 +48,14 @@
             <p>Nazwa ankiety: <strong>${poll.name}</strong></p>
             <p>Liczba oceniających: <strong>${poll.noOfVoters}</strong></p>
             <p>Data zakończenia:
-                <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong></p>
+                <c:if test="${poll.endDate.monthValue < 10}">
+                    <strong>${poll.endDate.dayOfMonth}-0${poll.endDate.monthValue}-${poll.endDate.year}</strong>
+                </c:if>
+                <c:if test="${poll.endDate.monthValue >= 10}">
+                    <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong>
+                </c:if>
+            </p>
+
 
             <h5>Zwierzęta:</h5>
             <hr>

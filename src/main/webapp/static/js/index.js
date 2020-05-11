@@ -1,4 +1,3 @@
-
 if (window.location.pathname.includes("/tworzenie-nowej-ankiety")) {
 
     const form = document.getElementById("newForm");
@@ -45,8 +44,96 @@ if (window.location.pathname.includes("ankieta-podsumowanie")) {
     new ClipboardJS('.copy');
 }
 
-if (window.location.pathname.includes("edycja-ankiet")) {
+if (window.location.pathname.includes("/panel")) {
+
+    document.getElementById("logOut").addEventListener("mouseover", () => {
+        document.getElementById("logOut").className = "btn btn-danger";
+    });
+
+    document.getElementById("logOut").addEventListener("mouseout", () => {
+        document.getElementById("logOut").className = "btn btn-outline-dark";
+    });
+
+    document.getElementById("newForm").addEventListener("mouseover", () => {
+        document.getElementById("newForm").className = "btn btn-success";
+    });
+
+    document.getElementById("newForm").addEventListener("mouseout", () => {
+        document.getElementById("newForm").className = "btn btn-outline-dark";
+    });
+
     new ClipboardJS('.copy');
+
+}
+
+if (window.location.pathname.includes("/ankieta=")) {
+    const form = document.getElementById("completeForm");
+    const partsOfForm = Array.from(document.getElementsByClassName("part")).forEach(el => {
+        el.style.display = "block";
+    });
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    nextBtn.addEventListener("click", () => {
+        form.submit();
+    });
+
+    // let current = 0;
+    // display(current, form, prevBtn, partsOfForm);
+    // nextBtn.onclick = () => {
+    //     current >= 0 ? current++ : current;
+    //     display(current, form, prevBtn, partsOfForm);
+    // };
+    //
+    // prevBtn.onclick = () => {
+    //     current >= 1 ? current-- : current;
+    //     display(current, form, prevBtn, partsOfForm);
+    // };
+
+    const ratings = Array.from(document.getElementsByClassName("ratings"));
+    const ratingValues = Array.from(document.getElementsByClassName("rating-value"));
+    for (let i = 0; i < ratings.length; i++) {
+        const stars = ratings[i].children;
+        toInput(stars, ratingValues[i])
+    }
+
+    function toInput(stars, ratingValue) {
+        let index;
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].addEventListener("mouseover", function () {
+                for (let j = 0; j < stars.length; j++) {
+                    stars[j].classList.remove("fa-star");
+                    stars[j].classList.add("fa-star-o");
+                }
+                for (let j = 0; j <= i; j++) {
+                    stars[j].classList.remove("fa-star-o");
+                    stars[j].classList.add("fa-star");
+                }
+            });
+            stars[i].addEventListener("click", function () {
+                ratingValue.value = i + 1;
+                index = i;
+            });
+            stars[i].addEventListener("mouseout", function () {
+                for (let j = 0; j < stars.length; j++) {
+                    stars[j].classList.remove("fa-star");
+                    stars[j].classList.add("fa-star-o");
+                }
+                for (let j = 0; j <= index; j++) {
+                    stars[j].classList.remove("fa-star-o");
+                    stars[j].classList.add("fa-star");
+                }
+            })
+        }
+    }
+
+}
+
+
+if (window.location.pathname.includes("ankieta/podsumowanie")) {
+    setTimeout(() => {
+        window.location.href = "/";
+    }, 3000);
 }
 
 function display(index, form, prevBtn, parts) {

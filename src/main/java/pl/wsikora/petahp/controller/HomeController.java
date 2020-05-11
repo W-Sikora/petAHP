@@ -54,4 +54,11 @@ public class HomeController {
     public String goToForm() {
         return "home/go_to_form";
     }
+
+    @RequestMapping(value = "/a")
+    public String a() {
+        return "evaluator/summary";
+    }
+
+
 }

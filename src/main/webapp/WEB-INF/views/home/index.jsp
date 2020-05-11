@@ -19,8 +19,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-12 text-center">
-            <img src="<c:url value="/static/img/background.png"/>" width="100%" height="auto" alt="">
+        <div class="col-lg-12 text-center margin-auto">
+            <img src="<c:url value="/static/img/pngfuel.comfree-pngdnmurdownload.png"/>" width="83%" height="auto" alt="">
         </div>
     </div>
     <div class="row fst">
@@ -74,10 +74,8 @@
 
     </div>
 </div>
-
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
-
 </body>
 </html>

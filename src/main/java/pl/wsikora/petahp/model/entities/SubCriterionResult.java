@@ -17,13 +17,13 @@ public class SubCriterionResult {
     @ManyToOne
     @JoinColumn(name = "sub_criterion_id")
     private SubCriterion subCriterion;
-    private Double value;
+    private Integer value;
     private Double weight;
 
     public SubCriterionResult() {
     }
 
-    public SubCriterionResult(Poll poll, Animal animal, SubCriterion subCriterion, Double value, Double weight) {
+    public SubCriterionResult(Poll poll, Animal animal, SubCriterion subCriterion, Integer value, Double weight) {
         this.poll = poll;
         this.animal = animal;
         this.subCriterion = subCriterion;
@@ -59,11 +59,11 @@ public class SubCriterionResult {
         this.subCriterion = subCriterion;
     }
 
-    public Double getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
