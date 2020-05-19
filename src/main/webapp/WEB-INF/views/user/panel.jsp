@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 
 <!DOCTYPE html>
 <html lang="pl-PL">
@@ -74,47 +75,47 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${polls}" var="p" varStatus="i">
+                    <c:forEach items="${surveys}" var="s" varStatus="i">
                         <tr>
                             <th scope="row">${i.count}</th>
-                            <td>${p.name}</td>
-                            <c:if test="${p.creationDate.monthValue < 10}">
+                            <td>${s.name}</td>
+                            <c:if test="${s.creationDate.monthValue < 10}">
                                 <td>
-                                        ${p.creationDate.dayOfMonth}-0${p.creationDate.monthValue}-${p.creationDate.year}
+                                        ${s.creationDate.dayOfMonth}-0${s.creationDate.monthValue}-${s.creationDate.year}
                                 </td>
                             </c:if>
-                            <c:if test="${p.creationDate.monthValue >= 10}">
+                            <c:if test="${s.creationDate.monthValue >= 10}">
                                 <td>
-                                        ${p.creationDate.dayOfMonth}-${p.creationDate.monthValue}-${p.creationDate.year}
+                                        ${s.creationDate.dayOfMonth}-${s.creationDate.monthValue}-${s.creationDate.year}
                                 </td>
                             </c:if>
 
-                            <c:if test="${p.endDate.monthValue < 10}">
+                            <c:if test="${s.endDate.monthValue < 10}">
                                 <td>
-                                        ${p.endDate.dayOfMonth}-0${p.endDate.monthValue}-${p.endDate.year}
+                                        ${s.endDate.dayOfMonth}-0${s.endDate.monthValue}-${s.endDate.year}
                                 </td>
                             </c:if>
-                            <c:if test="${p.endDate.monthValue >= 10}">
+                            <c:if test="${s.endDate.monthValue >= 10}">
                                 <td>
-                                        ${p.endDate.dayOfMonth}-${p.endDate.monthValue}-${p.endDate.year}
+                                        ${s.endDate.dayOfMonth}-${s.endDate.monthValue}-${s.endDate.year}
                                 </td>
                             </c:if>
                             <td>
-                                ${p.actualNoOfVotes}/${p.noOfVoters}
+                                ${s.actualVotesNumber}/${s.evaluatorNumber}
                             </td>
                             <td>
-                                <button class="btn btn-outline-primary copy" id="link${p.id}"
-                                        data-clipboard-text="http://localhost:8080/ankieta=${p.link}">link
+                                <button class="btn btn-outline-primary copy" id="link${s.id}"
+                                        data-clipboard-text="http://localhost:8080/ankieta=${s.link}">link
                                 </button>
                             </td>
                             <td>
-                                <a class="btn btn-outline-success" href="/panel/wynik/${p.id}" role="button">wynik</a>
+                                <a class="btn btn-outline-success" href="/panel/wynik/${s.id}" role="button">wynik</a>
                             </td>
                             <td>
                                 <a class="btn btn-outline-warning" href="/panel/edycja-ankiet/" role="button">edytuj</a>
                             </td>
                             <td>
-                                <a class="btn btn-outline-danger" href="/panel/edycja-ankiet/usun/${p.id}"
+                                <a class="btn btn-outline-danger" href="/panel/edycja-ankiet/usun/${s.id}"
                                    role="button">usuń</a>
                             </td>
                         </tr>

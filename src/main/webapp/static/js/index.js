@@ -1,15 +1,9 @@
 if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
 
-    const form = document.getElementById("newForm");
+    const form = document.getElementById("form");
     const partsOfForm = Array.from(document.getElementsByClassName("part"));
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-    const noOfAnimals = document.getElementById("noOfAnimals");
-    const newAnimalParent = document.getElementById("animalsDiv");
-    const noOfCriteria = document.getElementById("noOfCriteria");
-    const subCriteriaDivs = find("div", "subCriteriaDiv");
-    const noOfSubCriteria = find("input", "noOfSubCriteria");
-
     let current = 0;
 
     display(current, form, prevBtn, partsOfForm);
@@ -24,20 +18,53 @@ if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
         display(current, form, prevBtn, partsOfForm);
     };
 
-    noOfAnimals.addEventListener("change", () => {
-        createNew(noOfAnimals, newAnimalParent, "text", "animal", "form-control", true, "nazwa/gatunek zwierzęcia")
+    const animalsOrderedList = $("#animals");
+    const addAnimal = $("#addAnimal");
+    const removeAnimal = $("#removeAnimal");
+    let animalIter = 0;
+
+    addAnimal.click(() => {
+        animalIter++;
+        animalsOrderedList.append(
+            "<li>" +
+            "<div class='form-row'>" +
+            "<div class='col col-lg-11 margin-auto'>" +
+            "<input type='text' class='form-control' placeholder='nazwa/gatunek zwierzęcia' name='" + "animalName" + animalIter + "'>" +
+            "</div>" +
+            "</div>" +
+            "</li>");
     });
 
-    noOfCriteria.addEventListener("change", () => {
-        const criteria = document.getElementsByClassName("hide");
-        show(noOfCriteria, criteria);
+    removeAnimal.click(() => {
+        animalIter--;
+        animalsOrderedList.find("li:last-child").remove();
     });
 
-    noOfSubCriteria.forEach((el, i) => {
-        el.addEventListener("change", () => {
-            createNew(el, subCriteriaDivs[i], "text", i + "subCriterion", "form-control", true, "nazwa podkryterium")
-        })
+    const criteriaOrderedList = $("#criteria");
+    const addCriterion = $("#addCriterion");
+    const removeCriterion = $("#removeCriterion");
+    let criterionIter = 0;
+
+    addCriterion.click(() => {
+        criterionIter++;
+        criteriaOrderedList.append(
+            "<li>" +
+            "<div class='form-row'>" +
+            "<div class='col col-lg-7'>" +
+            "<input type='text' class='form-control' placeholder='nazwa kryterium' name='" + "criterionName" + criterionIter + "'>" +
+            "</div>" +
+            "<div class='col col-lg-4'>" +
+            "<input type='number' class='form-control' placeholder='nadrzędne kryterium' min='0' name='" + "parentCriterion" + criterionIter + "'>" +
+            "</div>" +
+            "</div>" +
+            "</li>");
     });
+
+    removeCriterion.click(() => {
+        criterionIter--;
+        criteriaOrderedList.find("li:last-child").remove();
+    })
+
 }
 
 if (window.location.pathname === "/panel/ankieta-podsumowanie") {

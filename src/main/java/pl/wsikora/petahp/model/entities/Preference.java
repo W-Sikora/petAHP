@@ -3,14 +3,12 @@ package pl.wsikora.petahp.model.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "evaluators")
-public class Evaluator {
+@Table(name = "preferences")
+public class Preference {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private String name;
 
     private Double weight;
 
@@ -18,13 +16,22 @@ public class Evaluator {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    public Evaluator() {
+    @ManyToOne
+    @JoinColumn(name = "evaluator_id")
+    private Evaluator evaluator;
+
+    @ManyToOne
+    @JoinColumn(name = "criterion_id")
+    private Criterion criterion;
+
+    public Preference() {
     }
 
-    public Evaluator(String name, Double weight, Survey survey) {
-        this.name = name;
+    public Preference(Double weight, Survey survey, Evaluator evaluator,  Criterion criterion) {
         this.weight = weight;
         this.survey = survey;
+        this.evaluator = evaluator;
+        this.criterion = criterion;
     }
 
     public long getId() {
@@ -33,14 +40,6 @@ public class Evaluator {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double getWeight() {
@@ -59,13 +58,30 @@ public class Evaluator {
         this.survey = survey;
     }
 
+    public Evaluator getEvaluator() {
+        return evaluator;
+    }
+
+    public void setEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
+    }
+
+    public Criterion getCriterion() {
+        return criterion;
+    }
+
+    public void setCriterion(Criterion criterion) {
+        this.criterion = criterion;
+    }
+
     @Override
     public String toString() {
-        return "Evaluator{" +
+        return "Preference{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", survey=" + survey +
+                ", evaluator=" + evaluator +
+                ", criterion=" + criterion +
                 '}';
     }
 }

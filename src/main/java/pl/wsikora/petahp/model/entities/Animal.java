@@ -5,32 +5,31 @@ import javax.persistence.*;
 @Entity
 @Table(name = "animals")
 public class Animal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "poll_id")
-    private Poll poll;
+
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
 
     public Animal() {
     }
 
-    public Animal(Poll poll, String name) {
-        this.poll = poll;
+    public Animal(String name, Survey survey) {
         this.name = name;
+        this.survey = survey;
     }
 
     public long getId() {
         return id;
     }
 
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -41,12 +40,20 @@ public class Animal {
         this.name = name;
     }
 
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
+    }
+
     @Override
     public String toString() {
         return "Animal{" +
                 "id=" + id +
-                ", poll=" + poll +
                 ", name='" + name + '\'' +
+                ", survey=" + survey +
                 '}';
     }
 }

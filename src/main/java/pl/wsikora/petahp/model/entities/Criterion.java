@@ -5,34 +5,39 @@ import javax.persistence.*;
 @Entity
 @Table(name = "criteria")
 public class Criterion {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "poll_id")
-    private Poll poll;
+
     private String name;
-    private Double weight;
+
+    private String details;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Criterion criterion;
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
 
     public Criterion() {
     }
 
-    public Criterion(Poll poll, String name, Double weight) {
-        this.poll = poll;
+    public Criterion(String name, String details, Criterion criterion, Survey survey) {
         this.name = name;
-        this.weight = weight;
+        this.details = details;
+        this.criterion = criterion;
+        this.survey = survey;
     }
 
     public long getId() {
         return id;
     }
 
-    public Poll getPoll() {
-        return poll;
-    }
-
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,21 +48,38 @@ public class Criterion {
         this.name = name;
     }
 
-    public Double getWeight() {
-        return weight;
+    public String getDetails() {
+        return details;
     }
 
-    public void setWeight(Double weight) {
-        this.weight = weight;
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Criterion getCriterion() {
+        return criterion;
+    }
+
+    public void setCriterion(Criterion criterion) {
+        this.criterion = criterion;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 
     @Override
     public String toString() {
         return "Criterion{" +
                 "id=" + id +
-                ", poll=" + poll +
                 ", name='" + name + '\'' +
-                ", weight=" + weight +
+                ", details='" + details + '\'' +
+                ", parentCriterion=" + criterion +
+                ", survey=" + survey +
                 '}';
     }
 }

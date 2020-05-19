@@ -13,30 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 public class UserController {
     private AnimalRepo animalRepo;
     private CriterionRepo criterionRepo;
-    private CriterionResultRepo criterionResultRepo;
     private EvaluatorRepo evaluatorRepo;
-    private PollRepo pollRepo;
-    private SubCriterionRepo subCriterionRepo;
-    private SubCriterionResultRepo subCriterionResultRepo;
+    private FactRepo factRepo;
+    private PreferenceRepo preferenceRepo;
+    private SurveyRepo surveyRepo;
     private UserRepo userRepo;
 
-    public UserController(AnimalRepo animalRepo, CriterionRepo criterionRepo, CriterionResultRepo criterionResultRepo, EvaluatorRepo evaluatorRepo, PollRepo pollRepo, SubCriterionRepo subCriterionRepo, SubCriterionResultRepo subCriterionResultRepo, UserRepo userRepo) {
+    public UserController(AnimalRepo animalRepo, CriterionRepo criterionRepo, EvaluatorRepo evaluatorRepo, FactRepo factRepo, PreferenceRepo preferenceRepo, SurveyRepo surveyRepo, UserRepo userRepo) {
         this.animalRepo = animalRepo;
         this.criterionRepo = criterionRepo;
-        this.criterionResultRepo = criterionResultRepo;
         this.evaluatorRepo = evaluatorRepo;
-        this.pollRepo = pollRepo;
-        this.subCriterionRepo = subCriterionRepo;
-        this.subCriterionResultRepo = subCriterionResultRepo;
+        this.factRepo = factRepo;
+        this.preferenceRepo = preferenceRepo;
+        this.surveyRepo = surveyRepo;
         this.userRepo = userRepo;
     }
 
     private User currentUser;
-    private long currentPollId;
+    private Survey currentSurvey;
 
     private List<String> keyContains(Map<String, String> map, String string) {
         List<String> list = new ArrayList<>();
@@ -50,9 +49,20 @@ public class UserController {
         }
         return list;
     }
-    private Integer getInt(Map<String, String> map, String key) throws NumberFormatException {
-        return Integer.parseInt(map.get(key));
+
+    private List<String> keyContainsOrNull(Map<String, String> map, String string) {
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<String, String> element : map.entrySet()) {
+            if (element.getKey().contains(string)) {
+                list.add(element.getValue());
+                map.remove(element);
+            }
+        }
+        return list;
     }
+//    private Integer getInt(Map<String, String> map, String key) throws NumberFormatException {
+//        return Integer.parseInt(map.get(key));
+//    }
 
     @RequestMapping(value = "/zalogowanie")
     public String checkLogin(@RequestParam String email,
@@ -75,10 +85,8 @@ public class UserController {
 
     @RequestMapping(value = "/panel")
     public String panelAction(Model model) {
-        long userId = currentUser.getId();
-        int noOfVisible = pollRepo.countVisible(true, userId);
-        if (noOfVisible > 0) {
-            model.addAttribute("polls", pollRepo.getAllVisible(true, userId));
+        if (surveyRepo.countAllByUserAndStatus(currentUser, Status.FOUNDED) > 0) {
+            model.addAttribute("surveys", surveyRepo.findAllByUserAndStatus(currentUser, Status.FOUNDED));
         }
         model.addAttribute("user", currentUser.getName());
         return "user/panel";
@@ -92,71 +100,65 @@ public class UserController {
 
     @RequestMapping(value = "/panel/tworzenie-ankiety")
     public String savePoll(@RequestParam Map<String, String> data) {
-        List<String> criteriaNames = keyContains(data, "criterion");
-        List<String> subCriteriaNames = keyContains(data, "subCriterion");
 
-        Poll poll = new Poll();
-        poll.setUser(currentUser);
-        poll.setName(data.get("pollName"));
-        poll.setNoOfVoters(getInt(data,"noOfVoters"));
-        poll.setEndDate(LocalDate.parse(data.get("endDate")));
-        pollRepo.save(poll);
-        currentPollId = poll.getId();
+        Survey survey = new Survey();
+        survey.setUser(currentUser);
+        survey.setName(data.get("surveyName"));
+        survey.setEvaluatorNumber(Integer.parseInt(data.get("evaluatorNumber")));
+        survey.setEndDate(LocalDate.parse(data.get("endDate")));
+        surveyRepo.save(survey);
+        currentSurvey = survey;
 
-        for (int i = 0; i < poll.getNoOfVoters(); i++) {
+        for (int i = 0; i < survey.getEvaluatorNumber(); i++) {
             Evaluator evaluator = new Evaluator();
-            evaluator.setPoll(poll);
+            evaluator.setSurvey(survey);
             evaluatorRepo.save(evaluator);
         }
 
         for (String animalName : keyContains(data, "animal")) {
             Animal animal = new Animal();
-            animal.setPoll(poll);
+            animal.setSurvey(survey);
             animal.setName(animalName);
             animalRepo.save(animal);
         }
 
-        for (int i = 0; i < criteriaNames.size(); i++) {
-            Criterion criterion = new Criterion();
-            criterion.setPoll(poll);
-            criterion.setName(criteriaNames.get(i));
-            criterionRepo.save(criterion);
 
-            int until = getInt(data, "noOfSubCriteria" + i);
-            if (until > 0) {
-                for (int j = 0; j < until; j++) {
-                    SubCriterion subCriterion = new SubCriterion();
-                    subCriterion.setPoll(poll);
-                    subCriterion.setCriterion(criterion);
-                    subCriterion.setName(subCriteriaNames.get(0));
-                    subCriterionRepo.save(subCriterion);
-                    subCriteriaNames.remove(0);
-                }
+        List<String> parentCriteria = keyContainsOrNull(data, "parentCriterion");
+        List<String> criteria = keyContains(data, "criterionName");
+        System.out.println(parentCriteria.toString());
+        System.out.println(criteria.toString());
+        for (int i = 0; i < criteria.size(); i++) {
+            Criterion criterion = new Criterion();
+            criterion.setSurvey(currentSurvey);
+            criterion.setName(criteria.get(i));
+            if (!parentCriteria.get(i).equals("")) {
+                int index = Integer.parseInt(parentCriteria.get(i)) - 1;
+                criterion.setCriterion(criterionRepo.findByName(criteria.get(index)));
             }
+            criterionRepo.save(criterion);
         }
         return "redirect:/panel/ankieta-podsumowanie";
     }
 
     @RequestMapping(value = "/panel/ankieta-podsumowanie")
     public String summarizePoll(Model model) {
-        model.addAttribute("poll", pollRepo.findById(currentPollId))
-                .addAttribute("animals", animalRepo.findAllByPollId(currentPollId))
-                .addAttribute("criteria", criterionRepo.findAllByPollId(currentPollId))
-                .addAttribute("subCriteria", subCriterionRepo.findAllByPollId(currentPollId));
+        model.addAttribute("survey", currentSurvey)
+                .addAttribute("animals", animalRepo.findAllBySurvey(currentSurvey))
+                .addAttribute("criteria", criterionRepo.findAllBySurvey(currentSurvey));
         return "user/summarize_form";
     }
-
-    @RequestMapping(value = "/panel/edycja-ankiet")
-    public String editPoll(Model model) {
-        if (pollRepo.countVisible(true, currentUser.getId()) > 0) {
-            model.addAttribute("polls", pollRepo.getAllVisible(true, currentUser.getId()));
-        }
-        return "user/edit_form";
-    }
+//
+//    @RequestMapping(value = "/panel/edycja-ankiet")
+//    public String editPoll(Model model) {
+//        if (pollRepo.countVisible(true, currentUser.getId()) > 0) {
+//            model.addAttribute("polls", pollRepo.getAllVisible(true, currentUser.getId()));
+//        }
+//        return "user/edit_form";
+//    }
 
     @RequestMapping(value = "/panel/edycja-ankiet/usun/{pollId}")
-    public String hidePoll(@PathVariable long pollId) {
-        pollRepo.updateVisibility(false, pollId);
+    public String hidePoll(@PathVariable long id) {
+        surveyRepo.updateStatus(Status.DELETED, id);
         return "redirect:/panel";
     }
 

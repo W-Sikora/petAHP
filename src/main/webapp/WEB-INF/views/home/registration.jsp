@@ -28,22 +28,28 @@
         <div class="col-lg-7 margin-auto">
             <c:if test="${error != null}">
                 <div class="text-center">
-                    <h3><mark>${error}</mark></h3>
+                    <h3>
+                        <mark>${error}</mark>
+                    </h3>
                 </div>
             </c:if>
             <h2>Rejestracja</h2>
             <form action="<c:url value="/rejestrowanie"/>" method="post">
                 <div class="form-group">
                     <label>imię
-                    <input type="text" class="form-control" id="name" name="name" placeholder="np. Jan" required></label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="np. Jan"
+                                       required>
+                    </label>
                     <label>adres e-mail
-                    <input type="email" class="form-control" id="email" name="email"
-                           placeholder="np. jan.kowalski@gmail.com" required></label>
-                    <small id="emailHelp" class="form-text text-muted">nie wysyłamy spamu :)</small>
+                        <input type="email" class="form-control" id="email" name="email"
+                                               placeholder="np. jan.kowalski@gmail.com" required>
+                        <small id="emailHelp" class="form-text text-muted">nie wysyłamy spamu :)</small>
+                    </label>
                     <label>hasło
-                    <input type="password" class="form-control" id="password" name="password" placeholder="********"
-                                minlength="8" maxlength="30" required></label>
-                    <small id="passwordHelp" class="form-text text-muted">od 8 do 30 znaków</small>
+                        <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="********" minlength="8" maxlength="30" required>
+                        <small id="passwordHelp" class="form-text text-muted">od 8 do 30 znaków</small>
+                    </label>
                 </div>
                 <div class="text-center mtb17-7">
                     <button type="submit" class="btn btn-outline-dark">zarejestruj</button>

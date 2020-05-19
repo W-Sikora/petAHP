@@ -8,9 +8,6 @@ import pl.wsikora.petahp.model.entities.User;
 import pl.wsikora.petahp.model.repositories.UserRepo;
 
 
-import java.util.Map;
-
-
 @Controller
 public class HomeController {
 
@@ -31,12 +28,15 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/rejestrowanie")
-    public String registerCheck(@RequestParam Map<String, String> registrationData, Model model) {
-        if (userRepo.findUserByEmail(registrationData.get("email")) == null) {
+    public String registerCheck(@RequestParam String name,
+                                @RequestParam String email,
+                                @RequestParam String password,
+                                Model model) {
+        if (userRepo.findUserByEmail(email) == null) {
             User user = new User();
-            user.setName(registrationData.get("name"));
-            user.setEmail(registrationData.get("email"));
-            user.setPassword(registrationData.get("password"));
+            user.setName(name);
+            user.setEmail(email);
+            user.setPassword(password);
             userRepo.save(user);
             return "redirect:logowanie";
         } else {
@@ -57,7 +57,7 @@ public class HomeController {
 
     @RequestMapping(value = "/a")
     public String a() {
-        return "evaluator/summary";
+        return "evaluator/form";
     }
 
 

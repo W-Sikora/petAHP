@@ -33,8 +33,8 @@
             <a class="btn btn-outline-dark" href="<c:url value="/panel"/>" role="button">ok</a>
             <div class="col-lg-6 margin-auto">
                 <label>link do wypełnienia ankiety</label>
-                <button class="btn btn-outline-primary copy" id="link${poll.id}"
-                        data-clipboard-text="http://localhost:8080/ankieta=${poll.link}">skopiuj link
+                <button class="btn btn-outline-primary copy" id="link${survey.id}"
+                        data-clipboard-text="http://localhost:8080/ankieta=${survey.votingLink}">skopiuj link
                 </button>
             </div>
         </div>
@@ -45,14 +45,14 @@
         <div class="col-lg-8 margin-auto">
             <h5>Ogólne:</h5>
             <hr>
-            <p>Nazwa ankiety: <strong>${poll.name}</strong></p>
-            <p>Liczba oceniających: <strong>${poll.noOfVoters}</strong></p>
+            <p>Nazwa ankiety: <strong>${survey.name}</strong></p>
+            <p>Liczba oceniających: <strong>${survey.evaluatorNumber}</strong></p>
             <p>Data zakończenia:
-                <c:if test="${poll.endDate.monthValue < 10}">
-                    <strong>${poll.endDate.dayOfMonth}-0${poll.endDate.monthValue}-${poll.endDate.year}</strong>
+                <c:if test="${survey.endDate.monthValue < 10}">
+                    <strong>${survey.endDate.dayOfMonth}-0${survey.endDate.monthValue}-${survey.endDate.year}</strong>
                 </c:if>
-                <c:if test="${poll.endDate.monthValue >= 10}">
-                    <strong>${poll.endDate.dayOfMonth}-${poll.endDate.monthValue}-${poll.endDate.year}</strong>
+                <c:if test="${survey.endDate.monthValue >= 10}">
+                    <strong>${survey.endDate.dayOfMonth}-${survey.endDate.monthValue}-${survey.endDate.year}</strong>
                 </c:if>
             </p>
 
@@ -66,12 +66,12 @@
             <h5>Przyjęte kryteria:</h5>
             <hr>
             <c:forEach items="${criteria}" var="c">
-                <p><strong>${c.name}</strong></p>
-                <c:forEach items="${subCriteria}" var="s">
-                    <c:if test="${s.criterion.id == c.id}">
-                        <p>- ${s.name}</p>
-                    </c:if>
-                </c:forEach>
+                <c:if test="${c.survey == null}">
+                    <p><strong>${c.name}</strong></p>
+                </c:if>
+                <c:if test="${c.survey != null}">
+                    <p>- ${c.name}</p>
+                </c:if>
             </c:forEach>
         </div>
 

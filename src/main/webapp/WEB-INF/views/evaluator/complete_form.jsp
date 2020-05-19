@@ -21,18 +21,18 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="<c:url value="/"/>">strona główna</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>ankieta: ${poll.name}</strong></a>
+            <a class="nav-item nav-link active"><strong>ankieta: ${survey.name}</strong></a>
         </div>
     </nav>
     <hr>
 
     <div class="row">
         <div class="col-lg-12 margin-auto">
-            <h2 class="text-center">${poll.name}</h2>
+            <h2 class="text-center">${survey.name}</h2>
             <form id="completeForm" action="/ankieta/zapisano-odpowiedz" method="post">
 
                 <div class="form-group part">
-                    <input name="pollId" value="${poll.id}" hidden>
+                    <input name="pollId" value="${survey.id}" hidden>
                     <label>imię wypełniającego
                         <input type="text" class="form-control" name="evaluatorName" placeholder="np. Jan"
                                minlength="3"

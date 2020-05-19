@@ -3,44 +3,51 @@ package pl.wsikora.petahp.model.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "criteria_result")
-public class CriterionResult {
+@Table(name = "facts")
+public class Fact {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "poll_id")
-    private Poll poll;
+
+    private Double measure;
+
     @ManyToOne
     @JoinColumn(name = "animal_id")
     private Animal animal;
+
     @ManyToOne
     @JoinColumn(name = "criterion_id")
     private Criterion criterion;
-    private Integer value;
-    private Double weight;
 
-    public CriterionResult() {
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
+
+    public Fact() {
     }
 
-    public CriterionResult(Poll poll, Animal animal, Criterion criterion, Integer value, Double weight) {
-        this.poll = poll;
+    public Fact(Double measure, Animal animal, Criterion criterion, Survey survey) {
+        this.measure = measure;
         this.animal = animal;
         this.criterion = criterion;
-        this.value = value;
-        this.weight = weight;
+        this.survey = survey;
     }
 
     public long getId() {
         return id;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public Double getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(Double measure) {
+        this.measure = measure;
     }
 
     public Animal getAnimal() {
@@ -59,31 +66,22 @@ public class CriterionResult {
         this.criterion = criterion;
     }
 
-    public Integer getValue() {
-        return value;
+    public Survey getSurvey() {
+        return survey;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 
     @Override
     public String toString() {
-        return "CriterionResult{" +
+        return "Fact{" +
                 "id=" + id +
-                ", poll=" + poll +
+                ", measure=" + measure +
                 ", animal=" + animal +
                 ", criterion=" + criterion +
-                ", value=" + value +
-                ", weight=" + weight +
+                ", survey=" + survey +
                 '}';
     }
 }
