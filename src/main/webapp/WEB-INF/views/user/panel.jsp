@@ -52,12 +52,12 @@
     </div>
 
     <div class="row m-top">
-        <c:if test="${polls == null}">
+        <c:if test="${surveys == null}">
             <div class="col-lg-12 text-center">
                 <h2>Nie masz żadnych utworzonych ankiet</h2>
             </div>
         </c:if>
-        <c:if test="${polls != null}">
+        <c:if test="${surveys != null}">
             <div class="col-lg-12 text-center">
                 <h2>Twoje ankiety</h2>
                 <table class="table table-hover">
@@ -105,7 +105,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-outline-primary copy" id="link${s.id}"
-                                        data-clipboard-text="http://localhost:8080/ankieta=${s.link}">link
+                                        data-clipboard-text="http://localhost:8080/ankieta=${s.votingLink}">link
                                 </button>
                             </td>
                             <td>
@@ -127,13 +127,13 @@
     </div>
 </div>
 
-<c:if test="${polls == null}">
+<c:if test="${surveys == null}">
     <footer class="footer-sm-page">
         <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
     </footer>
 </c:if>
 
-<c:if test="${polls != null}">
+<c:if test="${surveys != null}">
     <footer>
         <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
     </footer>

@@ -28,60 +28,75 @@
     <hr>
 
     <div class="row">
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-12">
+
             <h3>Ankieta została pomyślnie utworzona</h3>
             <a class="btn btn-outline-dark" href="<c:url value="/panel"/>" role="button">ok</a>
-            <div class="col-lg-6 margin-auto">
-                <label>link do wypełnienia ankiety</label>
-                <button class="btn btn-outline-primary copy" id="link${survey.id}"
-                        data-clipboard-text="http://localhost:8080/ankieta=${survey.votingLink}">skopiuj link
-                </button>
+
+            <div class="col-lg-10 margin-auto">
+                <h5>Linki:</h5>
+                <hr>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend" style="margin-top:15px">
+                        <span class="input-group-text">link do&nbsp;<b>wypełnienia</b>&nbsp;ankiety</span>
+                    </div>
+                    <input readonly class="form-control" style="background-color: white"
+                           value="http://localhost:8080/ankieta=${survey.votingLink}"/>
+                    <div class="input-group-append" style="margin-top:15px">
+                        <button class="btn btn-outline-primary copy" id="votingLink${survey.id}"
+                                data-clipboard-text="http://localhost:8080/ankieta=${survey.votingLink}">skopiuj
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend" style="margin-top:15px">
+                        <span class="input-group-text">link do&nbsp;<b>wyniku</b>&nbsp;ankiety</span>
+                    </div>
+                    <input readonly class="form-control" style="background-color: white"
+                           value="http://localhost:8080/ankieta=${survey.resultLink}">
+                    <div class="input-group-append" style="margin-top:15px">
+                        <button class="btn btn-outline-primary copy" id="resultLink${survey.id}"
+                                data-clipboard-text="http://localhost:8080/ankieta=${survey.resultLink}">skopiuj
+                        </button>
+                    </div>
+                </div>
+                <h5>Ogólne:</h5>
+                <hr>
+                <p>Nazwa ankiety: <strong>${survey.name}</strong></p>
+                <p>Liczba oceniających: <strong>${survey.evaluatorNumber}</strong></p>
+                <p>Data zakończenia:
+                    <c:if test="${survey.endDate.monthValue < 10}">
+                        <strong>${survey.endDate.dayOfMonth}-0${survey.endDate.monthValue}-${survey.endDate.year}</strong>
+                    </c:if>
+                    <c:if test="${survey.endDate.monthValue >= 10}">
+                        <strong>${survey.endDate.dayOfMonth}-${survey.endDate.monthValue}-${survey.endDate.year}</strong>
+                    </c:if>
+                </p>
+
+
+                <h5>Zwierzęta:</h5>
+                <hr>
+                <ul>
+                    <c:forEach items="${animals}" var="a">
+                        <li>${a.name}</li>
+                    </c:forEach>
+                </ul>
+                <h5>Przyjęte kryteria:</h5>
+                <hr>
+                <ul>
+                    <c:forEach items="${criteria}" var="c">
+                        <li>${c.name}</li>
+                    </c:forEach>
+                </ul>
             </div>
+
         </div>
     </div>
 
-    <div class="row">
-
-        <div class="col-lg-8 margin-auto">
-            <h5>Ogólne:</h5>
-            <hr>
-            <p>Nazwa ankiety: <strong>${survey.name}</strong></p>
-            <p>Liczba oceniających: <strong>${survey.evaluatorNumber}</strong></p>
-            <p>Data zakończenia:
-                <c:if test="${survey.endDate.monthValue < 10}">
-                    <strong>${survey.endDate.dayOfMonth}-0${survey.endDate.monthValue}-${survey.endDate.year}</strong>
-                </c:if>
-                <c:if test="${survey.endDate.monthValue >= 10}">
-                    <strong>${survey.endDate.dayOfMonth}-${survey.endDate.monthValue}-${survey.endDate.year}</strong>
-                </c:if>
-            </p>
-
-
-            <h5>Zwierzęta:</h5>
-            <hr>
-            <c:forEach items="${animals}" var="a">
-                <p>- <strong>${a.name}</strong></p>
-            </c:forEach>
-
-            <h5>Przyjęte kryteria:</h5>
-            <hr>
-            <c:forEach items="${criteria}" var="c">
-                <c:if test="${c.survey == null}">
-                    <p><strong>${c.name}</strong></p>
-                </c:if>
-                <c:if test="${c.survey != null}">
-                    <p>- ${c.name}</p>
-                </c:if>
-            </c:forEach>
-        </div>
-
-    </div>
-</div>
-
-<footer>
-    <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script src="<c:url value="/static/js/index.js"/>"></script>
+    <footer>
+        <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="<c:url value="/static/js/index.js"/>"></script>
 </body>
 </html>

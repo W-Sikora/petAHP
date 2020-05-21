@@ -62,12 +62,9 @@
                         </div>
                         <div class="form-group">
                             <ol id="animals"></ol>
-                            <div class="text-center">
+                            <div id="addAnimalDiv" class="text-center">
                                 <button type="button" id="addAnimal" class="btn btn-outline-success">
                                     dodaj zwierzę
-                                </button>
-                                <button type="button" id="removeAnimal" class="btn btn-outline-danger m-left">
-                                    usuń zwierzę
                                 </button>
                             </div>
                         </div>
@@ -83,14 +80,17 @@
                                 <button type="button" id="addCriterion" class="btn btn-outline-success">
                                     dodaj kryterium
                                 </button>
-                                <button type="button" id="removeCriterion" class="btn btn-outline-danger m-left">
-                                    usuń kryterium
-                                </button>
+
+                                <ol>
+
+                                </ol>
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-center mtb17-7">
+                    <div class="text-center mtb37-7">
+                        <hr>
                         <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
                         <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
                     </div>

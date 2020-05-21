@@ -20,50 +20,71 @@ if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
 
     const animalsOrderedList = $("#animals");
     const addAnimal = $("#addAnimal");
-    const removeAnimal = $("#removeAnimal");
     let animalIter = 0;
 
-    addAnimal.click(() => {
-        animalIter++;
-        animalsOrderedList.append(
-            "<li>" +
-            "<div class='form-row'>" +
-            "<div class='col col-lg-11 margin-auto'>" +
-            "<input type='text' class='form-control' placeholder='nazwa/gatunek zwierzęcia' name='" + "animalName" + animalIter + "'>" +
-            "</div>" +
-            "</div>" +
-            "</li>");
+    $(addAnimal).click(() => {
+        if (animalIter < 9) {
+            animalIter++;
+            animalsOrderedList.append(
+                "<li id='animalRow'>" +
+                "<div class='input-group mb-3'>" +
+                "<input class='form-control' type='text' placeholder='nazwa/gatunek zwierzęcia'" +
+                "name='animalName" + animalIter + "'/>" +
+                "<div class='input-group-append' style='margin-top:15px'>" +
+                "<button class='btn btn-outline-danger' type='button' id='removeAnimal'>usuń</button>" +
+                "</div>" +
+                "</div>" +
+                "</li>");
+        }
     });
 
-    removeAnimal.click(() => {
+    $(document).on("click", "#removeAnimal", function () {
+        $(this).closest("#animalRow").remove();
         animalIter--;
-        animalsOrderedList.find("li:last-child").remove();
     });
+
 
     const criteriaOrderedList = $("#criteria");
     const addCriterion = $("#addCriterion");
-    const removeCriterion = $("#removeCriterion");
     let criterionIter = 0;
 
     addCriterion.click(() => {
-        criterionIter++;
-        criteriaOrderedList.append(
-            "<li>" +
-            "<div class='form-row'>" +
-            "<div class='col col-lg-7'>" +
-            "<input type='text' class='form-control' placeholder='nazwa kryterium' name='" + "criterionName" + criterionIter + "'>" +
-            "</div>" +
-            "<div class='col col-lg-4'>" +
-            "<input type='number' class='form-control' placeholder='nadrzędne kryterium' min='0' name='" + "parentCriterion" + criterionIter + "'>" +
-            "</div>" +
-            "</div>" +
-            "</li>");
+        if (criterionIter < 30) {
+            criterionIter++;
+            criteriaOrderedList.append(
+                "<li id='criterionRow'>" +
+                "<div class='form-inline'>" +
+                "<div class='input-group'>" +
+                "<input type='text' class='form-control' placeholder='nazwa kryterium' name='criterionName"
+                + criterionIter + "' style='width: 380px'/>" +
+                "</div>" +
+                "<div class='form-group lm'>" +
+                "<input type='number' class='form-control' placeholder='nr rodzica' min='0' " +
+                "name='parentCriterion" + criterionIter + "' style='width: 113px'/>" +
+                "</div>" +
+                "<div class='form-group lm'>" +
+                "<select class='custom-select' name='criterionLevel" + criterionIter +
+                "' style='width: 95px; margin-top: 15px'>" +
+                "<option value='1'>1</option>" +
+                "<option value='2'>2</option>" +
+                "<option value='3'>3</option>" +
+                "<option value='4'>4</option>" +
+                "<option value='5'>5</option>" +
+                "</select>" +
+                "</div>" +
+                "<div class='form-group lm'>" +
+                "<button type='button' id='removeCriterion' class='btn btn-outline-danger'" +
+                "style='margin-top: 15px'>usuń</button>" +
+                "</div>" +
+                "</div>" +
+                "</li>");
+        }
     });
 
-    removeCriterion.click(() => {
+    $(document).on("click", "#removeCriterion", function () {
+        $(this).closest("#criterionRow").remove();
         criterionIter--;
-        criteriaOrderedList.find("li:last-child").remove();
-    })
+    });
 
 }
 

@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface CriterionRepo extends JpaRepository<Criterion, Long> {
 
-    Criterion findByName(String name);
+    Criterion findByNameAndSurvey(String name, Survey survey);
 
     List<Criterion> findAllBySurvey (Survey survey);
+
+    List<Criterion> findAllBySurveyAndCriterion(Survey survey, Criterion criterion);
 }

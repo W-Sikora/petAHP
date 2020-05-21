@@ -8,7 +8,7 @@
             <p><strong>PetAHP</strong>&copy;</p>
         </div>
         <div class="col-lg-3 text-center">
-            <p>Design strony: <strong>bootstrap4.4.1</strong></p>
+            <p>Design strony: <strong>bootstrap 4.4.1</strong></p>
         </div>
         <div class="col-lg-6 text-center">
             <p>Opracowali: <strong>Wojciech Sikora</strong> & <strong>Maksymilian Marszałek</strong></p>

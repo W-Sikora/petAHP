@@ -156,4 +156,20 @@ public class Survey {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Survey{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creationDate=" + creationDate +
+                ", endDate=" + endDate +
+                ", evaluatorNumber=" + evaluatorNumber +
+                ", actualVotesNumber=" + actualVotesNumber +
+                ", votingLink='" + votingLink + '\'' +
+                ", resultLink='" + resultLink + '\'' +
+                ", status=" + status +
+                ", user=" + user +
+                '}';
+    }
 }

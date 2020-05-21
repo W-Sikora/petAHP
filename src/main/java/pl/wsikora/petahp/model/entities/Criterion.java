@@ -14,6 +14,9 @@ public class Criterion {
 
     private String details;
 
+    @Column(name = "level_of_hierarchy")
+    private Integer hierarchyLevel;
+
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Criterion criterion;
@@ -25,9 +28,10 @@ public class Criterion {
     public Criterion() {
     }
 
-    public Criterion(String name, String details, Criterion criterion, Survey survey) {
+    public Criterion(String name, String details, Integer hierarchyLevel, Criterion criterion, Survey survey) {
         this.name = name;
         this.details = details;
+        this.hierarchyLevel = hierarchyLevel;
         this.criterion = criterion;
         this.survey = survey;
     }
@@ -56,6 +60,14 @@ public class Criterion {
         this.details = details;
     }
 
+    public Integer getHierarchyLevel() {
+        return hierarchyLevel;
+    }
+
+    public void setHierarchyLevel(Integer hierarchyLevel) {
+        this.hierarchyLevel = hierarchyLevel;
+    }
+
     public Criterion getCriterion() {
         return criterion;
     }
@@ -78,7 +90,8 @@ public class Criterion {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", details='" + details + '\'' +
-                ", parentCriterion=" + criterion +
+                ", hierarchyLevel=" + hierarchyLevel +
+                ", criterion=" + criterion +
                 ", survey=" + survey +
                 '}';
     }

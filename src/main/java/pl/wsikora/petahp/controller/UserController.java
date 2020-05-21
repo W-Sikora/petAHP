@@ -24,7 +24,13 @@ public class UserController {
     private SurveyRepo surveyRepo;
     private UserRepo userRepo;
 
-    public UserController(AnimalRepo animalRepo, CriterionRepo criterionRepo, EvaluatorRepo evaluatorRepo, FactRepo factRepo, PreferenceRepo preferenceRepo, SurveyRepo surveyRepo, UserRepo userRepo) {
+    public UserController(AnimalRepo animalRepo,
+                          CriterionRepo criterionRepo,
+                          EvaluatorRepo evaluatorRepo,
+                          FactRepo factRepo,
+                          PreferenceRepo preferenceRepo,
+                          SurveyRepo surveyRepo,
+                          UserRepo userRepo) {
         this.animalRepo = animalRepo;
         this.criterionRepo = criterionRepo;
         this.evaluatorRepo = evaluatorRepo;
@@ -122,7 +128,7 @@ public class UserController {
             animalRepo.save(animal);
         }
 
-
+        List<String> criteriaLevel = keyContains(data, "criterionLevel");
         List<String> parentCriteria = keyContainsOrNull(data, "parentCriterion");
         List<String> criteria = keyContains(data, "criterionName");
         System.out.println(parentCriteria.toString());
@@ -131,9 +137,10 @@ public class UserController {
             Criterion criterion = new Criterion();
             criterion.setSurvey(currentSurvey);
             criterion.setName(criteria.get(i));
+            criterion.setHierarchyLevel(Integer.parseInt(criteriaLevel.get(i)));
             if (!parentCriteria.get(i).equals("")) {
                 int index = Integer.parseInt(parentCriteria.get(i)) - 1;
-                criterion.setCriterion(criterionRepo.findByName(criteria.get(index)));
+                criterion.setCriterion(criterionRepo.findByNameAndSurvey(criteria.get(index), currentSurvey));
             }
             criterionRepo.save(criterion);
         }
