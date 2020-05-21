@@ -94,6 +94,10 @@ input.invalid {
     margin-left: 10px;
 }
 
+.rm15 {
+    margin-right: 15px;
+}
+
 .footer-sm-page {
     bottom: 0;
     position: absolute;
@@ -129,6 +133,9 @@ html {
     margin-left: 13px;
 }
 
+ul {
+    list-style-type: disc;
+}
 
 
 

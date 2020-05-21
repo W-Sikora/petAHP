@@ -59,6 +59,9 @@ public class EvaluatorController {
             model.addAttribute("survey", survey)
                     .addAttribute("animals", animalRepo.findAllBySurvey(survey));
             model.addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
+
+
+
 //            model         .addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
             return "evaluator/complete_form";
         } else {
