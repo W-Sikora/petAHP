@@ -62,8 +62,15 @@
 <%--<script src="<c:url value="/static/js/index.js"/>"></script>--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     function setName(level) {
-        return "criterion_l=" + level;
+        return "criterion_l=" + level + "_name=" + getRandomIntInclusive(0, 100000);
     }
 
     function appendInnerCategory(level, element) {
@@ -97,18 +104,27 @@
             add.type = "button";
             add.value = "dodaj";
             add.className = "btn btn-outline-success";
-            add.addEventListener("click", function(event) {
+            add.addEventListener("click", function (event) {
                 appendInnerCategory(level + 1, event.target.parentNode);
             });
             newDiv.appendChild(add);
         }
-
         div.appendChild(newDiv);
         element.appendChild(div);
+        console.log($("input[type=text]"));
     }
 
-    let i = 0;
-    appendInnerCategory(0, document.querySelector("#criteria"), i);
+    function validate() {
+        let inputs = Array.from(document.getElementsByTagName("input"));
+        let error = 0;
+        inputs.forEach(el => {
+            el.value !== "" ? error++ : error += 0;
+        });
+        return error <= 0;
+    }
+
+    let itemIndex = 0;
+    appendInnerCategory(0, document.querySelector("#criteria"), itemIndex);
 
 </script>
 

@@ -64,7 +64,7 @@
                             <ol id="animals"></ol>
                             <div id="addAnimalDiv" class="text-center">
                                 <button type="button" id="addAnimal" class="btn btn-outline-success">
-                                    dodaj zwierzę
+                                    dodaj
                                 </button>
                             </div>
                         </div>
@@ -75,17 +75,7 @@
                             <hr>
                         </div>
                         <div class="form-group">
-                            <ol id="criteria"></ol>
-                            <div class="text-center">
-                                <button type="button" id="addCriterion" class="btn btn-outline-success">
-                                    dodaj kryterium
-                                </button>
-
-                                <ol>
-
-                                </ol>
-
-                            </div>
+                            <div id="criteria"></div>
                         </div>
                     </div>
 

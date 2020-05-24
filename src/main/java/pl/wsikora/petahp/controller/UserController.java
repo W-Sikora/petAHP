@@ -10,8 +10,10 @@ import pl.wsikora.petahp.model.repositories.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -43,32 +45,18 @@ public class UserController {
     private User currentUser;
     private Survey currentSurvey;
 
-    private List<String> keyContains(Map<String, String> map, String string) {
-        List<String> list = new ArrayList<>();
-        for (Map.Entry<String, String> element : map.entrySet()) {
-            if (!element.getValue().equals("")) {
-                if (element.getKey().contains(string)) {
-                    list.add(element.getValue());
-                    map.remove(element);
-                }
-            }
-        }
-        return list;
+    public List<String> getFilteredListByMapKey(Map<String, String> map, String string) {
+        return map.entrySet().stream()
+                .filter(x -> x.getKey().contains(string))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 
-    private List<String> keyContainsOrNull(Map<String, String> map, String string) {
-        List<String> list = new ArrayList<>();
-        for (Map.Entry<String, String> element : map.entrySet()) {
-            if (element.getKey().contains(string)) {
-                list.add(element.getValue());
-                map.remove(element);
-            }
-        }
-        return list;
+    public Map<String, String> getFilteredMapByMapKey(Map<String, String> map, String string) {
+        return map.entrySet().stream()
+                .filter(x -> x.getKey().contains(string))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
-//    private Integer getInt(Map<String, String> map, String key) throws NumberFormatException {
-//        return Integer.parseInt(map.get(key));
-//    }
 
     @RequestMapping(value = "/zalogowanie")
     public String checkLogin(@RequestParam String email,
@@ -106,45 +94,52 @@ public class UserController {
 
     @RequestMapping(value = "/panel/tworzenie-ankiety")
     public String savePoll(@RequestParam Map<String, String> data) {
+        System.out.println(data);
+        if (data != null) {
+            Survey survey = new Survey();
+            survey.setUser(currentUser);
+            survey.setName(data.get("surveyName"));
+            survey.setEvaluatorNumber(Integer.parseInt(data.get("evaluatorNumber")));
+            survey.setEndDate(LocalDate.parse(data.get("endDate")));
+            surveyRepo.save(survey);
+            currentSurvey = survey;
 
-        Survey survey = new Survey();
-        survey.setUser(currentUser);
-        survey.setName(data.get("surveyName"));
-        survey.setEvaluatorNumber(Integer.parseInt(data.get("evaluatorNumber")));
-        survey.setEndDate(LocalDate.parse(data.get("endDate")));
-        surveyRepo.save(survey);
-        currentSurvey = survey;
-
-        for (int i = 0; i < survey.getEvaluatorNumber(); i++) {
-            Evaluator evaluator = new Evaluator();
-            evaluator.setSurvey(survey);
-            evaluatorRepo.save(evaluator);
-        }
-
-        for (String animalName : keyContains(data, "animal")) {
-            Animal animal = new Animal();
-            animal.setSurvey(survey);
-            animal.setName(animalName);
-            animalRepo.save(animal);
-        }
-
-        List<String> criteriaLevel = keyContains(data, "criterionLevel");
-        List<String> parentCriteria = keyContainsOrNull(data, "parentCriterion");
-        List<String> criteria = keyContains(data, "criterionName");
-        System.out.println(parentCriteria.toString());
-        System.out.println(criteria.toString());
-        for (int i = 0; i < criteria.size(); i++) {
-            Criterion criterion = new Criterion();
-            criterion.setSurvey(currentSurvey);
-            criterion.setName(criteria.get(i));
-            criterion.setHierarchyLevel(Integer.parseInt(criteriaLevel.get(i)));
-            if (!parentCriteria.get(i).equals("")) {
-                int index = Integer.parseInt(parentCriteria.get(i)) - 1;
-                criterion.setCriterion(criterionRepo.findByNameAndSurvey(criteria.get(index), currentSurvey));
+            for (int i = 0; i < survey.getEvaluatorNumber(); i++) {
+                Evaluator evaluator = new Evaluator();
+                evaluator.setSurvey(survey);
+                evaluatorRepo.save(evaluator);
             }
-            criterionRepo.save(criterion);
+
+            for (String animalName : getFilteredListByMapKey(data, "animal")) {
+                Animal animal = new Animal();
+                animal.setSurvey(survey);
+                animal.setName(animalName);
+                animalRepo.save(animal);
+            }
+
+            Map<String, String> criteria = getFilteredMapByMapKey(data, "criterion_id=\\d_lev=1");
+            System.out.println(criteria.keySet().toString());
+//            System.out.println(criteria.values().toString());
         }
-        return "redirect:/panel/ankieta-podsumowanie";
+
+
+        //        List<String> parentCriteria = keyContainsOrNull(data, "parentCriterion");
+//        List<String> criteria = keyContains(data, "criterionName");
+//        System.out.println(parentCriteria.toString());
+//        System.out.println(criteria.toString());
+//        for (int i = 0; i < criteria.size(); i++) {
+//            Criterion criterion = new Criterion();
+//            criterion.setSurvey(currentSurvey);
+//            criterion.setName(criteria.get(i));
+//            criterion.setHierarchyLevel(Integer.parseInt(criteriaLevel.get(i)));
+//            if (!parentCriteria.get(i).equals("")) {
+//                int index = Integer.parseInt(parentCriteria.get(i)) - 1;
+//                criterion.setCriterion(criterionRepo.findByNameAndSurvey(criteria.get(index), currentSurvey));
+//            }
+//            criterionRepo.save(criterion);
+//        }
+//        return "redirect:/panel/ankieta-podsumowanie";
+        return "redirect:/panel";
     }
 
     @RequestMapping(value = "/panel/ankieta-podsumowanie")
@@ -163,7 +158,7 @@ public class UserController {
 //        return "user/edit_form";
 //    }
 
-    @RequestMapping(value = "/panel/edycja-ankiet/usun/{pollId}")
+    @RequestMapping(value = "/panel/edycja-ankiet/usun/{id}")
     public String hidePoll(@PathVariable long id) {
         surveyRepo.updateStatus(Status.DELETED, id);
         return "redirect:/panel";

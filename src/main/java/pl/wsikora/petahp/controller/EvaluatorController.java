@@ -46,7 +46,7 @@ public class EvaluatorController {
             String path = link.replace("http://localhost:8080/ankieta=", "");
             return "redirect:/ankieta=" + path;
         } else {
-            model.addAttribute("error", "Nie ma ankiety o zadanym linku :(");
+            model.addAttribute("error", "Nie ma takiego linku :(");
             return "home/go_to_form";
         }
     }
@@ -55,17 +55,21 @@ public class EvaluatorController {
     public String action(@PathVariable String link,
                          Model model) {
         Survey survey = surveyRepo.findByVotingLink(link);
-        if (LocalDate.now().isBefore(survey.getEndDate()) && survey.getActualVotesNumber() <= survey.getEvaluatorNumber()) {
-            model.addAttribute("survey", survey)
-                    .addAttribute("animals", animalRepo.findAllBySurvey(survey));
-            model.addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
+        if (survey != null) {
+            if (LocalDate.now().isBefore(survey.getEndDate()) && survey.getActualVotesNumber() <= survey.getEvaluatorNumber()) {
+                model.addAttribute("survey", survey)
+                        .addAttribute("animals", animalRepo.findAllBySurvey(survey));
+                model.addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
 
 
-
-//            model         .addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
-            return "evaluator/complete_form";
+                //            model         .addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
+                return "evaluator/complete_form";
+            } else {
+                model.addAttribute("error", "Przedmiotowa ankieta została zakończona");
+                return "home/go_to_form";
+            }
         } else {
-            model.addAttribute("error", "Przedmiotowa ankieta została zakończona");
+            model.addAttribute("error", "Nie ma ankiety o zadanym linku :(");
             return "home/go_to_form";
         }
     }

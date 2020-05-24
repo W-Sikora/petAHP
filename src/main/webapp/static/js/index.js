@@ -10,7 +10,9 @@ if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
 //&& validate(current, partsOfForm)
     nextBtn.onclick = () => {
         current >= 0 ? current++ : current;
+
         display(current, form, prevBtn, partsOfForm);
+
     };
 
     prevBtn.onclick = () => {
@@ -43,48 +45,73 @@ if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
         animalIter--;
     });
 
+    function setName(level, index) {
+        return "criterion_l=" + level + "_id=" + index;
+    }
 
-    const criteriaOrderedList = $("#criteria");
-    const addCriterion = $("#addCriterion");
-    let criterionIter = 0;
+    function appendInnerCategory(level, element, inputsMaxNb) {
+        console.log($("input[type=text]"));
+        let inputsLen = $("input[type=text]").length - 1;
 
-    addCriterion.click(() => {
-        if (criterionIter < 30) {
-            criterionIter++;
-            criteriaOrderedList.append(
-                "<li id='criterionRow'>" +
-                "<div class='form-inline'>" +
-                "<div class='input-group'>" +
-                "<input type='text' class='form-control' placeholder='nazwa kryterium' name='criterionName"
-                + criterionIter + "' style='width: 380px'/>" +
-                "</div>" +
-                "<div class='form-group lm'>" +
-                "<input type='number' class='form-control' placeholder='nr rodzica' min='0' " +
-                "name='parentCriterion" + criterionIter + "' style='width: 113px'/>" +
-                "</div>" +
-                "<div class='form-group lm'>" +
-                "<select class='custom-select' name='criterionLevel" + criterionIter +
-                "' style='width: 95px; margin-top: 15px'>" +
-                "<option value='1'>1</option>" +
-                "<option value='2'>2</option>" +
-                "<option value='3'>3</option>" +
-                "<option value='4'>4</option>" +
-                "<option value='5'>5</option>" +
-                "</select>" +
-                "</div>" +
-                "<div class='form-group lm'>" +
-                "<button type='button' id='removeCriterion' class='btn btn-outline-danger'" +
-                "style='margin-top: 15px'>usuń</button>" +
-                "</div>" +
-                "</div>" +
-                "</li>");
+        if (inputsLen < inputsMaxNb) {
+            let div = document.createElement("div");
+            div.className = "form-inline";
+
+            let newDiv = document.createElement("div");
+            newDiv.className = "level-" + level;
+
+            if (level > 0) {
+                let name = document.createElement("input");
+                name.type = "text";
+                name.className = "form-control rm15";
+                name.style = "width: 350px";
+                name.placeholder = "nazwa";
+                if (level === 1) {
+                    name.name = "criterion_id=" + inputsLen  + "_lev=" + level;
+                } else {
+                    let parentName = $(element).find("input[type=text]")[0].name;
+                    name.name = "criterion_id=" + inputsLen  + "_lev=" + level + "_par=" + parentName;
+                }
+
+                newDiv.appendChild(name);
+
+                let remove = document.createElement("input");
+                remove.type = "button";
+                remove.value = "usuń";
+                remove.className = "btn btn-outline-danger rm15";
+                remove.addEventListener("click", function () {
+                    this.closest("div").parentElement.remove();
+                });
+                newDiv.appendChild(remove);
+            }
+            if (level < 4) {
+                let add = document.createElement("input");
+                add.type = "button";
+                add.value = "dodaj";
+                add.className = "btn btn-outline-success";
+                add.addEventListener("click", function (event) {
+                    appendInnerCategory(level + 1, event.target.parentNode, inputsMaxNb);
+                });
+                newDiv.appendChild(add);
+            }
+            div.appendChild(newDiv);
+            element.appendChild(div);
+        } else {
+            alert("Osiągnięto maksymalną liczbę kryteriów");
         }
-    });
+    }
 
-    $(document).on("click", "#removeCriterion", function () {
-        $(this).closest("#criterionRow").remove();
-        criterionIter--;
-    });
+    function validateCriteria() {
+        let inputs = $("input[type=text]");
+        let error = 0;
+        inputs.forEach(el => {
+            el.value !== "" ? error++ : error += 0;
+        });
+        return error <= 0;
+    }
+
+    let inputsMaxNb = 30;
+    appendInnerCategory(0, document.querySelector("#criteria"), inputsMaxNb);
 
 }
 
