@@ -18,8 +18,7 @@ public class Ahp {
     }
 
     private int calcDimension() {
-        int a = 1, b = -1, c = -2 * list.size();
-        return (int) ((-b + Math.sqrt(b * b - (4 * a * c))) / 2 * a);
+        return (int) (1 + Math.sqrt(1 + 8 * list.size())) / 2;
     }
 
     public StringBuilder show1() {
