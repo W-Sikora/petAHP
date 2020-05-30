@@ -61,8 +61,8 @@
                             <hr>
                         </div>
                         <div class="form-group">
-                            <ol id="animals"></ol>
-                            <div id="addAnimalDiv" class="text-center">
+                            <div id="animals"></div>
+                            <div class="text-center">
                                 <button type="button" id="addAnimal" class="btn btn-outline-success">
                                     dodaj
                                 </button>
@@ -94,7 +94,9 @@
 <footer class="m-top">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="<c:url value="/static/js/index.js"/>"></script>
+
 </body>
 </html>

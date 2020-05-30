@@ -94,52 +94,45 @@ public class UserController {
 
     @RequestMapping(value = "/panel/tworzenie-ankiety")
     public String savePoll(@RequestParam Map<String, String> data) {
-        System.out.println(data);
-        if (data != null) {
-            Survey survey = new Survey();
-            survey.setUser(currentUser);
-            survey.setName(data.get("surveyName"));
-            survey.setEvaluatorNumber(Integer.parseInt(data.get("evaluatorNumber")));
-            survey.setEndDate(LocalDate.parse(data.get("endDate")));
-            surveyRepo.save(survey);
-            currentSurvey = survey;
+        String surveyName = "surveyName";
+        String evaluatorNumber = "evaluatorNumber";
+        String endDate = "endDate";
 
-            for (int i = 0; i < survey.getEvaluatorNumber(); i++) {
-                Evaluator evaluator = new Evaluator();
-                evaluator.setSurvey(survey);
-                evaluatorRepo.save(evaluator);
-            }
+        Survey survey = new Survey();
+        survey.setUser(currentUser);
+        survey.setName(data.get(surveyName));
+        data.remove(surveyName);
+        survey.setEvaluatorNumber(Integer.parseInt(data.get(evaluatorNumber)));
+        data.remove(evaluatorNumber);
+        survey.setEndDate(LocalDate.parse(data.get(endDate)));
+        data.remove(endDate);
+        surveyRepo.save(survey);
+        currentSurvey = survey;
 
-            for (String animalName : getFilteredListByMapKey(data, "animal")) {
-                Animal animal = new Animal();
-                animal.setSurvey(survey);
-                animal.setName(animalName);
-                animalRepo.save(animal);
-            }
-
-            Map<String, String> criteria = getFilteredMapByMapKey(data, "criterion_id=\\d_lev=1");
-            System.out.println(criteria.keySet().toString());
-//            System.out.println(criteria.values().toString());
+        for (int i = 0; i < survey.getEvaluatorNumber(); i++) {
+            Evaluator evaluator = new Evaluator();
+            evaluator.setSurvey(survey);
+            evaluatorRepo.save(evaluator);
         }
 
+        for (Map.Entry<String, String> animals : getFilteredMapByMapKey(data, "animal").entrySet()) {
+            Animal animal = new Animal();
+            animal.setSurvey(survey);
+            animal.setName(animals.getValue());
+            animalRepo.save(animal);
+            data.remove(animals.getKey());
+        }
 
-        //        List<String> parentCriteria = keyContainsOrNull(data, "parentCriterion");
-//        List<String> criteria = keyContains(data, "criterionName");
-//        System.out.println(parentCriteria.toString());
-//        System.out.println(criteria.toString());
-//        for (int i = 0; i < criteria.size(); i++) {
+        List<String> keys = new ArrayList<>(data.keySet());
+//        for (int i = 0; i < data.size(); i += 3) {
 //            Criterion criterion = new Criterion();
-//            criterion.setSurvey(currentSurvey);
-//            criterion.setName(criteria.get(i));
-//            criterion.setHierarchyLevel(Integer.parseInt(criteriaLevel.get(i)));
-//            if (!parentCriteria.get(i).equals("")) {
-//                int index = Integer.parseInt(parentCriteria.get(i)) - 1;
-//                criterion.setCriterion(criterionRepo.findByNameAndSurvey(criteria.get(index), currentSurvey));
-//            }
-//            criterionRepo.save(criterion);
+//            criterion.setSurvey(survey);
+//            criterion.setName(data.get(keys.get(i)));
+//            criterion.setHierarchyLevel(Integer.parseInt(data.get(keys.get(i + 1))));
+//            criterion.setCriterion(data.get(keys.get(i + 2));
 //        }
-//        return "redirect:/panel/ankieta-podsumowanie";
-        return "redirect:/panel";
+        System.out.println(data.toString());
+        return "redirect:/panel/ankieta-podsumowanie";
     }
 
     @RequestMapping(value = "/panel/ankieta-podsumowanie")
@@ -149,7 +142,7 @@ public class UserController {
                 .addAttribute("criteria", criterionRepo.findAllBySurvey(currentSurvey));
         return "user/summarize_form";
     }
-//
+
 //    @RequestMapping(value = "/panel/edycja-ankiet")
 //    public String editPoll(Model model) {
 //        if (pollRepo.countVisible(true, currentUser.getId()) > 0) {
@@ -175,7 +168,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/panel/wynik/{id}")
-    public String resultsAction(@PathVariable long id) {
+    public String resultsAction(@PathVariable long id,
+                                Model model) {
+        Survey survey = surveyRepo.findById(id);
+        model.addAttribute("survey", survey)
+                .addAttribute("animals", animalRepo.findAllBySurvey(survey));
         return "user/results";
     }
 

@@ -1,118 +1,65 @@
 if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
-
     const form = document.getElementById("form");
-    const partsOfForm = Array.from(document.getElementsByClassName("part"));
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
+    const formParts = Array.from(document.getElementsByClassName("part"));
     let current = 0;
 
-    display(current, form, prevBtn, partsOfForm);
-//&& validate(current, partsOfForm)
-    nextBtn.onclick = () => {
-        current >= 0 ? current++ : current;
-
-        display(current, form, prevBtn, partsOfForm);
-
-    };
-
-    prevBtn.onclick = () => {
-        current >= 1 ? current-- : current;
-        display(current, form, prevBtn, partsOfForm);
-    };
-
-    const animalsOrderedList = $("#animals");
-    const addAnimal = $("#addAnimal");
+    const animalsDiv = document.getElementById("animals");
+    const addAnimal = document.getElementById("addAnimal");
+    const animalsMaxQty = 9;
     let animalIter = 0;
 
-    $(addAnimal).click(() => {
-        if (animalIter < 9) {
-            animalIter++;
-            animalsOrderedList.append(
-                "<li id='animalRow'>" +
-                "<div class='input-group mb-3'>" +
-                "<input class='form-control' type='text' placeholder='nazwa/gatunek zwierzęcia'" +
-                "name='animalName" + animalIter + "'/>" +
-                "<div class='input-group-append' style='margin-top:15px'>" +
-                "<button class='btn btn-outline-danger' type='button' id='removeAnimal'>usuń</button>" +
-                "</div>" +
-                "</div>" +
-                "</li>");
-        }
-    });
+    const criteriaDiv = document.getElementById("criteria");
+    const criteriaMaxQty = 40;
+    let criterionIter = 0;
 
-    $(document).on("click", "#removeAnimal", function () {
-        $(this).closest("#animalRow").remove();
-        animalIter--;
-    });
+    let inputs = Array.from(formParts[current].getElementsByTagName("input"));
 
-    function setName(level, index) {
-        return "criterion_l=" + level + "_id=" + index;
-    }
+    display(current, form, prevBtn, formParts);
 
-    function appendInnerCategory(level, element, inputsMaxNb) {
-        console.log($("input[type=text]"));
-        let inputsLen = $("input[type=text]").length - 1;
-
-        if (inputsLen < inputsMaxNb) {
-            let div = document.createElement("div");
-            div.className = "form-inline";
-
-            let newDiv = document.createElement("div");
-            newDiv.className = "level-" + level;
-
-            if (level > 0) {
-                let name = document.createElement("input");
-                name.type = "text";
-                name.className = "form-control rm15";
-                name.style = "width: 350px";
-                name.placeholder = "nazwa";
-                if (level === 1) {
-                    name.name = "criterion_id=" + inputsLen  + "_lev=" + level;
-                } else {
-                    let parentName = $(element).find("input[type=text]")[0].name;
-                    name.name = "criterion_id=" + inputsLen  + "_lev=" + level + "_par=" + parentName;
-                }
-
-                newDiv.appendChild(name);
-
-                let remove = document.createElement("input");
-                remove.type = "button";
-                remove.value = "usuń";
-                remove.className = "btn btn-outline-danger rm15";
-                remove.addEventListener("click", function () {
-                    this.closest("div").parentElement.remove();
-                });
-                newDiv.appendChild(remove);
+    nextBtn.addEventListener("click", () => {
+        if (current === 0) {
+            if (validate(current, formParts)) {
+                current++;
             }
-            if (level < 4) {
-                let add = document.createElement("input");
-                add.type = "button";
-                add.value = "dodaj";
-                add.className = "btn btn-outline-success";
-                add.addEventListener("click", function (event) {
-                    appendInnerCategory(level + 1, event.target.parentNode, inputsMaxNb);
-                });
-                newDiv.appendChild(add);
-            }
-            div.appendChild(newDiv);
-            element.appendChild(div);
         } else {
-            alert("Osiągnięto maksymalną liczbę kryteriów");
+            if (validate(current, formParts) && $(document).find("input[type=text]").length > 2) {
+                current++
+            } else {
+                alert("muisz wprowadzić przynajmniej 2");
+            }
         }
-    }
+        display(current, form, prevBtn, formParts);
+    });
 
-    function validateCriteria() {
-        let inputs = $("input[type=text]");
-        let error = 0;
-        inputs.forEach(el => {
-            el.value !== "" ? error++ : error += 0;
-        });
-        return error <= 0;
-    }
+    prevBtn.addEventListener("click", () => {
+        if (current >= 1) {
+            current--;
+        }
+        display(current, form, prevBtn, formParts);
+    });
 
-    let inputsMaxNb = 30;
-    appendInnerCategory(0, document.querySelector("#criteria"), inputsMaxNb);
+    inputs.forEach(el => {
+        el.addEventListener("change", () => {
+            if (el.value !== "") {
+                el.className = "form-control";
+            } else {
+                el.className = "form-control invalid";
+            }
+        })
+    });
 
+    addAnimal.addEventListener("click", () => {
+        if ($(document).find("input[name^=animal]").length < animalsMaxQty) {
+            animalIter++;
+            createAnimal(animalsDiv, animalIter);
+        } else {
+            alert("maksymalna liczba zwierząt to " + animalsMaxQty);
+        }
+    });
+
+    createCriterion(criteriaDiv, criterionIter, 0, criteriaMaxQty);
 }
 
 if (window.location.pathname === "/panel/ankieta-podsumowanie") {
@@ -120,90 +67,20 @@ if (window.location.pathname === "/panel/ankieta-podsumowanie") {
 }
 
 if (window.location.pathname === "/panel") {
-
-    document.getElementById("logOut").addEventListener("mouseover", () => {
-        document.getElementById("logOut").className = "btn btn-outline-danger";
-    });
-
-    document.getElementById("logOut").addEventListener("mouseout", () => {
-        document.getElementById("logOut").className = "btn btn-outline-dark";
-    });
-
-    document.getElementById("newForm").addEventListener("mouseover", () => {
-        document.getElementById("newForm").className = "btn btn-outline-success";
-    });
-
-    document.getElementById("newForm").addEventListener("mouseout", () => {
-        document.getElementById("newForm").className = "btn btn-outline-dark";
-    });
-
     new ClipboardJS('.copy');
 
+    const logOut = document.getElementById("logOut");
+    const newForm = document.getElementById("newForm");
+
+    changeInputClassWhen(logOut, "mouseover", "btn btn-outline-danger");
+    changeInputClassWhen(logOut, "mouseout", "btn btn-outline-dark");
+    changeInputClassWhen(newForm, "mouseover", "btn btn-outline-success");
+    changeInputClassWhen(newForm, "mouseout", "btn btn-outline-dark");
 }
 
 if (window.location.pathname.includes("/ankieta=")) {
-    const form = document.getElementById("completeForm");
-    const partsOfForm = Array.from(document.getElementsByClassName("part")).forEach(el => {
-        el.style.display = "block";
-    });
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-
-    nextBtn.addEventListener("click", () => {
-        form.submit();
-    });
-
-    // let current = 0;
-    // display(current, form, prevBtn, partsOfForm);
-    // nextBtn.onclick = () => {
-    //     current >= 0 ? current++ : current;
-    //     display(current, form, prevBtn, partsOfForm);
-    // };
-    //
-    // prevBtn.onclick = () => {
-    //     current >= 1 ? current-- : current;
-    //     display(current, form, prevBtn, partsOfForm);
-    // };
-
-    const ratings = Array.from(document.getElementsByClassName("ratings"));
-    const ratingValues = Array.from(document.getElementsByClassName("rating-value"));
-    for (let i = 0; i < ratings.length; i++) {
-        const stars = ratings[i].children;
-        toInput(stars, ratingValues[i])
-    }
-
-    function toInput(stars, ratingValue) {
-        let index;
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].addEventListener("mouseover", function () {
-                for (let j = 0; j < stars.length; j++) {
-                    stars[j].classList.remove("fa-star");
-                    stars[j].classList.add("fa-star-o");
-                }
-                for (let j = 0; j <= i; j++) {
-                    stars[j].classList.remove("fa-star-o");
-                    stars[j].classList.add("fa-star");
-                }
-            });
-            stars[i].addEventListener("click", function () {
-                ratingValue.value = i + 1;
-                index = i;
-            });
-            stars[i].addEventListener("mouseout", function () {
-                for (let j = 0; j < stars.length; j++) {
-                    stars[j].classList.remove("fa-star");
-                    stars[j].classList.add("fa-star-o");
-                }
-                for (let j = 0; j <= index; j++) {
-                    stars[j].classList.remove("fa-star-o");
-                    stars[j].classList.add("fa-star");
-                }
-            })
-        }
-    }
 
 }
-
 
 if (window.location.pathname === "ankieta/podsumowanie") {
     setTimeout(() => {
@@ -233,74 +110,160 @@ function display(index, form, prevBtn, parts) {
 }
 
 function validate(index, parts) {
-    let inputs = parts[index].getElementsByTagName("input");
+    const inputs = parts[index].getElementsByTagName("input");
     let valid = true;
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].value === "") {
             inputs[i].className += " invalid";
             valid = false;
-        } else {
-            inputs[i].className = "form-control";
         }
     }
     return valid;
 }
 
-function createNew(base, parent, type, name, className, required, placeholder) {
-    if (base.value >= base.min && base.value <= base.max) {
-        removeAllRelated(parent);
-        for (let i = 0; i < base.value; i++) {
-            let newInput = document.createElement("input");
-            setInput(parent, newInput, type, name + i, className, required, (i + 1) + ". " + placeholder);
-        }
-    }
+function createAnimal(animalsDiv, iter) {
+    let div = document.createElement("div");
+    div.className = "input-group mb-3";
+    div.id = "animal" + iter;
+    animalsDiv.appendChild(div);
+
+    let input = document.createElement("input");
+    input.className = "form-control";
+    input.type = "text";
+    input.placeholder = "nazwa/gatunek zwierzęcia";
+    input.name = "animalName" + iter;
+    div.appendChild(input);
+
+    let inputGroup = document.createElement("div");
+    inputGroup.className = "input-group-append";
+    div.appendChild(inputGroup);
+
+    let button = document.createElement("button");
+    button.className = "btn btn-outline-danger";
+    button.type = "button";
+    button.innerText = "usuń";
+    button.addEventListener("click", function () {
+        $(this).closest("div[id^=animal]").remove();
+    });
+    inputGroup.appendChild(button);
 }
 
-function show(base, elements) {
-    if (base.value >= base.min && base.value <= base.max) {
-        hideAll(elements);
-        for (let i = 0; i < base.value; i++) {
-            elements[i].style.display = "block";
-        }
-    }
-}
+function createCriterion(criteriaDiv, iter, level, criteriaMaxQty) {
+    if ($(document).find("input[name^=criterion]").length < criteriaMaxQty) {
+        let div = document.createElement("div");
+        div.className = "form-inline";
+        div.id = "criterion" + iter;
+        criteriaDiv.appendChild(div);
 
-function hideAll(elements) {
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].style.display = "none";
-    }
-}
+        let newDiv = document.createElement("div");
+        newDiv.className = "level-" + level;
+        div.appendChild(newDiv);
 
-function removeAllRelated(core) {
-    while (core.firstChild) {
-        core.lastChild.remove();
-    }
-}
+        if (level > 0) {
+            let input = document.createElement("input");
+            input.type = "text";
+            input.className = "form-control rm15";
+            input.style = "width: 350px";
+            input.placeholder = "nazwa";
+            input.name = "criterionName" + iter;
+            newDiv.appendChild(input);
 
-function setInput(parent, base, type, name, className, required, placeholder) {
-    base.type = type;
-    base.name = name;
-    base.className = className;
-    base.required = required;
-    base.placeholder = placeholder;
-    parent.appendChild(base);
-}
+            let inputLevel = document.createElement("input");
+            inputLevel.type = "hidden";
+            inputLevel.value = level;
+            inputLevel.name = "level" + iter;
+            newDiv.appendChild(inputLevel);
 
-function find(tag, nameLike) {
-    const allTag = Array.from(document.getElementsByTagName(tag));
-    let matching = [];
-    if (allTag.length > 0) {
-        for (let i = 0; i < allTag.length; i++) {
-            if (allTag[i].hasAttribute("name")) {
-                if (allTag[i].name.includes(nameLike)) {
-                    matching.push(allTag[i]);
-                }
-            } else {
-                if (allTag[i].id.includes(nameLike)) {
-                    matching.push(allTag[i]);
-                }
+            let inputParent = document.createElement("input");
+            inputParent.type = "hidden";
+            if (level > 1) {
+                input.addEventListener("change", function () {
+                    inputParent.value = $(this).parents()[3].getElementsByTagName("input")[0].name;
+                });
             }
+            inputParent.name = "inputParent" + iter;
+            newDiv.appendChild(inputParent);
+
+            let remove = document.createElement("button");
+            remove.type = "button";
+            remove.innerText = "usuń";
+            remove.className = "btn btn-outline-danger rm15 margin-top-sm";
+            remove.addEventListener("click", function () {
+                $(this).closest("div[id^=criterion]").remove();
+            });
+            newDiv.appendChild(remove);
         }
+
+        if (level < 4) {
+            let add = document.createElement("button");
+            add.type = "button";
+            add.innerText = "dodaj";
+            add.className = "btn btn-outline-success margin-top-sm";
+            add.addEventListener("click", function (event) {
+                iter++;
+                createCriterion(event.target.parentNode, iter, level + 1, criteriaMaxQty);
+            });
+            newDiv.appendChild(add);
+        }
+    } else {
+        alert("maksymalna liczba kryteriów to " + criteriaMaxQty);
     }
-    return matching;
 }
+
+function appendInnerCategory(level, element, inputsMaxNb) {
+    let inputsLen = $("input[type=text]").length - 1;
+    if (inputsLen < inputsMaxNb) {
+        let div = document.createElement("div");
+        div.className = "form-inline";
+
+        let newDiv = document.createElement("div");
+        newDiv.className = "level-" + level;
+
+        if (level > 0) {
+            console.log()
+            let name = document.createElement("input");
+            name.type = "text";
+            name.className = "form-control rm15";
+            name.style = "width: 350px";
+            name.placeholder = "nazwa";
+            if (level === 1) {
+                name.name = "criterion_lev=" + level + "_par=_id=" + inputsLen;
+            } else {
+                let parentName = $(element).find("input[type=text]")[0].name;
+                name.name = "criterion_lev=" + level + "_par=" + parentName + "_id=" + inputsLen;
+            }
+            newDiv.appendChild(name);
+
+            let remove = document.createElement("button");
+            remove.type = "button";
+            remove.innerText = "usuń";
+            remove.className = "btn btn-outline-danger rm15";
+            remove.addEventListener("click", function () {
+                this.closest("div").parentElement.remove();
+            });
+            newDiv.appendChild(remove);
+        }
+        if (level < 4) {
+            let add = document.createElement("input");
+            add.type = "button";
+            add.value = "dodaj";
+            add.className = "btn btn-outline-success";
+            add.addEventListener("click", function (event) {
+                appendInnerCategory(level + 1, event.target.parentNode, inputsMaxNb);
+            });
+            newDiv.appendChild(add);
+        }
+        div.appendChild(newDiv);
+        element.appendChild(div);
+    } else {
+        alert("Osiągnięto maksymalną liczbę kryteriów");
+    }
+}
+
+function changeInputClassWhen(input, event, className) {
+    input.addEventListener(event, () => {
+        input.className = className;
+    });
+}
+
+
