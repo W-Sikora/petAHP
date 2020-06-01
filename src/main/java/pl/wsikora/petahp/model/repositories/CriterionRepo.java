@@ -14,4 +14,6 @@ public interface CriterionRepo extends JpaRepository<Criterion, Long> {
     List<Criterion> findAllBySurvey (Survey survey);
 
     List<Criterion> findAllBySurveyAndCriterion(Survey survey, Criterion criterion);
+
+//    int countAllByHierarchyLevelAndSurvey
 }

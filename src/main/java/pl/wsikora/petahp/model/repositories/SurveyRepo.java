@@ -14,6 +14,7 @@ public interface SurveyRepo extends JpaRepository<Survey, Long> {
 
     List<Survey> findAllByUserAndStatus(User user, Status status);
 
+    Survey findById(long id);
     Survey findByVotingLink(String votingLink);
 
     int countAllByUserAndStatus(User user, Status status);

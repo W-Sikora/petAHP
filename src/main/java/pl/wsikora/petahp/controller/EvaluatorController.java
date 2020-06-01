@@ -59,10 +59,11 @@ public class EvaluatorController {
             if (LocalDate.now().isBefore(survey.getEndDate()) && survey.getActualVotesNumber() <= survey.getEvaluatorNumber()) {
                 model.addAttribute("survey", survey)
                         .addAttribute("animals", animalRepo.findAllBySurvey(survey));
-                model.addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
+//                        .addAttribute("criteria", );
+                List<Criterion> criteria = criterionRepo.findAllBySurvey(survey);
+                List<List<Criterion>> lists = new ArrayList<>();
 
 
-                //            model         .addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
                 return "evaluator/complete_form";
             } else {
                 model.addAttribute("error", "Przedmiotowa ankieta została zakończona");
@@ -73,7 +74,6 @@ public class EvaluatorController {
             return "home/go_to_form";
         }
     }
-
 
 
 //    @RequestMapping(value = "/ankieta/zapisano-odpowiedz")

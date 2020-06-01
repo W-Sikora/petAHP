@@ -50,41 +50,22 @@
                 <%--                    </c:forEach>--%>
                 <%--                </c:forEach>--%>
 
-                <c:forEach items="${criteria}" var="c" varStatus="i">
-                    <c:if test="${c.criterion.name == null}">
-                        <ul>
-                            <li>${c.name}</li>
-                            <c:forEach items="${criteria}" var="cr" varStatus="j">
-                                <c:if test="${cr.criterion.name == c.name}">
-                                    <ul>
-                                        <li>${cr.name}</li>
-                                        <ul>
-                                            <c:forEach items="${criteria}" var="cri" varStatus="k">
-                                                <c:if test="${cri.criterion.name == cr.name}">
-                                                    <li>${cri.name}</li>
-                                                    <ul>
-                                                        <c:forEach items="${criteria}" var="crit" varStatus="l">
-                                                            <c:if test="${crit.criterion.name == cri.name}">
-                                                                <li>${crit.name}</li>
-                                                                <ul>
-                                                                    <c:forEach items="${criteria}" var="crite" varStatus="m">
-                                                                        <c:if test="${crite.criterion.name == crit.name}">
-                                                                            <li>${crite.name}</li>
-                                                                        </c:if>
-                                                                    </c:forEach>
-                                                                </ul>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </ul>
-                                                </c:if>
-                                            </c:forEach>
-                                        </ul>
-                                    </ul>
-                                </c:if>
-                            </c:forEach>
-                        </ul>
+
+                <c:forEach items="${criteria}" var="c">
+                    <c:if test="${c.hierarchyLevel == 1}">
+
+                    </c:if>
+                    <c:if test="${c.hierarchyLevel == 2}">
+
+                    </c:if>
+                    <c:if test="${c.hierarchyLevel == 3}">
+
+                    </c:if>
+                    <c:if test="${c.hierarchyLevel == 4}">
+
                     </c:if>
                 </c:forEach>
+
 
 
                 <div class="text-center mtb17-7">

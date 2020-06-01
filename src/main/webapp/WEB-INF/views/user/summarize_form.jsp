@@ -30,8 +30,10 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <h3>Ankieta została pomyślnie utworzona</h3>
-            <a class="btn btn-outline-dark" href="<c:url value="/panel"/>" role="button">ok</a>
+            <div class="text-center">
+                <h3><mark>Ankieta została pomyślnie utworzona</mark></h3>
+                <a class="btn btn-outline-dark mtb17-7" href="<c:url value="/panel"/>" role="button">powrót do panelu</a>
+            </div>
 
             <div class="col-lg-10 margin-auto">
                 <h5>Linki:</h5>
@@ -78,57 +80,27 @@
                 <hr>
                 <ul>
                     <c:forEach items="${animals}" var="a">
-                        <li>${a.name}</li>
+                        <li class="hl-1">${a.name}</li>
                     </c:forEach>
                 </ul>
                 <h5>Przyjęte kryteria:</h5>
                 <hr>
 
-                <c:forEach items="${criteria}" var="c" varStatus="i">
-                    <c:if test="${c.criterion.name == null}">
-                        <ul>
-                            <li>${c.name}</li>
-                            <c:forEach items="${criteria}" var="cr" varStatus="j">
-                                <c:if test="${cr.criterion.name == c.name}">
-                                    <ul>
-                                        <li>${cr.name}</li>
-                                        <ul>
-                                            <c:forEach items="${criteria}" var="cri" varStatus="k">
-                                                <c:if test="${cri.criterion.name == cr.name}">
-                                                    <li>${cri.name}</li>
-                                                    <ul>
-                                                        <c:forEach items="${criteria}" var="crit" varStatus="l">
-                                                            <c:if test="${crit.criterion.name == cri.name}">
-                                                                <li>${crit.name}</li>
-                                                                <ul>
-                                                                    <c:forEach items="${criteria}" var="crite"
-                                                                               varStatus="m">
-                                                                        <c:if test="${crite.criterion.name == crit.name}">
-                                                                            <li>${crite.name}</li>
-                                                                        </c:if>
-                                                                    </c:forEach>
-                                                                </ul>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </ul>
-                                                </c:if>
-                                            </c:forEach>
-                                        </ul>
-                                    </ul>
-                                </c:if>
-                            </c:forEach>
-                        </ul>
-                    </c:if>
-                </c:forEach>
+                <ul>
+                    <c:forEach items="${criteria}" var="c" varStatus="i">
+                        <li class="hl-${c.hierarchyLevel}">${c.name}</li>
+                    </c:forEach>
+                </ul>
             </div>
 
         </div>
     </div>
+</div>
 
-    <footer>
-        <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-    <script src="<c:url value="/static/js/index.js"/>"></script>
+<footer>
+    <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script src="<c:url value="/static/js/index.js"/>"></script>
 </body>
 </html>

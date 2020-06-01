@@ -81,6 +81,11 @@ input.invalid {
     margin-bottom: 7px;
 }
 
+.mtb17-7 {
+    margin-top: 17px;
+    margin-bottom: 7px;
+}
+
 .mtb37-7 {
     margin-top: 37px;
     margin-bottom: 7px;
@@ -161,5 +166,24 @@ ul {
     margin-top:15px
 }
 
+.hl-1 {
+    margin: 20px 0 7px 0;
+    font-weight: bold;
+}
 
+.hl-2 {
+    margin: 0 0 7px 40px;
+}
 
+.hl-3 {
+    margin: 0 0 7px 80px;
+}
+
+.hl-4 {
+    margin: 0 0 7px 120px;
+}
+
+.err {
+    display: none;
+    color: #e34234;
+}

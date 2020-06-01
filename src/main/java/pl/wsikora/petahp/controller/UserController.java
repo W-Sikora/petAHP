@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @Controller
@@ -45,12 +46,6 @@ public class UserController {
     private User currentUser;
     private Survey currentSurvey;
 
-    public List<String> getFilteredListByMapKey(Map<String, String> map, String string) {
-        return map.entrySet().stream()
-                .filter(x -> x.getKey().contains(string))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
-    }
 
     public Map<String, String> getFilteredMapByMapKey(Map<String, String> map, String string) {
         return map.entrySet().stream()
@@ -124,14 +119,24 @@ public class UserController {
         }
 
         List<String> keys = new ArrayList<>(data.keySet());
-//        for (int i = 0; i < data.size(); i += 3) {
-//            Criterion criterion = new Criterion();
-//            criterion.setSurvey(survey);
-//            criterion.setName(data.get(keys.get(i)));
-//            criterion.setHierarchyLevel(Integer.parseInt(data.get(keys.get(i + 1))));
-//            criterion.setCriterion(data.get(keys.get(i + 2));
-//        }
-        System.out.println(data.toString());
+        List<Criterion> criteria = new ArrayList<>();
+        for (int i = 0; i < data.size(); i += 3) {
+            int level = Integer.parseInt(data.get(keys.get(i + 1)));
+            Criterion criterion = new Criterion();
+            criterion.setSurvey(survey);
+            criterion.setName(data.get(keys.get(i)));
+            criterion.setHierarchyLevel(level);
+            if (level > 1) {
+                String parent = data.get(keys.get(i + 2)).substring(0, 19);
+                int position = IntStream.range(0, keys.size())
+                        .filter(k -> data.get(keys.get(k)).contains(parent))
+                        .findFirst()
+                        .getAsInt();
+                criterion.setCriterion(criteria.get((position / 3) - 1));
+            }
+            criteria.add(criterion);
+            criterionRepo.save(criterion);
+        }
         return "redirect:/panel/ankieta-podsumowanie";
     }
 
@@ -172,7 +177,7 @@ public class UserController {
                                 Model model) {
         Survey survey = surveyRepo.findById(id);
         model.addAttribute("survey", survey)
-                .addAttribute("animals", animalRepo.findAllBySurvey(survey));
+                .addAttribute("evaluators", evaluatorRepo.findAllWithNotNullNameBySurvey(survey));
         return "user/results";
     }
 

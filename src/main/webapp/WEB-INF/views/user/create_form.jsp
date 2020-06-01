@@ -37,7 +37,7 @@
                 <form id="form" action="<c:url value="/panel/tworzenie-ankiety"/>" method="post">
 
                     <div class="form-part part">
-                        <div class="text-center"><strong>Ustawienia ogólne - krok 1 z 3</strong>
+                        <div class="text-center"><p><strong>Ogólne</strong> - krok <strong>1</strong> z 3</p>
                             <hr>
                         </div>
                         <div class="form-group">
@@ -45,19 +45,29 @@
                                 <input name="surveyName" class="form-control" placeholder="np. wybór zwierzaka"
                                        type="text" minlength="1" required>
                             </label>
+
                             <label>Liczba dopuszczonych do ankiety użytkowników
-                                <input name="evaluatorNumber" class="form-control" placeholder="od 2 do 10"
+                                <input id="evaluatorNumber" name="evaluatorNumber" class="form-control" placeholder="od 2 do 10"
                                        type="number" min="2" max="10" required>
+                                <span id="errorEvaluatorNumber" class="err">nieprawidłowa wartość</span>
                             </label>
+
                             <label>Data do której można oddać odpowiedź
-                                <input name="endDate" class="form-control" type="date" min="${minDate}"
+                                <input id="endDate" name="endDate" class="form-control" type="date" min="${minDate}"
                                        required>
+                                <span id="errorEndDate" class="err">nieprawidłowa wartość</span>
                             </label>
+
+                        </div>
+                        <div id="basicMsg" class="text-center">
+                            <p>
+                                <mark>aby przejsć dalej wypełnij powyższe pola</mark>
+                            </p>
                         </div>
                     </div>
 
                     <div class="form-part part">
-                        <div class="text-center"><strong>Ustawienia zwierząt - krok 2 z 3</strong>
+                        <div class="text-center"><p><strong>Zwierzęta</strong> - krok <strong>2</strong> z 3</p>
                             <hr>
                         </div>
                         <div class="form-group">
@@ -68,14 +78,38 @@
                                 </button>
                             </div>
                         </div>
+                        <div id="animalsMsg" class="text-center mtb17-7">
+                            <p>
+                                <mark>aby przejsć dalej musisz stworzyć przynajmniej <b>2</b> zwierzęta
+                                    (maksymalnie <b>9</b>)
+                                </mark>
+                            </p>
+                        </div>
                     </div>
 
                     <div class="form-part part">
-                        <div class="text-center"><strong>Ustawienia kryteriów - krok 3 z 3</strong>
+                        <div class="text-center"><p><strong>Kryteria</strong> - krok <strong>3</strong> z 3</p>
                             <hr>
                         </div>
                         <div class="form-group">
                             <div id="criteria"></div>
+                        </div>
+                        <div id="criterionMsg" class="text-center mtb17-7">
+                            <p>
+                                <mark>aby przejsć dalej musisz stworzyć przynajmniej <b>2</b> kryteria (maksymalnie
+                                    <b>25</b>)
+                                </mark>
+                            </p>
+                            <p>
+                                <mark>
+                                    dodatkowo do każdego kryterium głównego możesz utworzyć trzy poziomy podkryteriów
+                                </mark>
+                            </p>
+                            <p>
+                                <mark>
+                                    twórz przynajmniej <b>2</b> podkryteria dla danego kryterium lub nie twórz wcale
+                                </mark>
+                            </p>
                         </div>
                     </div>
 

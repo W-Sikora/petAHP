@@ -27,7 +27,60 @@
     <hr>
 
     <div class="col-lg-12 text-center">
+
         <h2>Strona w budowie</h2>
+        <c:if test="${survey.status == 'FOUNDED'}">
+            <p>aby uzyskać wyniki musisz dokończyć procedurę</p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>kryterium 1</th>
+                    <th>przewaga</th>
+                    <th>kryterium 2</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${animals}" var="animal1" begin="0" end="${animals.size()}" varStatus="a1">
+                    <c:forEach items="${animals}" var="animal2" begin="${a1.count}" end="${animals.size()}">
+                        <c:if test="${animal1.name ne animal2.name}">
+                            <tr>
+                                <td>${animal1.name}</td>
+                                <td>
+                                    <select class="form-control" id="sel1">
+                                        <option>nieznaczna przewaga - A</option>
+                                        <option>umiarkowana przewaga - A</option>
+                                        <option>istotna przewaga - A</option>
+                                        <option>silna przewaga - A</option>
+                                        <option>istotnie silna przewaga - A</option>
+                                        <option>bardzo silna przewaga - A</option>
+                                        <option>itotnie bardzo silna przewaga - A</option>
+                                        <option>ekstremalna przewaga - A</option>
+                                        <option>brak przewagi</option>
+                                        <option>nieznaczna przewaga - B</option>
+                                        <option>umiarkowana przewaga - B</option>
+                                        <option>istotna przewaga - B</option>
+                                        <option>silna przewaga - B</option>
+                                        <option>istotnie silna przewaga - B</option>
+                                        <option>bardzo silna przewaga - B</option>
+                                        <option>itotnie bardzo silna przewaga - B</option>
+                                        <option>ekstremalna przewaga - B</option>
+                                    </select>
+                                </td>
+                                <td>${animal2.name}</td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${survey.status == 'COMPLETED'}">
+            <p>a</p>
+        </c:if>
+        <c:if test="${survey.status == 'DELETED'}">
+            <p>przedmiotowy wynik nie istnieje</p>
+        </c:if>
+
     </div>
 
 </div>
