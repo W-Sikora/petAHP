@@ -123,7 +123,6 @@ function display(index, form, prevBtn, parts) {
         parts[2].style.display = "block";
         prevBtn.style.display = "inline";
     } else {
-
         form.submit();
     }
 }

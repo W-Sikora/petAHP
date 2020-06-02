@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="pl-PL">
@@ -79,27 +79,16 @@
                         <tr>
                             <th scope="row">${i.count}</th>
                             <td>${s.name}</td>
-                            <c:if test="${s.creationDate.monthValue < 10}">
-                                <td>
-                                        ${s.creationDate.dayOfMonth}-0${s.creationDate.monthValue}-${s.creationDate.year}
-                                </td>
-                            </c:if>
-                            <c:if test="${s.creationDate.monthValue >= 10}">
-                                <td>
-                                        ${s.creationDate.dayOfMonth}-${s.creationDate.monthValue}-${s.creationDate.year}
-                                </td>
-                            </c:if>
-
-                            <c:if test="${s.endDate.monthValue < 10}">
-                                <td>
-                                        ${s.endDate.dayOfMonth}-0${s.endDate.monthValue}-${s.endDate.year}
-                                </td>
-                            </c:if>
-                            <c:if test="${s.endDate.monthValue >= 10}">
-                                <td>
-                                        ${s.endDate.dayOfMonth}-${s.endDate.monthValue}-${s.endDate.year}
-                                </td>
-                            </c:if>
+                            <td>
+                                <fmt:parseDate value="${s.creationDate}" pattern="yyyy-MM-dd" var="creationDate" type="date"/>
+                                <fmt:formatDate pattern="dd-MM-yyyy" value="${creationDate}" var="creationDate"/>
+                                ${creationDate}
+                            </td>
+                            <td>
+                                <fmt:parseDate value="${s.endDate}" pattern="yyyy-MM-dd" var="endDate" type="date"/>
+                                <fmt:formatDate pattern="dd-MM-yyyy" value="${endDate}" var="endDate"/>
+                                ${endDate}
+                            </td>
                             <td>
                                 ${s.actualVotesNumber}/${s.evaluatorNumber}
                             </td>

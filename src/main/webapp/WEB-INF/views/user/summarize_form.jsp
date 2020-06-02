@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
@@ -31,8 +32,11 @@
         <div class="col-lg-12">
 
             <div class="text-center">
-                <h3><mark>Ankieta została pomyślnie utworzona</mark></h3>
-                <a class="btn btn-outline-dark mtb17-7" href="<c:url value="/panel"/>" role="button">powrót do panelu</a>
+                <h3>
+                    <mark>Ankieta została pomyślnie utworzona</mark>
+                </h3>
+                <a class="btn btn-outline-dark mtb17-7" href="<c:url value="/panel"/>" role="button">powrót do
+                    panelu</a>
             </div>
 
             <div class="col-lg-10 margin-auto">
@@ -62,19 +66,16 @@
                         </button>
                     </div>
                 </div>
+
                 <h5>Ogólne:</h5>
                 <hr>
                 <p>Nazwa ankiety: <strong>${survey.name}</strong></p>
                 <p>Liczba oceniających: <strong>${survey.evaluatorNumber}</strong></p>
                 <p>Data zakończenia:
-                    <c:if test="${survey.endDate.monthValue < 10}">
-                        <strong>${survey.endDate.dayOfMonth}-0${survey.endDate.monthValue}-${survey.endDate.year}</strong>
-                    </c:if>
-                    <c:if test="${survey.endDate.monthValue >= 10}">
-                        <strong>${survey.endDate.dayOfMonth}-${survey.endDate.monthValue}-${survey.endDate.year}</strong>
-                    </c:if>
+                    <fmt:parseDate value="${survey.endDate}" pattern="yyyy-MM-dd" var="endDate" type="date"/>
+                    <fmt:formatDate pattern="dd-MM-yyyy" value="${endDate}" var="endDate"/>
+                    <strong>${endDate}</strong>
                 </p>
-
 
                 <h5>Zwierzęta:</h5>
                 <hr>
@@ -83,9 +84,9 @@
                         <li class="hl-1">${a.name}</li>
                     </c:forEach>
                 </ul>
+
                 <h5>Przyjęte kryteria:</h5>
                 <hr>
-
                 <ul>
                     <c:forEach items="${criteria}" var="c" varStatus="i">
                         <li class="hl-${c.hierarchyLevel}">${c.name}</li>

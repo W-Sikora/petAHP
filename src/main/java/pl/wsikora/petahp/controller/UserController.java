@@ -9,6 +9,7 @@ import pl.wsikora.petahp.model.entities.*;
 import pl.wsikora.petahp.model.repositories.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,6 @@ public class UserController {
 
     private User currentUser;
     private Survey currentSurvey;
-
 
     public Map<String, String> getFilteredMapByMapKey(Map<String, String> map, String string) {
         return map.entrySet().stream()
