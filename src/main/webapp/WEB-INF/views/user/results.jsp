@@ -8,7 +8,7 @@
     <title>PetAHP</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/style/style.css"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/style/style.css"/>"/>
 </head>
 <body>
 
@@ -40,33 +40,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${animals}" var="animal1" begin="0" end="${animals.size()}" varStatus="a1">
-                    <c:forEach items="${animals}" var="animal2" begin="${a1.count}" end="${animals.size()}">
-                        <c:if test="${animal1.name ne animal2.name}">
+                <c:forEach items="${evaluators}" var="e1" begin="0" end="${evaluators.size()}" varStatus="i">
+                    <c:forEach items="${evaluators}" var="e2" begin="${i.count}" end="${evaluators.size()}">
+                        <c:if test="${e1.name ne e2.name and e1.id ne e2.id}">
                             <tr>
-                                <td>${animal1.name}</td>
+                                <td class="n1">${e1.name}</td>
                                 <td>
-                                    <select class="form-control" id="sel1">
-                                        <option>nieznaczna przewaga - A</option>
-                                        <option>umiarkowana przewaga - A</option>
-                                        <option>istotna przewaga - A</option>
-                                        <option>silna przewaga - A</option>
-                                        <option>istotnie silna przewaga - A</option>
-                                        <option>bardzo silna przewaga - A</option>
-                                        <option>itotnie bardzo silna przewaga - A</option>
-                                        <option>ekstremalna przewaga - A</option>
-                                        <option>brak przewagi</option>
-                                        <option>nieznaczna przewaga - B</option>
-                                        <option>umiarkowana przewaga - B</option>
-                                        <option>istotna przewaga - B</option>
-                                        <option>silna przewaga - B</option>
-                                        <option>istotnie silna przewaga - B</option>
-                                        <option>bardzo silna przewaga - B</option>
-                                        <option>itotnie bardzo silna przewaga - B</option>
-                                        <option>ekstremalna przewaga - B</option>
-                                    </select>
+                                    <span id="range_text_${e1.id}_${e2.id}"></span>
+                                    <input type="range" min="1" max="17" class="form-control-range"
+                                           name="range_${e1.id}_${e2.id}"/>
                                 </td>
-                                <td>${animal2.name}</td>
+                                <td class="n2">${e2.name}</td>
                             </tr>
                         </c:if>
                     </c:forEach>
@@ -85,10 +69,12 @@
 
 </div>
 
-
 <footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="<c:url value="/static/js/index.js"/>"></script>
 
 </body>
 </html>

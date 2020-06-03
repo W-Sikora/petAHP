@@ -106,6 +106,85 @@ if (window.location.pathname === "ankieta/podsumowanie") {
     }, 3000);
 }
 
+
+if (window.location.pathname.includes("/panel/wynik")) {
+    const inputs = $("input[name^=range_]").toArray();
+    const spans = $("span[id^=range_text_]").toArray();
+    const firstNames  = $(".n1").toArray();
+    const secondNames = $(".n2").toArray();
+
+    for (let i = 0; i <inputs.length; i++) {
+        inputs[i].addEventListener("change", () => {
+            while (spans[i].firstChild) {
+                spans[i].removeChild(spans[i].firstChild);
+            }
+            let p = document.createElement("p");
+            p.innerText = getText(inputs[i], firstNames[i].innerText, secondNames[i].innerText);
+            spans[i].appendChild(p);
+        });
+    }
+}
+
+function getText(input, firstName, secondName) {
+    let text;
+    switch (+input.value) {
+        case 1:
+            text = "ekstremalna przewaga " + firstName;
+            break;
+        case 2:
+            text = "itotnie bardzo silna przewaga " + firstName;
+            break;
+        case 3:
+            text = "bardzo silna przewaga " + firstName;
+            break;
+        case 4:
+            text = "istotnie silna przewaga " + firstName;
+            break;
+        case 5:
+            text = "silna przewaga " + firstName;
+            break;
+        case 6:
+            text = "istotna przewaga " + firstName;
+            break;
+        case 7:
+            text = "umiarkowana przewaga " + firstName;
+            break;
+        case 8:
+            text = "nieznaczna przewaga " + firstName;
+            break;
+        case 9:
+            text = "brak przewagi " + firstName + " względem " + secondName;
+            break;
+        case 10:
+            text = "nieznaczna przewaga " + secondName;
+            break;
+        case 11:
+            text = "umiarkowana przewaga " + secondName;
+            break;
+        case 12:
+            text = "istotna przewaga " + secondName;
+            break;
+        case 13:
+            text = "silna przewaga " + secondName;
+            break;
+        case 14:
+            text = "istotnie silna przewaga " + secondName;
+            break;
+        case 15:
+            text = "bardzo silna przewaga " + secondName;
+            break;
+        case 16:
+            text = "itotnie bardzo silna przewaga " + secondName;
+            break;
+        case 17:
+            text = "ekstremalna przewaga " + secondName;
+            break;
+        default:
+            text = "brak przewagi " + firstName + " względem " + secondName;
+    }
+    return text;
+}
+
 function display(index, form, prevBtn, parts) {
     if (index === 0) {
         parts[0].style.display = "block";
@@ -243,5 +322,7 @@ function changeInputClassWhen(input, event, className) {
         input.className = className;
     });
 }
+
+
 
 
