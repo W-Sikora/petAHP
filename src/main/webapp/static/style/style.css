@@ -91,6 +91,11 @@ input.invalid {
     margin-bottom: 7px;
 }
 
+.mtb37-17 {
+    margin-top: 37px;
+    margin-bottom: 17px;
+}
+
 .margin-auto {
     margin: auto;
 }
@@ -196,4 +201,7 @@ ul {
 
 }
 
+.td {
+    width: 500px;
+}
 

@@ -12,8 +12,6 @@ public class Criterion {
 
     private String name;
 
-    private String details;
-
     @Column(name = "level_of_hierarchy")
     private Integer hierarchyLevel;
 
@@ -26,14 +24,6 @@ public class Criterion {
     private Survey survey;
 
     public Criterion() {
-    }
-
-    public Criterion(String name, String details, Integer hierarchyLevel, Criterion criterion, Survey survey) {
-        this.name = name;
-        this.details = details;
-        this.hierarchyLevel = hierarchyLevel;
-        this.criterion = criterion;
-        this.survey = survey;
     }
 
     public long getId() {
@@ -50,14 +40,6 @@ public class Criterion {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
     }
 
     public Integer getHierarchyLevel() {
@@ -87,12 +69,6 @@ public class Criterion {
     @Override
     public String toString() {
         return "Criterion{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", details='" + details + '\'' +
-                ", hierarchyLevel=" + hierarchyLevel +
-                ", criterion=" + criterion +
-                ", survey=" + survey +
-                '}';
+                "id= " + id + "}";
     }
 }

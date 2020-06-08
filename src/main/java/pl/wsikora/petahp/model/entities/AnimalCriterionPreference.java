@@ -3,8 +3,8 @@ package pl.wsikora.petahp.model.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "preferences")
-public class Preference {
+@Table(name = "animals_criteria_preferences")
+public class AnimalCriterionPreference {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +24,11 @@ public class Preference {
     @JoinColumn(name = "criterion_id")
     private Criterion criterion;
 
-    public Preference() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
 
-    public Preference(Double weight, Survey survey, Evaluator evaluator,  Criterion criterion) {
-        this.weight = weight;
-        this.survey = survey;
-        this.evaluator = evaluator;
-        this.criterion = criterion;
+    public AnimalCriterionPreference() {
     }
 
     public long getId() {
@@ -74,14 +71,23 @@ public class Preference {
         this.criterion = criterion;
     }
 
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+
     @Override
     public String toString() {
-        return "Preference{" +
+        return "AnimalCriterionPreference{" +
                 "id=" + id +
                 ", weight=" + weight +
                 ", survey=" + survey +
                 ", evaluator=" + evaluator +
                 ", criterion=" + criterion +
+                ", animal=" + animal +
                 '}';
     }
 }

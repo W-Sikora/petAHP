@@ -6,8 +6,10 @@ import pl.wsikora.petahp.model.entities.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
+    @Query("select u from User u where u.email = ?1")
     User findUserByEmail(String email);
 
-    @Query(nativeQuery = true, value = "select u.password from users u where u.email = ?1 ")
+    @Query("select u.password from User u where u.email = ?1")
     String findPasswordByEmail(String email);
+
 }

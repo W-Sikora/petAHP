@@ -3,35 +3,28 @@ package pl.wsikora.petahp.model.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "facts")
-public class Fact {
+@Table(name = "evaluator_results")
+public class EvaluatorResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Double measure;
+    private Double value;
 
     @ManyToOne
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    @ManyToOne
-    @JoinColumn(name = "criterion_id")
-    private Criterion criterion;
+    @OneToOne
+    @JoinColumn(name = "evaluator_id")
+    private Evaluator evaluator;
 
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    public Fact() {
-    }
-
-    public Fact(Double measure, Animal animal, Criterion criterion, Survey survey) {
-        this.measure = measure;
-        this.animal = animal;
-        this.criterion = criterion;
-        this.survey = survey;
+    public EvaluatorResult() {
     }
 
     public long getId() {
@@ -42,12 +35,12 @@ public class Fact {
         this.id = id;
     }
 
-    public Double getMeasure() {
-        return measure;
+    public Double getValue() {
+        return value;
     }
 
-    public void setMeasure(Double measure) {
-        this.measure = measure;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public Animal getAnimal() {
@@ -58,12 +51,12 @@ public class Fact {
         this.animal = animal;
     }
 
-    public Criterion getCriterion() {
-        return criterion;
+    public Evaluator getEvaluator() {
+        return evaluator;
     }
 
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
+    public void setEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
     }
 
     public Survey getSurvey() {
@@ -76,11 +69,11 @@ public class Fact {
 
     @Override
     public String toString() {
-        return "Fact{" +
+        return "EvaluatorResult{" +
                 "id=" + id +
-                ", measure=" + measure +
+                ", value=" + value +
                 ", animal=" + animal +
-                ", criterion=" + criterion +
+                ", evaluator=" + evaluator +
                 ", survey=" + survey +
                 '}';
     }

@@ -47,18 +47,6 @@ public class Survey {
     public Survey() {
     }
 
-    public Survey(String name, LocalDateTime creationDate, LocalDate endDate, Integer evaluatorNumber, Integer actualVotesNumber, String votingLink, String resultLink, Status status, User user) {
-        this.name = name;
-        this.creationDate = creationDate;
-        this.endDate = endDate;
-        this.evaluatorNumber = evaluatorNumber;
-        this.actualVotesNumber = actualVotesNumber;
-        this.votingLink = votingLink;
-        this.resultLink = resultLink;
-        this.status = status;
-        this.user = user;
-    }
-
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();

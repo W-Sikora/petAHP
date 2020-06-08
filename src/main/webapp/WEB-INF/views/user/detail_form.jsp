@@ -27,7 +27,7 @@
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active">nowa ankieta</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>podsumowanie</strong></a>
+            <a class="nav-item nav-link active"><strong>szczegóły</strong></a>
         </div>
     </nav>
     <hr>
@@ -35,13 +35,7 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="text-center">
-                <h3>
-                    <mark>Ankieta została pomyślnie utworzona</mark>
-                </h3>
-                <a class="btn btn-outline-dark mtb17-7" href="<c:url value="/panel/"/>" role="button">powrót do
-                    panelu</a>
-            </div>
+            <h2 class="text-center">Szczegóły ankiety: ${survey.name}</h2>
 
             <div class="col-lg-10 margin-auto">
                 <h5>Linki:</h5>

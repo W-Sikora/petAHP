@@ -42,22 +42,36 @@ if (window.location.pathname === "/panel/tworzenie-nowej-ankiety") {
 
     nextBtn.addEventListener("click", () => {
         let inputs = $($(document).find(".part").get(current)).find("input").toArray();
-        if (current === 0) {
-            if (isNotEmpty(inputs) && correctNb && correctDate) {
-                current++;
-                display(current, form, prevBtn, formParts);
-            }
-        } else {
-            if (isNotEmpty(inputs) && inputs.length >= inputsMinNb[current]) {
-                if (current === 2) {
-                    let inputsPart2 = $($(document).find(".part").get(2)).find("input").toArray();
-                    for (let i = 0; i < inputsPart2.length; i++) {
-                        inputsPart2[i].name += "_" + i;
-                    }
+        switch (current) {
+            case 0:
+                if (isNotEmpty(inputs) && correctNb && correctDate && inputs.length >= inputsMinNb[current]) {
+                    current++;
+                    display(current, form, prevBtn, formParts);
                 }
-                current++;
-                display(current, form, prevBtn, formParts);
-            }
+                break;
+            case 1:
+                if (isNotEmpty(inputs) && inputs.length >= inputsMinNb[current]) {
+                    current++;
+                    display(current, form, prevBtn, formParts);
+                }
+                break;
+            case 2:
+                if (isNotEmpty(inputs) && inputs.length >= inputsMinNb[current]) {
+                    current++;
+                    display(current, form, prevBtn, formParts);
+                }
+                break;
+            default:
+                let allInputs = $($(document).find(".part")).find("input").toArray();
+                let inputs2 = $($(document).find(".part").get(2)).find("input").toArray();
+                if (isNotEmpty(allInputs)) {
+                    for (let i = 0; i < inputs2.length; i++) {
+                        inputs2[i].name += "_" + i;
+                    }
+                    current++;
+                    display(current, form, prevBtn, formParts);
+                }
+                break;
         }
     });
 
@@ -84,9 +98,7 @@ if (window.location.pathname === "/panel/ankieta-podsumowanie") {
     new ClipboardJS('.copy');
 }
 
-if (window.location.pathname === "/panel") {
-    new ClipboardJS('.copy');
-
+if (window.location.pathname === "/panel/") {
     const logOut = document.getElementById("logOut");
     const newForm = document.getElementById("newForm");
 
@@ -95,25 +107,54 @@ if (window.location.pathname === "/panel") {
     changeInputClassWhen(newForm, "mouseover", "btn btn-outline-success");
     changeInputClassWhen(newForm, "mouseout", "btn btn-outline-dark");
 }
-
-if (window.location.pathname.includes("/ankieta=")) {
-
+if (window.location.pathname.includes("/panel/szczegoly/")) {
+    new ClipboardJS('.copy');
 }
 
-if (window.location.pathname === "ankieta/podsumowanie") {
-    setTimeout(() => {
-        window.location.href = "/";
-    }, 3000);
-}
+if (window.location.pathname.includes("/ankieta/=")) {
+    const form = document.getElementById("completeForm");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const formParts = Array.from(document.getElementsByClassName("part"));
+    let current = 0;
 
+    function show(parts, btn, iter) {
+        for (let i = 0; i < parts.length; i++) {
+            if (i === iter) {
+                parts[i].style.display = "block";
+            } else {
+                parts[i].style.display = "none";
+            }
+        }
+        if (iter === 0) {
+            btn.style.display = "none";
+        } else {
+            btn.style.display = "inline";
+        }
+    }
 
-if (window.location.pathname.includes("/panel/wynik")) {
-    const inputs = $("input[name^=range_]").toArray();
-    const spans = $("span[id^=range_text_]").toArray();
-    const firstNames  = $(".n1").toArray();
+    show(formParts, prevBtn, current);
+
+    formParts.forEach(el => {
+        el.style.display = "block";
+    });
+
+    nextBtn.addEventListener("click", () => {
+        current++;
+        show(formParts, prevBtn, current);
+    });
+
+    prevBtn.addEventListener("click", () => {
+        current--;
+        show(formParts, prevBtn, current)
+    });
+
+    const inputs = $("input[name*=Comparison_]").toArray();
+    const spans = $("span[id*=ComparisonText_]").toArray();
+    const firstNames = $(".n1").toArray();
     const secondNames = $(".n2").toArray();
 
-    for (let i = 0; i <inputs.length; i++) {
+    for (let i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener("change", () => {
             while (spans[i].firstChild) {
                 spans[i].removeChild(spans[i].firstChild);
@@ -123,7 +164,31 @@ if (window.location.pathname.includes("/panel/wynik")) {
             spans[i].appendChild(p);
         });
     }
+
 }
+
+if (window.location.pathname === "ankieta/podsumowanie") {
+    new ClipboardJS('.copy');
+}
+
+
+// if (window.location.pathname.includes("/panel/wynik")) {
+//     const inputs = $("input[name^=range_]").toArray();
+//     const spans = $("span[id^=range_text_]").toArray();
+//     const firstNames = $(".n1").toArray();
+//     const secondNames = $(".n2").toArray();
+//
+//     for (let i = 0; i < inputs.length; i++) {
+//         inputs[i].addEventListener("change", () => {
+//             while (spans[i].firstChild) {
+//                 spans[i].removeChild(spans[i].firstChild);
+//             }
+//             let p = document.createElement("p");
+//             p.innerText = getText(inputs[i], firstNames[i].innerText, secondNames[i].innerText);
+//             spans[i].appendChild(p);
+//         });
+//     }
+// }
 
 function getText(input, firstName, secondName) {
     let text;
@@ -132,7 +197,7 @@ function getText(input, firstName, secondName) {
             text = "ekstremalna przewaga " + firstName;
             break;
         case 2:
-            text = "itotnie bardzo silna przewaga " + firstName;
+            text = "istotnie bardzo silna przewaga " + firstName;
             break;
         case 3:
             text = "bardzo silna przewaga " + firstName;
@@ -151,9 +216,6 @@ function getText(input, firstName, secondName) {
             break;
         case 8:
             text = "nieznaczna przewaga " + firstName;
-            break;
-        case 9:
-            text = "brak przewagi " + firstName + " względem " + secondName;
             break;
         case 10:
             text = "nieznaczna przewaga " + secondName;
@@ -174,7 +236,7 @@ function getText(input, firstName, secondName) {
             text = "bardzo silna przewaga " + secondName;
             break;
         case 16:
-            text = "itotnie bardzo silna przewaga " + secondName;
+            text = "istotnie bardzo silna przewaga " + secondName;
             break;
         case 17:
             text = "ekstremalna przewaga " + secondName;
@@ -201,6 +263,11 @@ function display(index, form, prevBtn, parts) {
         parts[1].style.display = "none";
         parts[2].style.display = "block";
         prevBtn.style.display = "inline";
+    } else if (index === 3) {
+        parts[0].style.display = "block";
+        parts[1].style.display = "block";
+        parts[2].style.display = "block";
+        prevBtn.style.display = "none";
     } else {
         form.submit();
     }
@@ -252,7 +319,7 @@ function createAnimal(animalsDiv, iter) {
 }
 
 function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function createCriterion(criteriaDiv, level, criteriaMaxNb) {

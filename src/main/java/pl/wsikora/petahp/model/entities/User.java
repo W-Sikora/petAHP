@@ -30,14 +30,6 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password, Type type, LocalDateTime creationDate) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.type = type;
-        this.creationDate = creationDate;
-    }
-
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();

@@ -9,9 +9,7 @@ import pl.wsikora.petahp.model.entities.*;
 import pl.wsikora.petahp.model.repositories.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,27 +17,31 @@ import java.util.stream.IntStream;
 
 
 @Controller
+@RequestMapping("/panel")
 public class UserController {
+    private AnimalCriterionPreferenceRepo animalCriterionPreferenceRepo;
     private AnimalRepo animalRepo;
+    private CriterionPreferenceRepo criterionPreferenceRepo;
     private CriterionRepo criterionRepo;
     private EvaluatorRepo evaluatorRepo;
-    private FactRepo factRepo;
-    private PreferenceRepo preferenceRepo;
+    private EvaluatorResultRepo evaluatorResultRepo;
     private SurveyRepo surveyRepo;
     private UserRepo userRepo;
 
-    public UserController(AnimalRepo animalRepo,
+    public UserController(AnimalCriterionPreferenceRepo animalCriterionPreferenceRepo,
+                          AnimalRepo animalRepo,
+                          CriterionPreferenceRepo criterionPreferenceRepo,
                           CriterionRepo criterionRepo,
                           EvaluatorRepo evaluatorRepo,
-                          FactRepo factRepo,
-                          PreferenceRepo preferenceRepo,
+                          EvaluatorResultRepo evaluatorResultRepo,
                           SurveyRepo surveyRepo,
                           UserRepo userRepo) {
+        this.animalCriterionPreferenceRepo = animalCriterionPreferenceRepo;
         this.animalRepo = animalRepo;
+        this.criterionPreferenceRepo = criterionPreferenceRepo;
         this.criterionRepo = criterionRepo;
         this.evaluatorRepo = evaluatorRepo;
-        this.factRepo = factRepo;
-        this.preferenceRepo = preferenceRepo;
+        this.evaluatorResultRepo = evaluatorResultRepo;
         this.surveyRepo = surveyRepo;
         this.userRepo = userRepo;
     }
@@ -53,56 +55,51 @@ public class UserController {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    @RequestMapping(value = "/zalogowanie")
-    public String checkLogin(@RequestParam String email,
-                             @RequestParam String password,
-                             Model model) {
-        if (password.equals(userRepo.findPasswordByEmail(email))) {
-            currentUser = userRepo.findUserByEmail(email);
-            return "redirect:/panel";
+    @RequestMapping("/zalogowanie")
+    public String logInToPanel(@RequestParam("user") User user) {
+        if (user != null) {
+            currentUser = user;
+            return "redirect:/panel/";
         } else {
-            model.addAttribute("errorMsg", "Podano złe dane logowania");
-            return "home/login";
+            return "redirect:/logowanie";
         }
     }
 
-    @RequestMapping(value = "/wyloguj")
+    @RequestMapping("")
+    public String panelAction(Model model) {
+        if (surveyRepo.countAllByUserAndStatus(currentUser, Status.FOUNDED) > 0) {
+            model.addAttribute("surveys", surveyRepo.findAllByUserAndStatus(currentUser, Status.FOUNDED));
+        }
+        model.addAttribute("user", currentUser);
+        return "user/panel";
+    }
+
+    @RequestMapping("/wyloguj")
     public String logOut() {
         currentUser = null;
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/panel")
-    public String panelAction(Model model) {
-        if (surveyRepo.countAllByUserAndStatus(currentUser, Status.FOUNDED) > 0) {
-            model.addAttribute("surveys", surveyRepo.findAllByUserAndStatus(currentUser, Status.FOUNDED));
-        }
-        model.addAttribute("user", currentUser.getName());
-        return "user/panel";
-    }
-
-    @RequestMapping(value = "/panel/tworzenie-nowej-ankiety")
+    @RequestMapping("/tworzenie-nowej-ankiety")
     public String createPoll(Model model) {
         model.addAttribute("minDate", LocalDate.now().plusDays(1));
         return "user/create_form";
     }
 
-    @RequestMapping(value = "/panel/tworzenie-ankiety")
+    @RequestMapping("/tworzenie-ankiety")
     public String savePoll(@RequestParam Map<String, String> data) {
-        String surveyName = "surveyName";
-        String evaluatorNumber = "evaluatorNumber";
-        String endDate = "endDate";
-
+        String[] parameters = {"surveyName", "evaluatorNumber", "endDate"};
         Survey survey = new Survey();
         survey.setUser(currentUser);
-        survey.setName(data.get(surveyName));
-        data.remove(surveyName);
-        survey.setEvaluatorNumber(Integer.parseInt(data.get(evaluatorNumber)));
-        data.remove(evaluatorNumber);
-        survey.setEndDate(LocalDate.parse(data.get(endDate)));
-        data.remove(endDate);
+        survey.setName(data.get(parameters[0]));
+        survey.setEvaluatorNumber(Integer.parseInt(data.get(parameters[1])));
+        survey.setEndDate(LocalDate.parse(data.get(parameters[2])));
         surveyRepo.save(survey);
         currentSurvey = survey;
+
+        for (String parameter : parameters) {
+            data.remove(parameter);
+        }
 
         for (int i = 0; i < survey.getEvaluatorNumber(); i++) {
             Evaluator evaluator = new Evaluator();
@@ -113,7 +110,7 @@ public class UserController {
         for (Map.Entry<String, String> animals : getFilteredMapByMapKey(data, "animal").entrySet()) {
             Animal animal = new Animal();
             animal.setSurvey(survey);
-            animal.setName(animals.getValue());
+            animal.setName(animals.getValue().toLowerCase());
             animalRepo.save(animal);
             data.remove(animals.getKey());
         }
@@ -124,7 +121,7 @@ public class UserController {
             int level = Integer.parseInt(data.get(keys.get(i + 1)));
             Criterion criterion = new Criterion();
             criterion.setSurvey(survey);
-            criterion.setName(data.get(keys.get(i)));
+            criterion.setName(data.get(keys.get(i)).toLowerCase());
             criterion.setHierarchyLevel(level);
             if (level > 1) {
                 String parent = data.get(keys.get(i + 2)).substring(0, 19);
@@ -140,7 +137,7 @@ public class UserController {
         return "redirect:/panel/ankieta-podsumowanie";
     }
 
-    @RequestMapping(value = "/panel/ankieta-podsumowanie")
+    @RequestMapping("/ankieta-podsumowanie")
     public String summarizePoll(Model model) {
         model.addAttribute("survey", currentSurvey)
                 .addAttribute("animals", animalRepo.findAllBySurvey(currentSurvey))
@@ -148,38 +145,37 @@ public class UserController {
         return "user/summarize_form";
     }
 
-//    @RequestMapping(value = "/panel/edycja-ankiet")
-//    public String editPoll(Model model) {
-//        if (pollRepo.countVisible(true, currentUser.getId()) > 0) {
-//            model.addAttribute("polls", pollRepo.getAllVisible(true, currentUser.getId()));
-//        }
-//        return "user/edit_form";
-//    }
-
-    @RequestMapping(value = "/panel/edycja-ankiet/usun/{id}")
-    public String hidePoll(@PathVariable long id) {
-        surveyRepo.updateStatus(Status.DELETED, id);
-        return "redirect:/panel";
-    }
-
-    @RequestMapping(value = "/panel/pomoc")
+    @RequestMapping("/pomoc")
     public String helpAction() {
         return "user/help";
     }
 
-    @RequestMapping(value = "/panel/ustawienia")
+    @RequestMapping("/ustawienia")
     public String settingsAction() {
         return "user/settings";
     }
 
-    @RequestMapping(value = "/panel/wynik/{id}")
-    public String resultsAction(@PathVariable long id,
-                                Model model) {
-        Survey survey = surveyRepo.findById(id);
+    @RequestMapping(value = "/szczegoly/{id}")
+    public String editPoll(Model model, @PathVariable long id) {
+        Survey survey = surveyRepo.findSurveyById(id);
+        model.addAttribute("survey", survey)
+                .addAttribute("animals", animalRepo.findAllBySurvey(survey))
+                .addAttribute("criteria", criterionRepo.findAllBySurvey(survey));
+        return "user/detail_form";
+    }
+
+    @RequestMapping("/usun/{id}")
+    public String hidePoll(@PathVariable long id) {
+        surveyRepo.updateStatus(Status.DELETED, id);
+        return "redirect:/panel/";
+    }
+
+    @RequestMapping("/wynik/{id}")
+    public String resultsAction(Model model, @PathVariable long id) {
+        Survey survey = surveyRepo.findSurveyById(id);
         model.addAttribute("survey", survey)
                 .addAttribute("evaluators", evaluatorRepo.findAllWithNotNullNameBySurvey(survey));
         return "user/results";
     }
-
 
 }

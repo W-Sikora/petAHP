@@ -19,11 +19,6 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(String name, Survey survey) {
-        this.name = name;
-        this.survey = survey;
-    }
-
     public long getId() {
         return id;
     }
@@ -52,7 +47,7 @@ public class Animal {
     public String toString() {
         return "Animal{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name +
                 ", survey=" + survey +
                 '}';
     }

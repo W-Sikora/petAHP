@@ -9,7 +9,7 @@
     <link rel="stylesheet"
           href="<c:url value="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
+          crossorigin="anonymous"/>
     <link rel="stylesheet"
           type="text/css"
           href="<c:url value="/static/style/style.css"/>"/>
@@ -21,22 +21,17 @@
 </header>
 
 <div class="container">
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="<c:url value="/panel/"/>">panel użytkownika</a>
-            <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>pomoc</strong></a>
+    <div class="row">
+        <div class="col-lg-8 margin-auto text-center">
+            <h2>Wyniki</h2>
+            <hr>
+            <h4 class="mtb7-17">strona główna</h4>
+            <a role="button" class="btn btn-outline-dark mtb7-27" href="/">przejdź</a>
         </div>
-    </nav>
-    <hr>
-
-    <div class="col-lg-12 text-center">
-        <h2>Strona w budowie</h2>
     </div>
-
 </div>
 
-<footer>
+<footer class="footer-sm-page">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 
