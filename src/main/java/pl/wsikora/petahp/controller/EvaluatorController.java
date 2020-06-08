@@ -139,7 +139,7 @@ public class EvaluatorController {
         Survey survey = surveyRepo.findByVotingLink(link);
         if (survey != null) {
             if (LocalDate.now().isBefore(survey.getEndDate())
-                    && survey.getActualVotesNumber() <= survey.getEvaluatorNumber()) {
+                    && survey.getActualVotesNumber() < survey.getEvaluatorNumber()) {
 
                 List<List<Criterion>> criteria = new ArrayList<>();
                 criteria.add(criterionRepo.findAllBySurveyAndHierarchyLevel(survey, 1));

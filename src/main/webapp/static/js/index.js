@@ -171,6 +171,26 @@ if (window.location.pathname === "ankieta/podsumowanie") {
     new ClipboardJS('.copy');
 }
 
+if (window.location.pathname.includes("/panel/wynik/")) {
+    const inputs = $("input[name^=evaluator_]").toArray();
+    const spans = $("span[id^=evaluator_text_]").toArray();
+    const firstNames = $(".n1").toArray();
+    const secondNames = $(".n2").toArray();
+
+    console.log(inputs);
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener("change", () => {
+            while (spans[i].firstChild) {
+                spans[i].removeChild(spans[i].firstChild);
+            }
+            let p = document.createElement("p");
+            p.innerText = getText(inputs[i], firstNames[i].innerText, secondNames[i].innerText);
+            spans[i].appendChild(p);
+        });
+    }
+
+}
+
 
 // if (window.location.pathname.includes("/panel/wynik")) {
 //     const inputs = $("input[name^=range_]").toArray();

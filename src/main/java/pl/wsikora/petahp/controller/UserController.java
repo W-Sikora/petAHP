@@ -5,13 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.wsikora.petahp.algorithms.Ahp;
 import pl.wsikora.petahp.model.entities.*;
 import pl.wsikora.petahp.model.repositories.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -53,6 +52,64 @@ public class UserController {
         return map.entrySet().stream()
                 .filter(x -> x.getKey().contains(string))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public double transform(String value) {
+        double result;
+        switch (Integer.parseInt(value)) {
+            case 1:
+                result = 9.;
+                break;
+            case 2:
+                result = 8.;
+                break;
+            case 3:
+                result = 7.;
+                break;
+            case 4:
+                result = 6.;
+                break;
+            case 5:
+                result = 5.;
+                break;
+            case 6:
+                result = 4.;
+                break;
+            case 7:
+                result = 3.;
+                break;
+            case 8:
+                result = 2.;
+                break;
+            case 10:
+                result = 1 / 2.;
+                break;
+            case 11:
+                result = 1 / 3.;
+                break;
+            case 12:
+                result = 1 / 4.;
+                break;
+            case 13:
+                result = 1 / 5.;
+                break;
+            case 14:
+                result = 1 / 6.;
+                break;
+            case 15:
+                result = 1 / 7.;
+                break;
+            case 16:
+                result = 1 / 8.;
+                break;
+            case 17:
+                result = 1 / 9.;
+                break;
+            default:
+                result = 1.;
+                break;
+        }
+        return result;
     }
 
     @RequestMapping("/zalogowanie")
@@ -173,8 +230,61 @@ public class UserController {
     @RequestMapping("/wynik/{id}")
     public String resultsAction(Model model, @PathVariable long id) {
         Survey survey = surveyRepo.findSurveyById(id);
-        model.addAttribute("survey", survey)
-                .addAttribute("evaluators", evaluatorRepo.findAllWithNotNullNameBySurvey(survey));
+        switch (survey.getStatus()) {
+            case FOUNDED:
+                if (survey.getActualVotesNumber().equals(survey.getEvaluatorNumber())) {
+                    List<Evaluator> finalEvaluators = evaluatorRepo.findAllWithNotNullNameBySurvey(survey);
+                    model.addAttribute("survey", survey)
+                            .addAttribute("evaluators", finalEvaluators);
+                    return "user/get_results";
+                } else {
+                    return "user/before_get_results";
+                }
+            case COMPLETED:
+                return "redirect:panel/ostateczny/wynik/" + id;
+            default:
+                return "redirect:/panel/";
+        }
+    }
+
+    @RequestMapping("/zapisz/wynik")
+    public String saveResultsAction(@RequestParam("surveyId") long surveyId,
+                                    @RequestParam Map<String, String> data) {
+
+        data.remove("surveyId");
+
+        Survey survey = surveyRepo.findSurveyById(surveyId);
+        List<Evaluator> evaluators = evaluatorRepo.findAllWithNotNullNameBySurvey(survey);
+        List<Double> evaluatorResults = evaluatorResultRepo.findAllValuesBySurvey(survey);
+
+        Map<String, Double> map = new TreeMap<>();
+        for (Map.Entry<String, String> e : data.entrySet()) {
+            map.put(e.getKey(), transform(e.getValue()));
+        }
+
+        List<Double> preferences = new ArrayList<>(map.values());
+        Ahp ahp = new Ahp(preferences);
+        ahp.initialize();
+        double[] weights = ahp.calcWeights();
+
+        Map<Evaluator, List<Double>> finalEvaluatorResults = new HashMap<>();
+        for (int i = 0; i < weights.length; i++) {
+            List<Double> doubles = new ArrayList<>();
+            for (int j = 0; j < evaluatorResults.size() / evaluators.size(); j++) {
+                doubles.add(evaluatorResults.get(j) * weights[i]);
+            }
+            finalEvaluatorResults.put(evaluators.get(i), doubles);
+        }
+
+        System.out.println(finalEvaluatorResults.toString());
+
+        return "user/results";
+    }
+
+    @RequestMapping("/ostateczny/wynik/{id}")
+    public String finalResultsAction(Model model, @PathVariable long id) {
+        Survey survey = surveyRepo.findSurveyById(id);
+        model.addAttribute("survey", survey);
         return "user/results";
     }
 

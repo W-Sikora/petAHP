@@ -30,10 +30,13 @@
     </nav>
     <hr>
 
-    <div class="col-lg-12 text-center">
-
-        <h2>Strona w budowie</h2>
-
+    <div class="row">
+        <div class="col-lg-10 text-center margin-auto">
+            <h2>Uzyskiwanie wyników</h2>
+            <p>
+                <mark>nie wszyscy użytkownicy oddali jeszcze głos czy na pewno chcesz uzyskać wyniki</mark>
+            </p>
+        </div>
     </div>
 </div>
 

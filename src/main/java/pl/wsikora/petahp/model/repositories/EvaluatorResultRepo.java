@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pl.wsikora.petahp.model.entities.Evaluator;
 import pl.wsikora.petahp.model.entities.EvaluatorResult;
+import pl.wsikora.petahp.model.entities.Survey;
 
 import java.util.List;
 import java.util.Map;
@@ -21,4 +22,9 @@ public interface EvaluatorResultRepo extends JpaRepository<EvaluatorResult, Long
 
     @Query("select e.value from EvaluatorResult e where e.evaluator = ?1")
     List<Double> findAllValuesByEvaluator(Evaluator evaluator);
+
+    @Query("select er.value from EvaluatorResult er where er.survey = ?1 order by er.evaluator.id")
+    List<Double> findAllValuesBySurvey(Survey survey);
+
+
 }

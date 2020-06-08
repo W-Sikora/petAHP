@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -13,6 +13,13 @@
     <link rel="stylesheet"
           type="text/css"
           href="<c:url value="/static/style/style.css"/>"/>
+    <style>
+        .table {
+            margin: auto;
+            width: 100% !important;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -30,11 +37,10 @@
     </nav>
     <hr>
 
-    <div class="row">
-        <div class="col-lg-12 margin-auto">
-            <h2 class="text-center">${survey.name}</h2>
-            <form id="completeForm" action="<c:url value="/ankieta/zapisano-odpowiedz"/>" method="post">
-
+    <form id="completeForm" action="<c:url value="/ankieta/zapisano-odpowiedz"/>" method="post">
+        <div class="row">
+            <div class="col-lg-12 margin-auto">
+                <h2 class="text-center">${survey.name}</h2>
                 <div class="row">
                     <div class="col-lg-7 margin-auto text-center">
                         <div class="form-group part">
@@ -46,39 +52,44 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <input type="hidden" name="criteriaSize" value="${criteriaSize}"/>
-                <c:forEach items="${criteria}" var="criterion" varStatus="i">
-                    <table class="table table-hover mtb7-27 text-center part">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">kryterium 1</th>
-                                <th scope="col">przewaga</th>
-                                <th scope="col">kryterium 2</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${criterion}" var="c1" begin="0" end="${criterion.size()}" varStatus="j">
-                            <c:forEach items="${criterion}" var="c2" begin="${j.index}" end="${criterion.size()}">
-                                <c:if test="${c1.name ne c2.name and c1.id ne c2.id}">
-                                    <tr>
-                                        <td class="n1">${c1.name}</td>
-                                        <td class="td">
-                                            <span id="criteriaComparisonText_${c1.id}_${c2.id}"></span>
-                                            <input type="range" min="1" max="17" class="form-control-range"
-                                                   name="criteriaComparison_${i.index}_${c1.id}_${c2.id}"/>
-                                        </td>
-                                        <td class="n2">${c2.name}</td>
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
+        <div class="col-lg-7 margin-auto">
+            <input type="hidden" name="criteriaSize" value="${criteriaSize}"/>
+            <c:forEach items="${criteria}" var="criterion" varStatus="i">
+                <table class="table table-hover mtb7-27 text-center part">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">kryterium 1</th>
+                        <th scope="col">przewaga</th>
+                        <th scope="col">kryterium 2</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${criterion}" var="c1" begin="0" end="${criterion.size()}"
+                               varStatus="j">
+                        <c:forEach items="${criterion}" var="c2" begin="${j.index}"
+                                   end="${criterion.size()}">
+                            <c:if test="${c1.name ne c2.name and c1.id ne c2.id}">
+                                <tr>
+                                    <td class="n1">${c1.name}</td>
+                                    <td class="td">
+                                        <span id="criteriaComparisonText_${c1.id}_${c2.id}"></span>
+                                        <input type="range" min="1" max="17" class="form-control-range"
+                                               name="criteriaComparison_${i.index}_${c1.id}_${c2.id}"/>
+                                    </td>
+                                    <td class="n2">${c2.name}</td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
-                        </tbody>
-                    </table>
-                </c:forEach>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:forEach>
 
-                <c:forEach items="${noChildren}" var="no" varStatus="i">
-                <table class="table table-hover mtb7-27 part">
+            <c:forEach items="${noChildren}" var="no" varStatus="i">
+                <table class="table table-hover mtb7-27 margin-auto text-center part">
                     <thead class="thead-light">
                     <tr>
                         <th scope="col">zwierzę 1</th>
@@ -104,18 +115,17 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                </c:forEach>
-
-                <div class="text-center mtb37-7">
-                    <hr>
-                    <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
-                    <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
-                </div>
-
-                <button type="submit">Prześlij</button>
-            </form>
+            </c:forEach>
         </div>
-    </div>
+
+        <div class="text-center mtb37-7">
+            <hr>
+            <button type="button" id="prevBtn" class="btn btn-outline-dark">Wróć</button>
+            <button type="button" id="nextBtn" class="btn btn-dark lm">Dalej</button>
+        </div>
+
+        <button type="submit">Prześlij</button>
+    </form>
 </div>
 
 <footer>

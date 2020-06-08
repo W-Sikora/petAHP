@@ -20,7 +20,7 @@ public interface EvaluatorRepo extends JpaRepository<Evaluator, Long> {
            value = "select * from evaluators e where e.survey_id = ?1 and e.name is null limit 1;")
     Evaluator findFirstBySurveyAndNameNull(long surveyId);
 
-    @Query("select e from Evaluator e where e.survey = ?1 and e.name is not null")
+    @Query("select e from Evaluator e where e.survey = ?1 and e.name is not null order by e.id")
     List<Evaluator> findAllWithNotNullNameBySurvey(Survey survey);
 
     @Transactional
