@@ -25,7 +25,7 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="<c:url value="/panel/"/>">panel użytkownika</a>
             <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active">nowa ankieta</a>
+            <a class="nav-item nav-link active">${survey.name}</a>
             <a class="nav-item nav-link active">/</a>
             <a class="nav-item nav-link active"><strong>szczegóły</strong></a>
         </div>

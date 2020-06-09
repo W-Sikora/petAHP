@@ -119,29 +119,33 @@ if (window.location.pathname.includes("/ankieta/=")) {
     let current = 0;
 
     function show(parts, btn, iter) {
-        for (let i = 0; i < parts.length; i++) {
-            if (i === iter) {
-                parts[i].style.display = "block";
-            } else {
-                parts[i].style.display = "none";
+        if (iter < parts.length) {
+            for (let i = 0; i < parts.length; i++) {
+                if (i === iter) {
+                    parts[i].style.display = "block";
+                } else {
+                    parts[i].style.display = "none";
+                }
             }
-        }
-        if (iter === 0) {
-            btn.style.display = "none";
+            if (iter === 0) {
+                btn.style.display = "none";
+            } else {
+                btn.style.display = "inline";
+            }
         } else {
-            btn.style.display = "inline";
+            form.submit();
         }
     }
 
     show(formParts, prevBtn, current);
 
-    formParts.forEach(el => {
-        el.style.display = "block";
-    });
+    let inputName = document.getElementById("evaluatorName");
 
     nextBtn.addEventListener("click", () => {
-        current++;
-        show(formParts, prevBtn, current);
+        if (inputName.value !== "") {
+            current++;
+            show(formParts, prevBtn, current);
+        }
     });
 
     prevBtn.addEventListener("click", () => {
@@ -167,7 +171,7 @@ if (window.location.pathname.includes("/ankieta/=")) {
 
 }
 
-if (window.location.pathname === "ankieta/podsumowanie") {
+if (window.location.pathname.includes("ankieta/podsumowanie/")) {
     new ClipboardJS('.copy');
 }
 

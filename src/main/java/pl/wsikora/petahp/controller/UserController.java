@@ -24,23 +24,18 @@ public class UserController {
     private CriterionRepo criterionRepo;
     private EvaluatorRepo evaluatorRepo;
     private EvaluatorResultRepo evaluatorResultRepo;
+    private ResultRepo resultRepo;
     private SurveyRepo surveyRepo;
     private UserRepo userRepo;
 
-    public UserController(AnimalCriterionPreferenceRepo animalCriterionPreferenceRepo,
-                          AnimalRepo animalRepo,
-                          CriterionPreferenceRepo criterionPreferenceRepo,
-                          CriterionRepo criterionRepo,
-                          EvaluatorRepo evaluatorRepo,
-                          EvaluatorResultRepo evaluatorResultRepo,
-                          SurveyRepo surveyRepo,
-                          UserRepo userRepo) {
+    public UserController(AnimalCriterionPreferenceRepo animalCriterionPreferenceRepo, AnimalRepo animalRepo, CriterionPreferenceRepo criterionPreferenceRepo, CriterionRepo criterionRepo, EvaluatorRepo evaluatorRepo, EvaluatorResultRepo evaluatorResultRepo, ResultRepo resultRepo, SurveyRepo surveyRepo, UserRepo userRepo) {
         this.animalCriterionPreferenceRepo = animalCriterionPreferenceRepo;
         this.animalRepo = animalRepo;
         this.criterionPreferenceRepo = criterionPreferenceRepo;
         this.criterionRepo = criterionRepo;
         this.evaluatorRepo = evaluatorRepo;
         this.evaluatorResultRepo = evaluatorResultRepo;
+        this.resultRepo = resultRepo;
         this.surveyRepo = surveyRepo;
         this.userRepo = userRepo;
     }
@@ -124,8 +119,8 @@ public class UserController {
 
     @RequestMapping("")
     public String panelAction(Model model) {
-        if (surveyRepo.countAllByUserAndStatus(currentUser, Status.FOUNDED) > 0) {
-            model.addAttribute("surveys", surveyRepo.findAllByUserAndStatus(currentUser, Status.FOUNDED));
+        if (surveyRepo.countAllByUserAndStatus(currentUser, Status.DELETED) > 0) {
+            model.addAttribute("surveys", surveyRepo.findAllByUserAndStatus(currentUser, Status.DELETED));
         }
         model.addAttribute("user", currentUser);
         return "user/panel";
@@ -241,21 +236,22 @@ public class UserController {
                     return "user/before_get_results";
                 }
             case COMPLETED:
-                return "redirect:panel/ostateczny/wynik/" + id;
+                return "redirect:/panel/ostateczny/wynik/" + id;
             default:
                 return "redirect:/panel/";
         }
     }
 
     @RequestMapping("/zapisz/wynik")
-    public String saveResultsAction(@RequestParam("surveyId") long surveyId,
+    public String saveResultsAction(Model model,
+                                    @RequestParam("surveyId") long surveyId,
                                     @RequestParam Map<String, String> data) {
 
         data.remove("surveyId");
 
         Survey survey = surveyRepo.findSurveyById(surveyId);
         List<Evaluator> evaluators = evaluatorRepo.findAllWithNotNullNameBySurvey(survey);
-        List<Double> evaluatorResults = evaluatorResultRepo.findAllValuesBySurvey(survey);
+        List<Animal> animals = animalRepo.findAllBySurvey(survey);
 
         Map<String, Double> map = new TreeMap<>();
         for (Map.Entry<String, String> e : data.entrySet()) {
@@ -267,24 +263,44 @@ public class UserController {
         ahp.initialize();
         double[] weights = ahp.calcWeights();
 
-        Map<Evaluator, List<Double>> finalEvaluatorResults = new HashMap<>();
+        List<List<Double>> finalResults = new ArrayList<>();
         for (int i = 0; i < weights.length; i++) {
-            List<Double> doubles = new ArrayList<>();
-            for (int j = 0; j < evaluatorResults.size() / evaluators.size(); j++) {
-                doubles.add(evaluatorResults.get(j) * weights[i]);
+            List<Double> currentEvaluatorValues = evaluatorResultRepo.findAllValuesByEvaluator(evaluators.get(i));
+            for (int j = 0; j < currentEvaluatorValues.size(); j++) {
+                currentEvaluatorValues.set(j, currentEvaluatorValues.get(j) * weights[i]);
             }
-            finalEvaluatorResults.put(evaluators.get(i), doubles);
+            finalResults.add(currentEvaluatorValues);
         }
 
-        System.out.println(finalEvaluatorResults.toString());
-
-        return "user/results";
+        for (int i = 0; i < animals.size(); i++) {
+            double value = 0;
+            for (List<Double> finalResult : finalResults) {
+                value += finalResult.get(i);
+            }
+            Result result = new Result();
+            result.setAnimal(animals.get(i));
+            result.setSurvey(survey);
+            result.setValue(value);
+            resultRepo.save(result);
+        }
+        surveyRepo.updateStatus(Status.COMPLETED, surveyId);
+        return "redirect:/panel/ostateczny/wynik/" + surveyId;
     }
 
     @RequestMapping("/ostateczny/wynik/{id}")
     public String finalResultsAction(Model model, @PathVariable long id) {
         Survey survey = surveyRepo.findSurveyById(id);
-        model.addAttribute("survey", survey);
+        List<Evaluator> evaluators = evaluatorRepo.findAllWithNotNullNameBySurvey(survey);
+        List<List<Double>> evaluatorsResults = new ArrayList<>();
+        for (Evaluator evaluator : evaluators) {
+            evaluatorsResults.add(evaluatorResultRepo.findAllValuesByEvaluator(evaluator));
+        }
+
+        model.addAttribute("survey", survey)
+                .addAttribute("results", resultRepo.findAllBySurvey(survey))
+                .addAttribute("evaluators", evaluators)
+                .addAttribute("evaluatorResults", evaluatorsResults);
+
         return "user/results";
     }
 

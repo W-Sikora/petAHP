@@ -11,4 +11,6 @@ import java.util.List;
 
 public interface ResultRepo extends JpaRepository<Result, Long> {
 
+    List<Result> findAllBySurvey(Survey survey);
+
 }

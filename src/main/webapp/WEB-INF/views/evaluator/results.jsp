@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="pl-PL">
@@ -21,17 +21,36 @@
 </header>
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-8 margin-auto text-center">
-            <h2>Wyniki</h2>
-            <hr>
-            <h4 class="mtb7-17">strona główna</h4>
-            <a role="button" class="btn btn-outline-dark mtb7-27" href="/">przejdź</a>
+
+    <div class="col-lg-12">
+
+        <div class="text-center">
+            <h3>Wyniki: ${survey.name}</h3>
+            <h4 class="mtb37-17">strona główna</h4>
+            <a role="button" class="btn btn-outline-dark mtb7-17" href="<c:url value="/"/>">przejdź</a>
         </div>
+
+        <c:forEach items="${results}" var="result" varStatus="i">
+            <input name="name" type="hidden" value="${result.animal.name}"/>
+            <input name="value" type="hidden" value="${result.value}"/>
+        </c:forEach>
+        <c:forEach items="${results}" var="result" varStatus="i">
+            <ul>
+                <li><strong>${result.animal.name}</strong> :
+                    <mark>${result.value}</mark>
+                </li>
+                <c:forEach items="${evaluators}" var="evaluator" varStatus="j">
+                    <ul>
+                        <li>${evaluator.name} : ${evaluatorResults.get(j.index).get(i.index)}</li>
+                    </ul>
+                </c:forEach>
+            </ul>
+        </c:forEach>
+        <canvas id="myChart" width="auto" height="100px"></canvas>
     </div>
 </div>
 
-<footer class="footer-sm-page">
+<footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 
@@ -40,5 +59,47 @@
 <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/static/js/index.js"/>"></script>
 
+<script>
+    let namesArray = [];
+    let valuesArray = [];
+    let names = document.getElementsByName("name");
+    let values = document.getElementsByName("value");
+    for (let i = 0; i < names.length; i++) {
+        namesArray.push(names[i].value);
+        valuesArray.push(+values[i].value);
+    }
+
+    new Chart(document.getElementById("myChart"), {
+        type: 'horizontalBar',
+        data: {
+            labels: namesArray,
+            datasets: [
+                {
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    data: valuesArray
+                }
+            ]
+        },
+        options: {
+            legend: {display: false},
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontSize: 15,
+                        fontColor: "black"
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 15,
+                        fontColor: "black",
+                        suggestedMin: 0,
+                        suggestedMax: 1
+                    }
+                }]
+            }
+        }
+    });
+</script>
 </body>
 </html>

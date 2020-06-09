@@ -21,11 +21,11 @@ public interface SurveyRepo extends JpaRepository<Survey, Long> {
     @Query("select s from Survey s where s.resultLink = ?1")
     Survey findByResultLink(String resultLink);
 
-    @Query("select s from Survey s where s.user = ?1 and s.status = ?2")
-    List<Survey> findAllByUserAndStatus(User user, Status status);
+    @Query("select s from Survey s where s.user = ?1 and s.status <> ?2")
+    List<Survey> findAllByUserAndStatus(User user, Status notStatus);
 
-    @Query("select count(s) from Survey s where s.user = ?1 and s.status = ?2")
-    int countAllByUserAndStatus(User user, Status status);
+    @Query("select count(s) from Survey s where s.user = ?1 and s.status <> ?2")
+    int countAllByUserAndStatus(User user, Status notStatus);
 
     @Transactional
     @Modifying(clearAutomatically = true)

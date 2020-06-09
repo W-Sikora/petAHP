@@ -24,23 +24,18 @@ public class EvaluatorController {
     private CriterionRepo criterionRepo;
     private EvaluatorRepo evaluatorRepo;
     private EvaluatorResultRepo evaluatorResultRepo;
+    private ResultRepo resultRepo;
     private SurveyRepo surveyRepo;
     private UserRepo userRepo;
 
-    public EvaluatorController(AnimalCriterionPreferenceRepo animalCriterionPreferenceRepo,
-                               AnimalRepo animalRepo,
-                               CriterionPreferenceRepo criterionPreferenceRepo,
-                               CriterionRepo criterionRepo,
-                               EvaluatorRepo evaluatorRepo,
-                               EvaluatorResultRepo evaluatorResultRepo,
-                               SurveyRepo surveyRepo,
-                               UserRepo userRepo) {
+    public EvaluatorController(AnimalCriterionPreferenceRepo animalCriterionPreferenceRepo, AnimalRepo animalRepo, CriterionPreferenceRepo criterionPreferenceRepo, CriterionRepo criterionRepo, EvaluatorRepo evaluatorRepo, EvaluatorResultRepo evaluatorResultRepo, ResultRepo resultRepo, SurveyRepo surveyRepo, UserRepo userRepo) {
         this.animalCriterionPreferenceRepo = animalCriterionPreferenceRepo;
         this.animalRepo = animalRepo;
         this.criterionPreferenceRepo = criterionPreferenceRepo;
         this.criterionRepo = criterionRepo;
         this.evaluatorRepo = evaluatorRepo;
         this.evaluatorResultRepo = evaluatorResultRepo;
+        this.resultRepo = resultRepo;
         this.surveyRepo = surveyRepo;
         this.userRepo = userRepo;
     }
@@ -314,6 +309,15 @@ public class EvaluatorController {
         Survey survey = surveyRepo.findByResultLink(link);
         if (survey != null) {
             if (survey.getStatus().equals(Status.COMPLETED)) {
+                List<Evaluator> evaluators = evaluatorRepo.findAllWithNotNullNameBySurvey(survey);
+                List<List<Double>> evaluatorsResults = new ArrayList<>();
+                for (Evaluator evaluator : evaluators) {
+                    evaluatorsResults.add(evaluatorResultRepo.findAllValuesByEvaluator(evaluator));
+                }
+                model.addAttribute("survey", survey)
+                        .addAttribute("results", resultRepo.findAllBySurvey(survey))
+                        .addAttribute("evaluators", evaluators)
+                        .addAttribute("evaluatorResults", evaluatorsResults);
                 return "evaluator/results";
             } else {
                 model.addAttribute("error", "Przedmiotowa ankieta nie udostępnia wyników");
