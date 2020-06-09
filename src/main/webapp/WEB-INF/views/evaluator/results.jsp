@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -26,26 +27,35 @@
 
         <div class="text-center">
             <h3>Wyniki: ${survey.name}</h3>
-            <h4 class="mtb37-17">strona główna</h4>
+            <hr class="mtb37-17">
+            <h4>strona główna</h4>
             <a role="button" class="btn btn-outline-dark mtb7-17" href="<c:url value="/"/>">przejdź</a>
+            <hr>
         </div>
 
         <c:forEach items="${results}" var="result" varStatus="i">
             <input name="name" type="hidden" value="${result.animal.name}"/>
             <input name="value" type="hidden" value="${result.value}"/>
         </c:forEach>
-        <c:forEach items="${results}" var="result" varStatus="i">
-            <ul>
-                <li><strong>${result.animal.name}</strong> :
-                    <mark>${result.value}</mark>
+        <ol>
+            <c:forEach items="${results}" var="result" varStatus="i">
+                <li class="mtb37-7"><strong>${result.animal.name}</strong> :
+                    <mark>
+                        <c:set var="resultValue" value="${result.value}"/>
+                        <fmt:formatNumber type="percent" minFractionDigits="2" value="${resultValue}"/>
+                    </mark>
                 </li>
                 <c:forEach items="${evaluators}" var="evaluator" varStatus="j">
                     <ul>
-                        <li>${evaluator.name} : ${evaluatorResults.get(j.index).get(i.index)}</li>
+                        <li class="mb10">
+                                ${evaluator.name}
+                            <c:set var="evaluatorValue" value="${evaluatorResults.get(j.index).get(i.index)}"/>
+                            <fmt:formatNumber type="percent" minFractionDigits="2" value="${evaluatorValue}"/>
+                        </li>
                     </ul>
                 </c:forEach>
-            </ul>
-        </c:forEach>
+            </c:forEach>
+        </ol>
         <canvas id="myChart" width="auto" height="100px"></canvas>
     </div>
 </div>
