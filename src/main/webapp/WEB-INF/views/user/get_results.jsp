@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="pl-PL">
@@ -36,7 +36,7 @@
             <p>aby uzyskać ostateczny wyniki musisz dokończyć procedurę</p>
             <form action="<c:url value="/panel/zapisz/wynik"/>" method="post">
                 <input type="hidden" name="surveyId" value="${survey.id}">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>głosujący 1</th>
@@ -62,13 +62,14 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <button type="submit">Wyślij</button>
+                <hr class="mtb37-27">
+                <button type="submit" class="btn btn-outline-dark">przejdź do wyniku</button>
             </form>
         </div>
     </div>
 </div>
 
-<footer>
+<footer class="mtb37-7">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 

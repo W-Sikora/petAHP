@@ -69,19 +69,11 @@
             wielokryterialny przez osoby, które uzyskają link do oddania głosu. W rezultacie przeprowadzonej analizy
             tworzony jest ranking wizualizujący, który z rozpatrywanych pupili najbardziej wpasowuje się w oczekiwania
             wszystkich głosujących.</p>
-
-        <h2>Jak zacząć</h2>
-        <h5>1. Ut vel vehicula enim</h5>
-        <p> Nulla scelerisque fringilla blandit. Donec facilisis mattis efficitur. Nulla vitae convallis neque. Nulla
-            enim urna, auctor ut risus in.</p>
-        <h5>2. Ut vel vehicula enim</h5>
-        <p> Nulla scelerisque fringilla blandit. Donec facilisis mattis efficitur. Nulla vitae convallis neque. Nulla
-            enim urna, auctor ut risus in.</p>
     </div>
 
 </div>
 
-<footer>
+<footer class="footer-sm-page">
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 
