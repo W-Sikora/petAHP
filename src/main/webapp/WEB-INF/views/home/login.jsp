@@ -36,7 +36,7 @@
                 </div>
             </c:if>
             <h2>Logowanie</h2>
-            <form action="<c:url value="/zalogowanie"/>" method="post">
+            <form action="<c:url value="/logowanie"/>" method="post">
                 <div class="form-group">
                     <label>adres e-mail
                         <input type="email" class="form-control" id="email" name="email"

@@ -38,7 +38,7 @@
                 </div>
             </c:if>
             <h2>Rejestracja</h2>
-            <form action="<c:url value="/rejestrowanie"/>" method="post">
+            <form action="<c:url value="/rejestracja"/>" method="post">
                 <div class="form-group">
                     <label>imię
                         <input type="text" class="form-control" id="name" name="name" placeholder="np. Jan"
