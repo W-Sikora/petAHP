@@ -1,5 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
+import pl.wsikora.petahp.utils.Builder;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +15,7 @@ public class Criterion {
     private String name;
 
     @Column(name = "level_of_hierarchy")
-    private Integer hierarchyLevel;
+    private int hierarchyLevel;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
@@ -23,52 +25,81 @@ public class Criterion {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    @Deprecated
     public Criterion() {
+    }
+
+    public static class CriterionBuilder extends Builder<Criterion> {
+
+        private CriterionBuilder() {
+            super();
+        }
+
+        public CriterionBuilder withId(long id) {
+            operations.add(e -> e.id = id);
+            return this;
+        }
+
+        public CriterionBuilder withName(String name) {
+            operations.add(e -> e.name = name);
+            return this;
+        }
+
+        public CriterionBuilder withHierarchyLevel(int hierarchyLevel) {
+            operations.add(e -> e.hierarchyLevel = hierarchyLevel);
+            return this;
+        }
+
+        public CriterionBuilder withCriterion(Criterion criterion) {
+            operations.add(e -> e.criterion = criterion);
+            return this;
+        }
+
+        public CriterionBuilder withSurvey(Survey survey) {
+            operations.add(e -> e.survey = survey);
+            return this;
+        }
+
+        @Override
+        protected Criterion formObject() {
+            return new Criterion();
+        }
+
+    }
+
+    public static CriterionBuilder builder() {
+        return new CriterionBuilder();
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getHierarchyLevel() {
         return hierarchyLevel;
     }
 
-    public void setHierarchyLevel(Integer hierarchyLevel) {
-        this.hierarchyLevel = hierarchyLevel;
-    }
-
     public Criterion getCriterion() {
         return criterion;
-    }
-
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
     }
 
     public Survey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
     @Override
     public String toString() {
         return "Criterion{" +
-                "id= " + id + "}";
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hierarchyLevel=" + hierarchyLevel +
+                ", criterion=" + criterion +
+                ", survey=" + survey +
+                '}';
     }
+
 }

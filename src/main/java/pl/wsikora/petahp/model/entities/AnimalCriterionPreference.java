@@ -1,5 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
+import pl.wsikora.petahp.utils.Builder;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class AnimalCriterionPreference {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Double weight;
+    private double weight;
 
     @ManyToOne
     @JoinColumn(name = "survey_id")
@@ -28,55 +30,79 @@ public class AnimalCriterionPreference {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
+    @Deprecated
     public AnimalCriterionPreference() {
+    }
+
+    public static class AnimalCriterionPreferenceBuilder extends Builder<AnimalCriterionPreference> {
+
+        private AnimalCriterionPreferenceBuilder() {
+            super();
+        }
+
+        public AnimalCriterionPreferenceBuilder withId(long id){
+            operations.add(e -> e.id = id);
+            return this;
+        }
+
+        public AnimalCriterionPreferenceBuilder withWeight(double weight){
+            operations.add(e -> e.weight = weight);
+            return this;
+        }
+
+        public AnimalCriterionPreferenceBuilder withSurvey(Survey survey){
+            operations.add(e -> e.survey = survey);
+            return this;
+        }
+
+        public AnimalCriterionPreferenceBuilder withEvaluator(Evaluator evaluator){
+            operations.add(e -> e.evaluator = evaluator);
+            return this;
+        }
+
+        public AnimalCriterionPreferenceBuilder withCriterion(Criterion criterion){
+            operations.add(e -> e.criterion = criterion);
+            return this;
+        }
+
+        public AnimalCriterionPreferenceBuilder withAnimal(Animal animal){
+            operations.add(e -> e.animal = animal);
+            return this;
+        }
+
+        @Override
+        protected AnimalCriterionPreference formObject() {
+            return new AnimalCriterionPreference();
+        }
+
+    }
+
+    public static AnimalCriterionPreferenceBuilder builder() {
+        return new AnimalCriterionPreferenceBuilder();
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
     }
 
     public Survey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
     public Evaluator getEvaluator() {
         return evaluator;
-    }
-
-    public void setEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
     }
 
     public Criterion getCriterion() {
         return criterion;
     }
 
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
-    }
-
     public Animal getAnimal() {
         return animal;
-    }
-
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
     }
 
     @Override
@@ -90,4 +116,5 @@ public class AnimalCriterionPreference {
                 ", animal=" + animal +
                 '}';
     }
+
 }

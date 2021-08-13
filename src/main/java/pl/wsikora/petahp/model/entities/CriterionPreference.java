@@ -1,5 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
+import pl.wsikora.petahp.utils.Builder;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class CriterionPreference {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Double weight;
+    private double weight;
 
     @ManyToOne
     @JoinColumn(name = "survey_id")
@@ -24,52 +26,71 @@ public class CriterionPreference {
     @JoinColumn(name = "criterion_id")
     private Criterion criterion;
 
+    @Deprecated
     public CriterionPreference() {
+    }
+
+    public static class CriterionPreferenceBuilder extends Builder<CriterionPreference> {
+
+        private CriterionPreferenceBuilder() {
+            super();
+        }
+
+        public CriterionPreferenceBuilder withId(long id) {
+            operations.add(e -> e.id = id);
+            return this;
+        }
+
+        public CriterionPreferenceBuilder withWeight(double weight) {
+            operations.add(e -> e.weight = weight);
+            return this;
+        }
+
+        public CriterionPreferenceBuilder withSurvey(Survey survey) {
+            operations.add(e -> e.survey = survey);
+            return this;
+        }
+
+        public CriterionPreferenceBuilder withEvaluator(Evaluator evaluator) {
+            operations.add(e -> e.evaluator = evaluator);
+            return this;
+        }
+
+        public CriterionPreferenceBuilder withCriterion(Criterion criterion) {
+            operations.add(e -> e.criterion = criterion);
+            return this;
+        }
+
+        @Override
+        protected CriterionPreference formObject() {
+            return new CriterionPreference();
+        }
+
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
     }
 
     public Survey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
     public Evaluator getEvaluator() {
         return evaluator;
-    }
-
-    public void setEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
     }
 
     public Criterion getCriterion() {
         return criterion;
     }
 
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
-    }
-
     @Override
     public String toString() {
-        return "Preference{" +
+        return "CriterionPreference{" +
                 "id=" + id +
                 ", weight=" + weight +
                 ", survey=" + survey +
@@ -77,4 +98,5 @@ public class CriterionPreference {
                 ", criterion=" + criterion +
                 '}';
     }
+
 }

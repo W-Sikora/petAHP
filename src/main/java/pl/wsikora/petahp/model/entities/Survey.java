@@ -1,11 +1,11 @@
 package pl.wsikora.petahp.model.entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.wsikora.petahp.utils.Builder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Random;
 
 @Entity
 @Table(name = "surveys")
@@ -26,10 +26,10 @@ public class Survey {
     private LocalDate endDate;
 
     @Column(name = "evaluator_number")
-    private Integer evaluatorNumber;
+    private int evaluatorNumber;
 
     @Column(name = "actual_votes_number")
-    private Integer actualVotesNumber;
+    private int actualVotesNumber;
 
     @Column(name = "voting_link")
     private String votingLink;
@@ -44,105 +44,121 @@ public class Survey {
     @JoinColumn(name = "creator")
     private User user;
 
+    @Deprecated
     public Survey() {
+    }
+
+    public static class SurveyBuilder extends Builder<Survey> {
+
+        private SurveyBuilder() {
+            super();
+        }
+
+        public SurveyBuilder withId(long id) {
+            operations.add(e -> e.id = id);
+            return this;
+        }
+
+        public SurveyBuilder withName(String name) {
+            operations.add(e -> e.name = name);
+            return this;
+        }
+
+        public SurveyBuilder withCreationDate(LocalDateTime creationDate) {
+            operations.add(e -> e.creationDate = creationDate);
+            return this;
+        }
+
+        public SurveyBuilder withEndDate(LocalDate endDate) {
+            operations.add(e -> e.endDate = endDate);
+            return this;
+        }
+
+        public SurveyBuilder withEvaluatorNumber(int evaluatorNumber) {
+            operations.add(e -> e.evaluatorNumber = evaluatorNumber);
+            return this;
+        }
+
+        public SurveyBuilder withActualVotesNumber(int actualVotesNumber) {
+            operations.add(e -> e.actualVotesNumber = actualVotesNumber);
+            return this;
+        }
+
+        public SurveyBuilder withVotingLink(String votingLink) {
+            operations.add(e -> e.votingLink = votingLink);
+            return this;
+        }
+
+        public SurveyBuilder withResultLink(String resultLink) {
+            operations.add(e -> e.resultLink = resultLink);
+            return this;
+        }
+
+        public SurveyBuilder withStatus(Status status) {
+            operations.add(e -> e.status = status);
+            return this;
+        }
+
+        public SurveyBuilder withUser(User user) {
+            operations.add(e -> e.user = user);
+            return this;
+        }
+
+        @Override
+        protected Survey formObject() {
+            return new Survey();
+        }
+
+    }
+
+    public static SurveyBuilder builder() {
+        return new SurveyBuilder();
     }
 
     @PrePersist
     public void prePersist() {
         creationDate = LocalDateTime.now();
-        actualVotesNumber = 0;
         status = Status.FOUNDED;
-        votingLink = linkGenerator();
-        resultLink = linkGenerator();
-    }
-
-    private String linkGenerator() {
-        Random random = new Random();
-        return random.ints(48, 122)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(6)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public Integer getEvaluatorNumber() {
+    public int getEvaluatorNumber() {
         return evaluatorNumber;
     }
 
-    public void setEvaluatorNumber(Integer evaluatorNumber) {
-        this.evaluatorNumber = evaluatorNumber;
-    }
-
-    public Integer getActualVotesNumber() {
+    public int getActualVotesNumber() {
         return actualVotesNumber;
-    }
-
-    public void setActualVotesNumber(Integer actualVotesNumber) {
-        this.actualVotesNumber = actualVotesNumber;
     }
 
     public String getVotingLink() {
         return votingLink;
     }
 
-    public void setVotingLink(String votingLink) {
-        this.votingLink = votingLink;
-    }
-
     public String getResultLink() {
         return resultLink;
-    }
-
-    public void setResultLink(String resultLink) {
-        this.resultLink = resultLink;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override
@@ -160,4 +176,5 @@ public class Survey {
                 ", user=" + user +
                 '}';
     }
+
 }

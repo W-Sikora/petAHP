@@ -10,7 +10,7 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Double value;
+    private double value;
 
     @ManyToOne
     @JoinColumn(name = "animal_id")
@@ -20,39 +20,30 @@ public class Result {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    @Deprecated
     public Result() {
+    }
+
+    public Result(double value, Animal animal, Survey survey) {
+        this.value = value;
+        this.animal = animal;
+        this.survey = survey;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Double getValue() {
+    public double getValue() {
         return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
     }
 
     public Animal getAnimal() {
         return animal;
     }
 
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
-    }
-
     public Survey getSurvey() {
         return survey;
-    }
-
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
     }
 
     @Override
@@ -64,4 +55,5 @@ public class Result {
                 ", survey=" + survey +
                 '}';
     }
+
 }

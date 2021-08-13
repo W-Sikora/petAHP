@@ -12,54 +12,46 @@ public class Evaluator {
 
     private String name;
 
-    private Double weight;
+    private double weight;
 
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    @Deprecated
     public Evaluator() {
+    }
+
+    public Evaluator(String name, double weight, Survey survey) {
+        this.name = name;
+        this.weight = weight;
+        this.survey = survey;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
     }
 
     public Survey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
     @Override
     public String toString() {
         return "Evaluator{" +
                 "id=" + id +
-                ", name='" + name +
+                ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", survey=" + survey +
                 '}';
     }
+
 }

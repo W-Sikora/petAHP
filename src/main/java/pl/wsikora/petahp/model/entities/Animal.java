@@ -16,39 +16,34 @@ public class Animal {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    @Deprecated
     public Animal() {
+    }
+
+    public Animal(String name, Survey survey) {
+        this.name = name;
+        this.survey = survey;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Survey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
     @Override
     public String toString() {
         return "Animal{" +
                 "id=" + id +
-                ", name='" + name +
+                ", name='" + name + '\'' +
                 ", survey=" + survey +
                 '}';
     }
+
 }
