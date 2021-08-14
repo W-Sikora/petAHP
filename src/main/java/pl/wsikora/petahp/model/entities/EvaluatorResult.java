@@ -33,38 +33,34 @@ public class EvaluatorResult {
     public static class EvaluatorResultBuilder extends Builder<EvaluatorResult> {
 
         private EvaluatorResultBuilder() {
-            super();
+            super(new EvaluatorResult());
         }
 
         public EvaluatorResultBuilder withId(long id) {
-            operations.add(e -> e.id = id);
+            add(e -> e.id = id);
             return this;
         }
 
         public EvaluatorResultBuilder withValue(double value) {
-            operations.add(e -> e.value = value);
+            add(e -> e.value = value);
             return this;
         }
 
         public EvaluatorResultBuilder withAnimal(Animal animal) {
-            operations.add(e -> e.animal = animal);
+            add(e -> e.animal = animal);
             return this;
         }
 
         public EvaluatorResultBuilder withEvaluator(Evaluator evaluator) {
-            operations.add(e -> e.evaluator = evaluator);
+            add(e -> e.evaluator = evaluator);
             return this;
         }
 
         public EvaluatorResultBuilder withSurvey(Survey survey) {
-            operations.add(e -> e.survey = survey);
+            add(e -> e.survey = survey);
             return this;
         }
 
-        @Override
-        protected EvaluatorResult formObject() {
-            return new EvaluatorResult();
-        }
     }
 
     public static EvaluatorResultBuilder builder() {

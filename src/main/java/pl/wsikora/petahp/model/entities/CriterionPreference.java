@@ -33,37 +33,32 @@ public class CriterionPreference {
     public static class CriterionPreferenceBuilder extends Builder<CriterionPreference> {
 
         private CriterionPreferenceBuilder() {
-            super();
+            super(new CriterionPreference());
         }
 
         public CriterionPreferenceBuilder withId(long id) {
-            operations.add(e -> e.id = id);
+            add(e -> e.id = id);
             return this;
         }
 
         public CriterionPreferenceBuilder withWeight(double weight) {
-            operations.add(e -> e.weight = weight);
+            add(e -> e.weight = weight);
             return this;
         }
 
         public CriterionPreferenceBuilder withSurvey(Survey survey) {
-            operations.add(e -> e.survey = survey);
+            add(e -> e.survey = survey);
             return this;
         }
 
         public CriterionPreferenceBuilder withEvaluator(Evaluator evaluator) {
-            operations.add(e -> e.evaluator = evaluator);
+            add(e -> e.evaluator = evaluator);
             return this;
         }
 
         public CriterionPreferenceBuilder withCriterion(Criterion criterion) {
-            operations.add(e -> e.criterion = criterion);
+            add(e -> e.criterion = criterion);
             return this;
-        }
-
-        @Override
-        protected CriterionPreference formObject() {
-            return new CriterionPreference();
         }
 
     }

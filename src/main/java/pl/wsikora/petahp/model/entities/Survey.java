@@ -51,62 +51,57 @@ public class Survey {
     public static class SurveyBuilder extends Builder<Survey> {
 
         private SurveyBuilder() {
-            super();
+            super(new Survey());
         }
 
         public SurveyBuilder withId(long id) {
-            operations.add(e -> e.id = id);
+            add(e -> e.id = id);
             return this;
         }
 
         public SurveyBuilder withName(String name) {
-            operations.add(e -> e.name = name);
+            add(e -> e.name = name);
             return this;
         }
 
         public SurveyBuilder withCreationDate(LocalDateTime creationDate) {
-            operations.add(e -> e.creationDate = creationDate);
+            add(e -> e.creationDate = creationDate);
             return this;
         }
 
         public SurveyBuilder withEndDate(LocalDate endDate) {
-            operations.add(e -> e.endDate = endDate);
+            add(e -> e.endDate = endDate);
             return this;
         }
 
         public SurveyBuilder withEvaluatorNumber(int evaluatorNumber) {
-            operations.add(e -> e.evaluatorNumber = evaluatorNumber);
+            add(e -> e.evaluatorNumber = evaluatorNumber);
             return this;
         }
 
         public SurveyBuilder withActualVotesNumber(int actualVotesNumber) {
-            operations.add(e -> e.actualVotesNumber = actualVotesNumber);
+            add(e -> e.actualVotesNumber = actualVotesNumber);
             return this;
         }
 
         public SurveyBuilder withVotingLink(String votingLink) {
-            operations.add(e -> e.votingLink = votingLink);
+            add(e -> e.votingLink = votingLink);
             return this;
         }
 
         public SurveyBuilder withResultLink(String resultLink) {
-            operations.add(e -> e.resultLink = resultLink);
+            add(e -> e.resultLink = resultLink);
             return this;
         }
 
         public SurveyBuilder withStatus(Status status) {
-            operations.add(e -> e.status = status);
+            add(e -> e.status = status);
             return this;
         }
 
         public SurveyBuilder withUser(User user) {
-            operations.add(e -> e.user = user);
+            add(e -> e.user = user);
             return this;
-        }
-
-        @Override
-        protected Survey formObject() {
-            return new Survey();
         }
 
     }

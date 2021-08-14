@@ -1,6 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.wsikora.petahp.utils.Builder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,10 +29,37 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public static class UserBuilder extends Builder<User> {
+
+        protected UserBuilder() {
+            super(new User());
+        }
+
+        public UserBuilder withId(long id) {
+            add(e -> e.id = id);
+            return this;
+        }
+
+        public UserBuilder withName(String name) {
+            add(e -> e.name = name);
+            return this;
+        }
+
+        public UserBuilder withEmail(String email) {
+            add(e -> e.email = email);
+            return this;
+        }
+
+        public UserBuilder withPassword(String password) {
+            add(e -> e.password = password);
+            return this;
+        }
+
+        public UserBuilder withCreationDate(LocalDateTime creationDate) {
+            add(e -> e.creationDate = creationDate);
+            return this;
+        }
+
     }
 
     @PrePersist

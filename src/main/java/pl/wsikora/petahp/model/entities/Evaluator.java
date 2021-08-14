@@ -1,5 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
+import pl.wsikora.petahp.utils.Builder;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,10 +24,36 @@ public class Evaluator {
     public Evaluator() {
     }
 
-    public Evaluator(String name, double weight, Survey survey) {
-        this.name = name;
-        this.weight = weight;
-        this.survey = survey;
+    public static class EvaluatorBuilder extends Builder<Evaluator> {
+
+        private EvaluatorBuilder() {
+            super(new Evaluator());
+        }
+
+        public EvaluatorBuilder withId(long id) {
+            add(e -> e.id = id);
+            return this;
+        }
+
+        public EvaluatorBuilder withName(String name) {
+            add(e -> e.name = name);
+            return this;
+        }
+
+        public EvaluatorBuilder withWeight(double weight) {
+            add(e -> e.weight = weight);
+            return this;
+        }
+
+        public EvaluatorBuilder withSurvey(Survey survey) {
+            add(e -> e.survey = survey);
+            return this;
+        }
+
+    }
+
+    public static EvaluatorBuilder builder() {
+        return new EvaluatorBuilder();
     }
 
     public long getId() {

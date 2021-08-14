@@ -1,5 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
+import pl.wsikora.petahp.utils.Builder;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,10 +26,36 @@ public class Result {
     public Result() {
     }
 
-    public Result(double value, Animal animal, Survey survey) {
-        this.value = value;
-        this.animal = animal;
-        this.survey = survey;
+    public static class ResultBuilder extends Builder<Result> {
+
+        private ResultBuilder() {
+            super(new Result());
+        }
+
+        public ResultBuilder withId(long id) {
+            add(e -> e.id = id);
+            return this;
+        }
+
+        public ResultBuilder withValue(double value) {
+            add(e -> e.value = value);
+            return this;
+        }
+
+        public ResultBuilder withAnimal(Animal animal) {
+            add(e -> e.animal = animal);
+            return this;
+        }
+
+        public ResultBuilder withSurvey(Survey survey) {
+            add(e -> e.survey = survey);
+            return this;
+        }
+
+    }
+
+    public static ResultBuilder builder() {
+        return new ResultBuilder();
     }
 
     public long getId() {

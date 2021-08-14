@@ -32,37 +32,32 @@ public class Criterion {
     public static class CriterionBuilder extends Builder<Criterion> {
 
         private CriterionBuilder() {
-            super();
+            super(new Criterion());
         }
 
         public CriterionBuilder withId(long id) {
-            operations.add(e -> e.id = id);
+            add(e -> e.id = id);
             return this;
         }
 
         public CriterionBuilder withName(String name) {
-            operations.add(e -> e.name = name);
+            add(e -> e.name = name);
             return this;
         }
 
         public CriterionBuilder withHierarchyLevel(int hierarchyLevel) {
-            operations.add(e -> e.hierarchyLevel = hierarchyLevel);
+            add(e -> e.hierarchyLevel = hierarchyLevel);
             return this;
         }
 
         public CriterionBuilder withCriterion(Criterion criterion) {
-            operations.add(e -> e.criterion = criterion);
+            add(e -> e.criterion = criterion);
             return this;
         }
 
         public CriterionBuilder withSurvey(Survey survey) {
-            operations.add(e -> e.survey = survey);
+            add(e -> e.survey = survey);
             return this;
-        }
-
-        @Override
-        protected Criterion formObject() {
-            return new Criterion();
         }
 
     }

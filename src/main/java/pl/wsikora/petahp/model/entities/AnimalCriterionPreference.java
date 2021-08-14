@@ -37,42 +37,37 @@ public class AnimalCriterionPreference {
     public static class AnimalCriterionPreferenceBuilder extends Builder<AnimalCriterionPreference> {
 
         private AnimalCriterionPreferenceBuilder() {
-            super();
+            super(new AnimalCriterionPreference());
         }
 
         public AnimalCriterionPreferenceBuilder withId(long id){
-            operations.add(e -> e.id = id);
+            add(e -> e.id = id);
             return this;
         }
 
         public AnimalCriterionPreferenceBuilder withWeight(double weight){
-            operations.add(e -> e.weight = weight);
+            add(e -> e.weight = weight);
             return this;
         }
 
         public AnimalCriterionPreferenceBuilder withSurvey(Survey survey){
-            operations.add(e -> e.survey = survey);
+            add(e -> e.survey = survey);
             return this;
         }
 
         public AnimalCriterionPreferenceBuilder withEvaluator(Evaluator evaluator){
-            operations.add(e -> e.evaluator = evaluator);
+            add(e -> e.evaluator = evaluator);
             return this;
         }
 
         public AnimalCriterionPreferenceBuilder withCriterion(Criterion criterion){
-            operations.add(e -> e.criterion = criterion);
+            add(e -> e.criterion = criterion);
             return this;
         }
 
         public AnimalCriterionPreferenceBuilder withAnimal(Animal animal){
-            operations.add(e -> e.animal = animal);
+            add(e -> e.animal = animal);
             return this;
-        }
-
-        @Override
-        protected AnimalCriterionPreference formObject() {
-            return new AnimalCriterionPreference();
         }
 
     }

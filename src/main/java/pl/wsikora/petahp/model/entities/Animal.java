@@ -1,5 +1,7 @@
 package pl.wsikora.petahp.model.entities;
 
+import pl.wsikora.petahp.utils.Builder;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,9 +22,31 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(String name, Survey survey) {
-        this.name = name;
-        this.survey = survey;
+    public static class AnimalBuilder extends Builder<Animal> {
+
+        private AnimalBuilder() {
+            super(new Animal());
+        }
+
+        public AnimalBuilder withId(long id) {
+            add(e -> e.id = id);
+            return this;
+        }
+
+        public AnimalBuilder withName(String name) {
+            add(e -> e.name = name);
+            return this;
+        }
+
+        public AnimalBuilder withSurvey(Survey survey) {
+            add(e -> e.survey = survey);
+            return this;
+        }
+
+    }
+
+    public static AnimalBuilder builder() {
+        return new AnimalBuilder();
     }
 
     public long getId() {
