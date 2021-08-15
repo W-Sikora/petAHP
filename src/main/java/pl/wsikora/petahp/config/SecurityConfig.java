@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/panel", "/panel/**").authenticated()
                 .and().formLogin().loginPage("/logowanie")
                 .loginProcessingUrl("/logowanie")
+                .usernameParameter("email")
                 .defaultSuccessUrl("/panel", true)
                 .and().logout().logoutUrl("/wyloguj").logoutSuccessUrl("/")
                 .and().csrf().disable()
