@@ -19,38 +19,55 @@
     <c:import url="/WEB-INF/views/header&footer/header.jsp"/>
 </header>
 
-<div class="container">
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="<c:url value="/"/>">strona główna</a>
-            <a class="nav-item nav-link active">/</a>
-            <a class="nav-item nav-link active"><strong>logowanie</strong></a>
-        </div>
-    </nav>
-    <hr>
-    <div class="row">
-        <div class="col-lg-7 margin-auto">
-            <c:if test="${errorMsg != null}">
-                <div class="text-center">
-                    <h3><mark>${errorMsg}</mark></h3>
-                </div>
-            </c:if>
-            <h2>Logowanie</h2>
-            <form action="<c:url value="/logowanie"/>" method="post">
-                <div class="form-group">
-                    <label>adres e-mail
+<div class="container min-height">
+
+    <section>
+        <nav class="breadcrumb transparent-background">
+            <a class="breadcrumb-item text-dark" href="<c:url value="/"/>">strona główna</a>
+            <span class="breadcrumb-item"><b>logowanie</b></span>
+        </nav>
+        <hr>
+    </section>
+
+    <section class="row h-75">
+        <div class="col-7 mx-auto my-auto">
+            <div class="text-center">
+                <h3>Logowanie</h3>
+            </div>
+
+            <div class="form-group">
+                <form action="<c:url value="/logowanie"/>" method="post">
+
+                    <div class="form-group">
+                        <label for="email">Adres e-mail</label>
                         <input type="email" class="form-control" id="email" name="email"
-                               placeholder="np. jan.kowalski@gmail.com" required></label>
-                    <label>hasło
-                        <input type="password" class="form-control" id="password" name="password" placeholder="********"
-                               required minlength="8" maxlength="30"></label>
-                </div>
-                <div class="text-center mtb17-7">
-                    <button type="submit" class="btn btn-outline-dark">zaloguj</button>
-                </div>
-            </form>
+                               placeholder="np. jan.kowalski@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Hasło</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="********" minlength="8" maxlength="30" required>
+                    </div>
+
+                    <div class="text-center mtb17-7">
+                        <button type="submit" class="btn btn-outline-dark">zaloguj</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="text-center mt-5">
+                <c:if test="${error.length() > 0}">
+                    <div class="text-center">
+                        <p>
+                            <mark>${error}</mark>
+                        </p>
+                    </div>
+                </c:if>
+            </div>
         </div>
-    </div>
+    </section>
+
 </div>
 
 <footer class="footer-sm-page">
