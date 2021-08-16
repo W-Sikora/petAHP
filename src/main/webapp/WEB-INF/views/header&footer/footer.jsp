@@ -1,18 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <body>
-<hr>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-3 text-center">
-            <p><strong>PetAHP</strong>&copy;</p>
-        </div>
-        <div class="col-lg-3 text-center">
-            <p>Design strony: <strong>bootstrap 4.4.1</strong></p>
-        </div>
-        <div class="col-lg-6 text-center">
-            <p>Opracowali: <strong>Wojciech Sikora</strong> & <strong>Maksymilian Marszałek</strong></p>
-        </div>
+<div class="bd-footer bg-light mt-5">
+    <div class="container py-2 pl-4">
+        <p class="lead my-2">PetAHP</p>
+        <ul class="list-unstyled small text-muted">
+            <li class="mb-2">Opracowali: <a href="https://github.com/W-Sikora/petAHP">Wojciech Sikora</a> & <a>Maksymilian Marszałek</a></li>
+            <li class="mb-2">Design strony: <a>Bootstrap 4.4.1</a></li>
+        </ul>
     </div>
 </div>
 </body>

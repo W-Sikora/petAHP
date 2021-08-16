@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -8,12 +8,8 @@
     <meta charset="UTF-8">
     <title>PetAHP</title>
     <link rel="stylesheet"
-          href="<c:url value="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous"/>
-    <link rel="stylesheet"
-          type="text/css"
-          href="<c:url value="/static/style/style.css"/>"/>
+          href="<c:url value="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/style/style.css"/>"/>
 </head>
 <body>
 
@@ -24,24 +20,25 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 text-center margin-auto">
-            <img src="<c:url value="/static/img/pngfuel.comfree-pngdnmurdownload.png"/>" width="83%" height="auto"
+            <img src="<c:url value="/static/img/pngfuel.comfree-pngdnmurdownload.png"/>" width="85%" height="auto"
                  alt="">
-        </div>
-    </div>
-    <div class="row fst">
-        <div class="col-lg-4 text-center">
-            <p class="lead">pies?</p>
-        </div>
-        <div class="col-lg-4 text-center">
-            <p class="lead">kot?</p>
-        </div>
-        <div class="col-lg-4 text-center">
-            <p class="lead">a może rybki?</p>
+            <ul class="list-inline text-centered my-2">
+                <li class="list-inline-item">
+                    <p class="lead">pies?</p>
+                </li>
+                <li class="list-inline-item mx-5">
+                    <p class="lead">kot?</p>
+                </li>
+                <li class="list-inline-item">
+                    <p class="lead">a może rybki?</p>
+                </li>
+
+            </ul>
         </div>
     </div>
     <hr>
 
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-lg-4 text-center">
             <h4 class="mtb7-17">ankiety i wyniki</h4>
             <a class="btn btn-outline-dark mtb7-17" href="<c:url value="/przejdz-do-ankiety"/>"
@@ -60,20 +57,21 @@
     </div>
     <hr>
 
-    <div class="col-lg-12">
-        <h2>O co chodzi?</h2>
-        <p class="text-justify">
-            Aplikacja wspomaga wybór pupila wykorzystując metodę
-            <a href="https://en.wikipedia.org/wiki/Analytic_hierarchy_process">AHP</a>. Decydent (użytkownik posiadający
-            konto w serwisie) wybiera kilka różnych zwierzątek, które następnie poddawane są oceniane w sposób
-            wielokryterialny przez osoby, które uzyskają link do oddania głosu. W rezultacie przeprowadzonej analizy
-            tworzony jest ranking wizualizujący, który z rozpatrywanych pupili najbardziej wpasowuje się w oczekiwania
-            wszystkich głosujących.</p>
+    <div class="col-12">
+        <h2 class="mt-4">O co chodzi?</h2>
+        <div class="text-justify">
+            <p>Aplikacja wspomaga wybór pupila wykorzystując metodę
+                <a href="https://en.wikipedia.org/wiki/Analytic_hierarchy_process">Analytic hierarchy process</a>.</p>
+            <p>Decydent (użytkownik posiadający konto w serwisie) wybiera kilka różnych zwierzątek, które następnie
+                poddawane są oceniane w sposób wielokryterialny przez osoby, które uzyskają link do oddania głosu.
+                W rezultacie przeprowadzonej analizy tworzony jest ranking wizualizujący, który z rozpatrywanych
+                pupili najbardziej wpasowuje się w oczekiwania wszystkich głosujących.</p>
+        </div>
     </div>
 
 </div>
 
-<footer class="footer-sm-page">
+<footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 
