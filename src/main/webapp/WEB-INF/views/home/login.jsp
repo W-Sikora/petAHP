@@ -70,7 +70,7 @@
 
 </div>
 
-<footer class="footer-sm-page">
+<footer>
     <c:import url="/WEB-INF/views/header&footer/footer.jsp"/>
 </footer>
 

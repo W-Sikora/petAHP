@@ -17,9 +17,9 @@
     <c:import url="/WEB-INF/views/header&footer/header.jsp"/>
 </header>
 
-<div class="container">
+<div class="container min-height">
     <div class="row">
-        <div class="col-lg-12 text-center margin-auto">
+        <div class="col-12 text-center">
             <img src="<c:url value="/static/img/pngfuel.comfree-pngdnmurdownload.png"/>" width="85%" height="auto"
                  alt="">
             <ul class="list-inline text-centered my-2">
@@ -39,18 +39,18 @@
     <hr>
 
     <div class="row">
-        <div class="col-lg-4 text-center">
+        <div class="col-4 text-center">
             <h4 class="mtb7-17">ankiety i wyniki</h4>
             <a class="btn btn-outline-dark mtb7-17" href="<c:url value="/przejdz-do-ankiety"/>"
                role="button">przejdź</a>
         </div>
 
-        <div class="col-lg-4 text-center">
+        <div class="col-4 text-center">
             <h4 class="mtb7-17">zarejestruj się</h4>
             <a class="btn btn-outline-primary mtb7-17" href="<c:url value="/rejestracja"/>" role="button">przejdź</a>
         </div>
 
-        <div class="col-lg-4 text-center">
+        <div class="col-4 text-center">
             <h4 class="mtb7-17">zaloguj się</h4>
             <a class="btn btn-outline-success mtb7-17" href="<c:url value="/logowanie"/>" role="button">przejdź</a>
         </div>
@@ -58,7 +58,7 @@
     <hr>
 
     <div class="col-12">
-        <h2 class="mt-4">O co chodzi?</h2>
+        <h2 class="my-4">O co chodzi?</h2>
         <div class="text-justify">
             <p>Aplikacja wspomaga wybór pupila wykorzystując metodę
                 <a href="https://en.wikipedia.org/wiki/Analytic_hierarchy_process">Analytic hierarchy process</a>.</p>
