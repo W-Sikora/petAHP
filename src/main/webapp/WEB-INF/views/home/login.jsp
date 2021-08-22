@@ -1,14 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
     <meta charset="UTF-8">
     <title>PetAHP</title>
     <link rel="stylesheet"
-          href="<c:url value="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous"/>
+          href="<c:url value="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>"/>
     <link rel="stylesheet"
           type="text/css"
           href="<c:url value="/static/style/style.css"/>"/>
@@ -29,9 +27,9 @@
         <hr>
     </section>
 
-    <section class="row h-75">
-        <div class="col-7 mx-auto my-auto">
-            <div class="text-center">
+    <section class="row h-100">
+        <div class="col-md-7 mx-auto">
+            <div class="text-center mt-5 mb-4">
                 <h3>Logowanie</h3>
             </div>
 
@@ -50,21 +48,25 @@
                                placeholder="********" minlength="8" maxlength="30" required>
                     </div>
 
-                    <div class="text-center mtb17-7">
-                        <button type="submit" class="btn btn-outline-dark">zaloguj</button>
-                    </div>
+                    <c:if test="${error != null}">
+                        <div class="alert alert-danger">${error}</div>
+                    </c:if>
+
+                    <ul class="nav nav-pills nav-fill mt-4">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Odzyskaj hasło</a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="btn btn-outline-dark">zaloguj</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Załóż konto</a>
+                        </li>
+                    </ul>
+
                 </form>
             </div>
 
-            <div class="text-center mt-5">
-                <c:if test="${error.length() > 0}">
-                    <div class="text-center">
-                        <p>
-                            <mark>${error}</mark>
-                        </p>
-                    </div>
-                </c:if>
-            </div>
         </div>
     </section>
 
