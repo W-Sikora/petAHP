@@ -18,40 +18,34 @@
 <div class="container min-height">
 
     <section>
-        <nav class="breadcrumb transparent-background">
-            <a class="breadcrumb-item text-dark" href="<c:url value="/"/>">strona główna</a>
-            <span class="breadcrumb-item"><b>przejdź do ankiety</b></span>
-        </nav>
-        <hr>
+        <c:set var = "previousPageURL" scope = "session" value = "/"/>
+        <c:set var = "previousPageName" scope = "session" value = "strona główna"/>
+        <c:set var = "currentPageName" scope = "session" value = "przejdź do ankiety"/>
+        <c:import url="/WEB-INF/views/header&footer/nav.jsp"/>
     </section>
 
-    <section class="row h-50">
-        <div class="col-7 mx-auto my-auto">
-            <div class="text-center mb-4">
+    <section class="row h-100">
+        <div class="col-7 mx-auto">
+            <div class="text-center mt-5 mb-4">
                 <h3>Przejdź do wypełnienia / wyniku ankiety</h3>
             </div>
 
             <div class="form-group">
                 <form id="form" action="<c:url value="/"/>" method="post">
+
                     <label for="link">Wklej poniżej link</label>
-                    <div class="input-group">
+                    <div class="input-group mb-4">
                         <input id="link" name="link" type="text" class="form-control">
                         <div class="input-group-append">
                             <button class="btn btn-outline-dark" type="submit">przejdź</button>
                         </div>
                     </div>
 
-                </form>
-            </div>
+                    <c:if test="${error.length() > 0}">
+                        <div class="alert alert-danger">${error}</div>
+                    </c:if>
 
-            <div class="text-center mt-5">
-                <c:if test="${error.length() > 0}">
-                    <div class="text-center">
-                        <p>
-                            <mark>${error}</mark>
-                        </p>
-                    </div>
-                </c:if>
+                </form>
             </div>
         </div>
     </section>

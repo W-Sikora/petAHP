@@ -18,21 +18,21 @@
 <div class="container min-height">
 
     <section>
-        <nav class="breadcrumb transparent-background">
-            <a class="breadcrumb-item text-dark" href="<c:url value="/"/>">strona główna</a>
-            <span class="breadcrumb-item"><b>rejestracja</b></span>
-        </nav>
-        <hr>
+        <c:set var="previousPageURL" scope="session" value="/"/>
+        <c:set var="previousPageName" scope="session" value="strona główna"/>
+        <c:set var="currentPageName" scope="session" value="rejestracja"/>
+        <c:import url="/WEB-INF/views/header&footer/nav.jsp"/>
     </section>
 
     <section class="row h-100">
-        <div class="col-7 mx-auto my-auto">
-            <div class="text-center mb-4">
+        <div class="col-7 mx-auto">
+            <div class="text-center mt-5 mb-4">
                 <h3>Rejestracja</h3>
             </div>
 
             <div class="form-group">
                 <form action="<c:url value="/rejestracja"/>" method="post">
+
                     <div class="form-group">
                         <label for="name">Imię</label>
                         <input type="text" class="form-control" id="name" name="name"
@@ -53,20 +53,15 @@
                         <small class="form-text text-muted">od 8 do 30 znaków</small>
                     </div>
 
-                    <div class="text-center my-4">
+                    <c:if test="${error != null}">
+                        <div class="alert alert-danger">${error}</div>
+                    </c:if>
+
+                    <div class="text-center mt-4">
                         <button type="submit" class="btn btn-outline-dark">zarejestruj</button>
                     </div>
-                </form>
-            </div>
 
-            <div class="text-center mt-5">
-                <c:if test="${error.length() > 0}">
-                    <div class="text-center">
-                        <p>
-                            <mark>${error}</mark>
-                        </p>
-                    </div>
-                </c:if>
+                </form>
             </div>
         </div>
     </section>

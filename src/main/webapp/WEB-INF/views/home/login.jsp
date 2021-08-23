@@ -20,11 +20,10 @@
 <div class="container min-height">
 
     <section>
-        <nav class="breadcrumb transparent-background">
-            <a class="breadcrumb-item text-dark" href="<c:url value="/"/>">strona główna</a>
-            <span class="breadcrumb-item"><b>logowanie</b></span>
-        </nav>
-        <hr>
+        <c:set var="previousPageURL" scope="session" value="/"/>
+        <c:set var="previousPageName" scope="session" value="strona główna"/>
+        <c:set var="currentPageName" scope="session" value="logowanie"/>
+        <c:import url="/WEB-INF/views/header&footer/nav.jsp"/>
     </section>
 
     <section class="row h-100">
