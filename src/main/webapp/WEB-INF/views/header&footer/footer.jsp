@@ -5,7 +5,7 @@
     <div class="container py-2 pl-4">
         <p class="lead my-2">PetAHP</p>
         <ul class="list-unstyled small text-muted">
-            <li class="mb-2">Opracowali: <a href="https://github.com/W-Sikora/petAHP">Wojciech Sikora</a> & <a>Maksymilian Marszałek</a></li>
+            <li class="mb-2">Opracowali: <a href="https://github.com/W-Sikora">Wojciech Sikora</a> & <a>Maksymilian Marszałek</a></li>
             <li class="mb-2">Design strony: <a>Bootstrap 4.4.1</a></li>
         </ul>
     </div>
